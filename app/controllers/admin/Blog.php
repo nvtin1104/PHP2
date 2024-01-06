@@ -35,7 +35,6 @@ class Blog extends Controller
     }
     function add()
     {
-        $this->data['sub_content']['label_group'] = $this->blog_model->getListGroup();
         $this->data['sub_content']['error_upload'] = $this->session->flash('upload_file_erorr');
         $this->data['sub_content']['error'] = $this->session->flash('insert_error');
         $this->data['sub_content']['success'] = $this->session->flash('insert_success');
@@ -155,78 +154,7 @@ class Blog extends Controller
             $this->response->redirect(_WEB_ROOT . '/admin/product/');
         }
     }
-    function edit_label()
-    {
-        if ($this->request->isPost()) {
-            $data = $this->request->getFields();
-            $id = $data['id'];
-            unset($data['id']);
-            if (isset($data['label']) && is_array($data['label'])) {
-                $label = $data['label'];
-                unset($data['label']);
-                $this->blog_model->deleteTable('product_label', 'product_id', $id);
-                foreach ($label as $item) {
-                    $dataLabel['label_id'] = $item;
-                    $dataLabel['product_id'] =  $id;
-                    $statusInsert = $this->blog_model->insertLabel($dataLabel);
-                }
-                if ($statusInsert) {
-                    $this->session->flash('edit_success', 'Sửa nhãn sản phẩm thành công');
-                    $this->response->redirect(_WEB_ROOT . '/admin/product/view?id=' . $id);
-                }
-            } else {
-                $this->session->flash('edit_error', 'Nhãn không được trống');
-                $this->response->redirect(_WEB_ROOT . '/admin/product/view?id=' . $id); // Nếu mảng label không tồn tại hoặc không phải là mảng
-            }
-        }
-    }
-    function edit_img()
-    {
-        if ($this->request->isGet()) {
-            $id = $this->request->getFields();
-            $this->data['sub_content']['error'] = $this->session->flash('edit_error');
-            $this->data['sub_content']['success'] = $this->session->flash('edit_success');
-            $this->data['sub_content']['img_product'] = $this->blog_model->getOneImg($id['id']);
-            $this->data['sub_content']['product_infor'] = $this->blog_model->getOne('products', $id['id']);
-            $this->data['content'] = 'admin/products/edit_img';
-            $this->render('layout/admin_layout', $this->data);
-        }
-    }
-    function handle_edit_img()
-    {
-        if ($this->request->isPost()) {
-            $data = $this->request->getFields();
-            $id = $data['id'];
-            unset($data['id']);
-            $product_id = $data['product_id'];
-            unset($data['product_id']);
-            $statusUpload = $this->blog_model->upload($_FILES);
-            $this->request->rules([
-                'alt' => 'required|min:4|max:150',
-                'link' => 'required|min:4|max:100',
-            ]);
-            $this->request->messages([
-                'alt.required' => 'Alt không được để trống',
-                'alt.min' => 'Alt tối thiểu 4 kí tự',
-                'alt.max' => 'Alt tối đa 150 kí tự',
-                'link.required' => 'Link không được để trống',
-                'link.min' => 'Link tối thiểu 4 kí tự',
-                'link.max' => 'Link tối đa 100 kí tự',
-            ]);
-            $statusValides = $this->request->valides();
-            if ($statusUpload && $statusValides) {
-                $dirImg = $this->session->flash('dirArr');
-                $data['img_dir'] = $dirImg['img'];
-                $statusUpdate = $this->blog_model->updateProduct('product_img', $id, $data);
-                if ($statusUpdate) {
-                    $this->session->flash('edit_success', 'Cập nhật sản phẩm thành công');
-                    $this->response->redirect(_WEB_ROOT . '/admin/product/view?id=' . $product_id);
-                }
-            } else {
-                $this->response->redirect(_WEB_ROOT . '/admin/product/edit_img?id=' . $id);
-            }
-        }
-    }
+
     function view()
     {
         if ($this->request->isGet()) {
@@ -250,34 +178,6 @@ class Blog extends Controller
                 $this->session->flash('delete_error', 'Xóa bài viết thất bại');
                 $this->response->redirect(_WEB_ROOT . '/admin/blog/list?page=1');
             }
-        }
-    }
-    function warehouse()
-    {
-        $this->data['content'] = 'admin/products/warehouse';
-        $this->render('layout/admin_layout', $this->data);
-    }
-    function statistical()
-    {
-        $this->data['content'] = 'admin/products/statistical';
-        $this->render('layout/admin_layout', $this->data);
-    }
-    public function check_word500($string)
-    {
-        $countWord = str_word_count($string);
-        if ($countWord < 500) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    public function check_word150($string)
-    {
-        $countWord = str_word_count($string);
-        if ($countWord < 150) {
-            return false;
-        } else {
-            return true;
         }
     }
 }
