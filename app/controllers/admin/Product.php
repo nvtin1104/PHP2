@@ -1,4 +1,7 @@
 <?php
+
+use Goutte\Client;
+
 class Product extends Controller
 {
     public $product_model, $data, $request, $response, $session;
@@ -100,24 +103,26 @@ class Product extends Controller
             $statusValides = $this->request->valides($data);
 
             if ($statusUpload && $statusValides) {
+                $dirArr = $this->session->flash('dirArr');
+
                 if (isset($data['label']) && is_array($data['label'])) {
                     $label = $data['label'];
                     unset($data['label']);
                 }
                 unset($data['label_check']);
+                $data['thumbnail'] = $dirArr[0];
                 $statusInsert = $this->product_model->insertProduct($data);
                 if ($statusInsert) {
                     // get id 
                     $id = $this->product_model->getLastId();
                     // xử lý up label
-                  
+
                     foreach ($label as $item) {
                         $dataLabel['label_id'] = $item;
                         $dataLabel['product_id'] =  $id['id'];
                         $statusInsert = $this->product_model->insertLabel($dataLabel);
                     }
                     if ($statusInsert) {
-                        $dirArr = $this->session->flash('dirArr');
                         if (!empty($dirArr)) {
                             foreach ($dirArr as $dirItem) {
                                 $imgData = [];
@@ -277,8 +282,7 @@ class Product extends Controller
                     $this->session->flash('edit_success', 'Cập nhật sản phẩm thành công');
                     $this->response->redirect(_WEB_ROOT . '/admin/product/view?id=' . $product_id);
                 }
-            }
-            else{
+            } else {
                 $this->response->redirect(_WEB_ROOT . '/admin/product/edit_img?id=' . $id);
             }
         }
@@ -296,6 +300,79 @@ class Product extends Controller
             $this->data['content'] = 'admin/products/edit';
             $this->render('layout/admin_layout', $this->data);
         }
+    }
+    function crawl()
+    {
+        $client = new Client();
+        // Go to the symfony.com website
+        $url = "https://www.fahasa.com/sach-trong-nuoc.html?order=num_orders&limit=24&p=5";
+        $crawler = $client->request('GET', $url);
+        $crawler->filter('.item-inner')->each(function ($node) {
+            $product = [];
+            // Assuming you have setters in your Product class
+            $product['product_name'] = $node->filter('.product-name-no-ellipsis')->text();
+
+            $product['thumbnail'] = $node->filter('.images-container .product-image .product-image img')->attr('data-src');
+            $product['short_description'] = 'Đây là mô tả';
+            // Add product to the list
+            $getPrice =  $node->filter('.special-price')->text();
+            if (empty($getPrice)) {
+                return;
+            }
+            // Chuyển đổi thành giá trị số
+            $priceStringWithoutSymbol = str_replace("đ", "", $getPrice);
+
+            $product['price'] = floatval($priceStringWithoutSymbol);
+            $statusInsert = $this->product_model->insertProduct($product);
+            if ($statusInsert) {
+                // get id 
+                $id = $this->product_model->getLastId();
+                // xử lý up label
+
+                $dataLabel['label_id'] = 69;
+                $dataLabel['product_id'] =  $id['id'];
+                $statusInsert = $this->product_model->insertLabel($dataLabel);
+                if ($statusInsert) {
+                    $imgData['img_dir'] = $product['thumbnail'];
+                    $imgData['product_id'] = $id['id'];
+                    $statusInsert = $this->product_model->insertImgProduct($imgData);
+                }
+                // xử lý upanh
+            }
+        });
+        // for ($i = 1; $i < 10; $i++) {
+        //     $url = "https://www.fahasa.com/sach-trong-nuoc.html?order=num_orders&limit=24&p={$i}";
+        //     $crawler = $client->request('GET', $url);
+        //     $crawler->filter('.item-inner')->each(function ($node) {
+        //         $product = [];
+        //         // Assuming you have setters in your Product class
+        //         $product['product_name'] = $node->filter('.product-name-no-ellipsis')->text();
+
+        //         $product['thumbnail'] = $node->filter('.images-container .product-image .product-image img')->attr('data-src');
+        //         $product['short_description'] = 'Đây là mô tả';
+        //         // Add product to the list
+        //         $priceStringWithoutSymbol = str_replace("đ", "", $node->filter('.special-price')->text());
+
+        //         // Chuyển đổi thành giá trị số
+        //         $product['price'] = floatval($priceStringWithoutSymbol);
+        //         $statusInsert = $this->product_model->insertProduct($product);
+        //         if ($statusInsert) {
+        //             // get id 
+        //             $id = $this->product_model->getLastId();
+        //             // xử lý up label
+
+        //             $dataLabel['label_id'] = 69;
+        //             $dataLabel['product_id'] =  $id['id'];
+        //             $statusInsert = $this->product_model->insertLabel($dataLabel);
+        //             if ($statusInsert) {
+        //                 $imgData['img_dir'] = $product['thumbnail'];
+        //                 $imgData['product_id'] = $id['id'];
+        //                 $statusInsert = $this->product_model->insertImgProduct($imgData);
+        //             }
+        //             // xử lý upanh
+        //         }
+        //     });
+        // }
     }
     function delete()
     {
@@ -340,4 +417,3 @@ class Product extends Controller
         }
     }
 }
-?>

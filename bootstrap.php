@@ -1,5 +1,7 @@
 <?php
 define('__DIR_ROOT__', __DIR__);
+require_once 'vendor/autoload.php';
+
 // xử lý web root
 if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
     $web_root = 'https://' . $_SERVER['HTTP_HOST'];
@@ -77,4 +79,3 @@ require_once 'core/Response.php';
 
 
 // print_r($config);
-?>

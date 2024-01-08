@@ -33,7 +33,7 @@
                                     <!-- Start Product Default Single Item -->
                                     <div class="blog-list blog-grid-single-item blog-color--golden" data-aos="fade-up" data-aos-delay="0">
                                         <div class="image-box">
-                                            <a href="blog-single-sidebar-left.html" class="image-link">
+                                            <a href="<?php echo _WEB_ROOT . '/blogs/id?' ?>" class="image-link">
                                                 <img class="img-fluid" src="<?php echo _WEB_ROOT . $item['img'] ?>" alt="">
                                             </a>
                                         </div>
@@ -42,7 +42,7 @@
                                                 <li>Người đăng : <a href="#" class="author">{{$item['author']}}</a></li>
                                                 <li>Ngày : <a href="#" class="date">{{$item['create_at']}}</a></li>
                                             </ul>
-                                            <h6 class="title"><a href="blog-single-sidebar-left.html">{{$item['title']}}</a>
+                                            <h6 class="title"><a href="<?php echo _WEB_ROOT . '/blogs/id?' ?>">{{$item['title']}}</a>
                                             </h6>
                                             <!-- <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex.
                                                 Aenean posuere libero eu augue condimentum rhoncus. Praesent</p> -->
