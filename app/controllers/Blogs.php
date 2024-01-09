@@ -33,4 +33,14 @@ class Blogs extends Controller
         $this->data['content'] = 'blogs/list';
         $this->render('layout/client_layout', $this->data);
     }
+    public function detail()
+    {
+        if ($this->request->isGet()) {
+            $id = $this->request->getFields();
+            $data = $this->blog_model->getDetail($id['id']);
+        }
+        $this->data['sub_content']['blog'] = $data;
+        $this->data['content'] = 'blogs/detail';
+        $this->render('layout/client_layout', $this->data);
+    }
 }
