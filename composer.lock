@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7854cb91fa2eeb20d171a6ed16dc50cf",
+    "content-hash": "5c99f7bde08836020c5b17d0bbc3f1c2",
     "packages": [
         {
             "name": "fabpot/goutte",
@@ -129,6 +129,48 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.8.1"
             },
             "time": "2023-05-10T11:58:31+00:00"
+        },
+        {
+            "name": "pnlinh/vietnamese-converter",
+            "version": "v1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pnlinh/vietnamese-converter.git",
+                "reference": "112d4fdc31ff7d08aa9ba67c275ac1422957336e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pnlinh/vietnamese-converter/zipball/112d4fdc31ff7d08aa9ba67c275ac1422957336e",
+                "reference": "112d4fdc31ff7d08aa9ba67c275ac1422957336e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.4@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pnlinh\\VietnameseConverter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ngoc Linh Pham",
+                    "email": "pnlinh1207@gmail.com"
+                }
+            ],
+            "description": "A php class that converts Vietnamese characters into different character set",
+            "keywords": [
+                "vietnamese-converter"
+            ],
+            "support": {
+                "source": "https://github.com/pnlinh/vietnamese-converter/tree/master"
+            },
+            "time": "2019-09-09T04:16:05+00:00"
         },
         {
             "name": "psr/container",

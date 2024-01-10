@@ -7,17 +7,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
 
-<meta name="google-site-verification" content="qBRfvOVkCqc-JyzGp1M2R90EcXmW-noLL-Qqr0hpMWw" />
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DQWQ3WLX6L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <meta name="google-site-verification" content="qBRfvOVkCqc-JyzGp1M2R90EcXmW-noLL-Qqr0hpMWw" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DQWQ3WLX6L"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-DQWQ3WLX6L');
-</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-DQWQ3WLX6L');
+    </script>
     <title>
 
         <?php
@@ -38,6 +41,7 @@
     <link rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/client/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/client/css/style.min.css">
     <link rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/client/css/custom.css">
+    <meta name="keywords" content="<?php echo $meta ?>">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -207,11 +211,11 @@
                         email: email
                     },
                     dataType: "json", // Loại dữ liệu mà bạn mong đợi từ máy chủ
-                    beforeSend: function () {
+                    beforeSend: function() {
                         // Thêm hiệu ứng loading tại đây (ví dụ: hiển thị một biểu tượng loading)
                         $("#bg_loading").show();
                     },
-                    success: function (response) {
+                    success: function(response) {
                         $("#bg_loading").hide();
                         if (response.error) {
                             // Hiển thị thông báo lỗi
@@ -225,7 +229,7 @@
                             console.log(response.log);
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         $("#bg_loading").hide();
                         // Xử lý lỗi AJAX (nếu có)
                         console.error("Lỗi AJAX: " + status + " - " + error);
@@ -240,6 +244,8 @@
         echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/product.js"></script>';
     } elseif ($content == 'cart/checkout') {
         echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/checkout.js"></script>';
+    } elseif ($content == 'blogs/detail') {
+        echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/blog.js"></script>';
     } else {
         echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/cart.js"></script>';
     };

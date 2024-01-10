@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '2c19c70625548afa41c3eb54926a01916c6eed61',
+        'reference' => '21794dfe742ea894e2b145bb0d2941510e197e4f',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '2c19c70625548afa41c3eb54926a01916c6eed61',
+            'reference' => '21794dfe742ea894e2b145bb0d2941510e197e4f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -48,6 +48,15 @@
             'provided' => array(
                 0 => '*',
             ),
+        ),
+        'pnlinh/vietnamese-converter' => array(
+            'pretty_version' => 'v1.2',
+            'version' => '1.2.0.0',
+            'reference' => '112d4fdc31ff7d08aa9ba67c275ac1422957336e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../pnlinh/vietnamese-converter',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'psr/container' => array(
             'pretty_version' => '2.0.2',

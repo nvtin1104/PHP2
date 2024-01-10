@@ -7,8 +7,8 @@
                     <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                         <nav aria-label="breadcrumb">
                             <ul>
-                                <li><a href=" <?php  echo _WEB_ROOT ?>/home">Trang chủ </a></li>
-                                <li><a href=" <?php  echo _WEB_ROOT ?>/cart">Giỏ hàng</a></li>
+                                <li><a href=" <?php echo _WEB_ROOT ?>/home">Trang chủ </a></li>
+                                <li><a href=" <?php echo _WEB_ROOT ?>/cart">Giỏ hàng</a></li>
                                 <li class="active" aria-current="page">Thanh toán</li>
                             </ul>
                         </nav>
@@ -31,21 +31,21 @@
                             <div class="col-lg-6">
                                 <div class="default-form-box">
                                     <label>Tên đăng nhập <span>*</span></label>
-                                    <input type="text" disabled name='username' value=" <?php  echo  $user_infor['username'] ?>">
-                                    <input type="hidden" name='user_id' id='user_id' value=" <?php  echo  $user_infor['id'] ?>">
-                                    <input type="hidden" id="path" value=" <?php  echo _WEB_ROOT ?>">
+                                    <input type="text" disabled name='username' value=" <?php echo  $user_infor['username'] ?>">
+                                    <input type="hidden" name='user_id' id='user_id' value=" <?php echo  $user_infor['id'] ?>">
+                                    <input type="hidden" id="path" value=" <?php echo _WEB_ROOT ?>">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="default-form-box">
                                     <label>Số điện thoại <span>*</span></label>
-                                    <input type="text" name='phone' id='phone' value=" <?php  echo  $user_infor['phone'] ?>">
+                                    <input type="text" name='phone' id='phone' value=" <?php echo  $user_infor['phone'] ?>">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="default-form-box">
                                     <label>Họ và Tên</label>
-                                    <input type="text" id="fullname" name="fullname" value=" <?php  echo  $user_infor['fullname'] ?>">
+                                    <input type="text" id="fullname" name="fullname" value=" <?php echo  $user_infor['fullname'] ?>">
                                 </div>
                             </div>
                             <div class="col-12">
@@ -130,7 +130,7 @@
                             <div class="col-lg-6">
                                 <div class="default-form-box">
                                     <label> Email <span>*</span></label>
-                                    <input type="email" name="email"  id="email" value=" <?php  echo  $user_infor['email'] ?>">
+                                    <input type="email" name="email" id="email" value=" <?php echo  $user_infor['email'] ?>">
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
@@ -153,15 +153,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <?php 
+                                    <?php
                                     foreach ($cart as $item) {
                                     ?>
                                         <tr>
-                                            <input type="hidden" name="cart_id[]"  class="cart_id" value="{{$item['id']}}">
+                                            <input type="hidden" name="cart_id[]" class="cart_id" value="{{$item['id']}}">
                                             <td> {{$item['product_name']}} <strong> × {{$item['quantity']}}</strong></td>
-                                            <td>  <?php  echo number_format($item['total_price'], 0) . ' VND'; ?></td>
+                                            <td> <?php echo number_format($item['total_price'], 0) . ' VND'; ?></td>
                                         </tr>
-                                     <?php 
+                                    <?php
                                     }
                                     ?>
 
@@ -170,16 +170,16 @@
                                 <tfoot>
                                     <tr>
                                         <th>Thành tiền:</th>
-                                        <td> <?php  echo number_format($total_price, 0) . ' VND'; ?></td>
+                                        <td> <?php echo number_format($total_price, 0) . ' VND'; ?></td>
                                     </tr>
                                     <tr>
                                         <th>Phí</th>
-                                        <td><strong> <?php  echo number_format(10000, 0) . ' VND'; ?></strong></td>
+                                        <td><strong> <?php echo number_format(10000, 0) . ' VND'; ?></strong></td>
                                     </tr>
                                     <tr class="order_total">
                                         <th>Tổng giá:</th>
                                         <input type="hidden" id="total_price" name="total_price" value="{{$total_price + 10000}}">
-                                        <td><strong> <?php  echo number_format($total_price + 10000, 0) . ' VND'; ?></strong></td>
+                                        <td><strong> <?php echo number_format($total_price + 10000, 0) . ' VND'; ?></strong></td>
                                     </tr>
                                 </tfoot>
                             </table>

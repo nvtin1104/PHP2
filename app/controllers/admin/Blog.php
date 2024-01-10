@@ -70,7 +70,7 @@ class Blog extends Controller
                 if ($statusValides) {
                     $dirArr = $this->session->flash('dirArr');
                     $data['img'] = $dirArr['img'];
-
+                    $data['url'] = $this->blog_model->convertUrl($data['title']);
                     $statusInsert = $this->blog_model->insertBlog($data);
                     if ($statusInsert) {
                         $this->session->flash('insert_success', 'Thêm bài viết thành công!');

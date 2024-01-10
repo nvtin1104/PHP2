@@ -1,4 +1,7 @@
 <?php
+
+use Pnlinh\VietnameseConverter\VietnameseConverter;
+
 class BlogModel extends Model
 {
     function tableFill()
@@ -53,6 +56,13 @@ class BlogModel extends Model
         $result = $this->db->table('blogs')->where('id', '=', $id)->firt();
         return $result;
     }
+    public function getDetailShow($id)
+    {
+        $result = $this->db->table('blogs')->where('id', '=', $id)->firt();
+        $comment = $this->db->table('comment')->where('comment_to', '=', $id)->where('type', '=', 'blog')->get();
+        $result['comment'] = $comment;
+        return $result;
+    }
     public function getOne($table, $id)
     {
         $result = $this->db->table($table)->where('id', '=', $id)->firt();
@@ -83,6 +93,22 @@ class BlogModel extends Model
     {
         $statusUpdate = $this->db->table($table)->where('id', '=', $id)->update($data);
         return $statusUpdate;
+    }
+    public function insertComment($data)
+    {
+        $statusInsert = $this->db->table('comment')->insert($data);
+        return $statusInsert;
+    }
+    public function convertUrl($str)
+    {
+        $str = strtolower($str);
+        $str = VietnameseConverter::make()
+            ->convert($str);
+        $str = str_replace(' ', '-', $str);
+        $str = preg_replace('/[^a-z0-9\-]/', '', $str);
+        $str = preg_replace('/-+/', '-', $str);
+
+        return $str;
     }
     public function upload($files)
     {

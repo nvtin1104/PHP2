@@ -20,6 +20,7 @@ return array(
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
+    'Pnlinh\\VietnameseConverter\\' => array($vendorDir . '/pnlinh/vietnamese-converter/src'),
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
     'Goutte\\' => array($vendorDir . '/fabpot/goutte/Goutte'),
 );

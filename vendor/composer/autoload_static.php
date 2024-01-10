@@ -35,6 +35,7 @@ class ComposerStaticInitcace82b914cdc8d5351d285b84442fa3
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
+            'Pnlinh\\VietnameseConverter\\' => 27,
         ),
         'M' => 
         array (
@@ -102,6 +103,10 @@ class ComposerStaticInitcace82b914cdc8d5351d285b84442fa3
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Pnlinh\\VietnameseConverter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pnlinh/vietnamese-converter/src',
         ),
         'Masterminds\\' => 
         array (
