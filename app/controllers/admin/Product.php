@@ -2,6 +2,54 @@
 
 use Goutte\Client;
 
+class DataProduct
+{
+    public $name;
+    public $price;
+    public $thumbnail;
+    public $description;
+    public $form;
+    public $author;
+    public $made_in;
+    public $short_description;
+    public $specification;
+    public $quantity;
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+    public function getName()
+    {
+        return $this->name;
+    }
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+    }
+
+    public function getThumbnailUrl()
+    {
+        return $this->thumbnail;
+    }
+}
 class Product extends Controller
 {
     public $product_model, $data, $request, $response, $session;
@@ -305,73 +353,77 @@ class Product extends Controller
     {
         $client = new Client();
         // Go to the symfony.com website
-        $url = "https://www.fahasa.com/sach-trong-nuoc.html?order=num_orders&limit=24&p=5";
-        $crawler = $client->request('GET', $url);
-        $crawler->filter('.item-inner')->each(function ($node) {
-            $product = [];
-            // Assuming you have setters in your Product class
-            $product['product_name'] = $node->filter('.product-name-no-ellipsis')->text();
 
-            $product['thumbnail'] = $node->filter('.images-container .product-image .product-image img')->attr('data-src');
-            $product['short_description'] = 'Đây là mô tả';
-            // Add product to the list
-            $getPrice =  $node->filter('.special-price')->text();
-            if (empty($getPrice)) {
-                return;
-            }
-            // Chuyển đổi thành giá trị số
-            $priceStringWithoutSymbol = str_replace("đ", "", $getPrice);
+        for ($i = 1; $i < 10; $i++) {
+            $url = "https://www.fahasa.com/sach-trong-nuoc.html?order=num_orders&limit=24&p=" . $i;
+            $crawler = $client->request('GET', $url);
+            $crawler->filter('.item-inner')->each(function ($node) {
+                $product = [];
+                // Assuming you have setters in your Product class
+                $product['name'] = $node->filter('.product-name-no-ellipsis')->text();
+                $product['url'] = $node->filter('.product-name-no-ellipsis a')->attr('href');
 
-            $product['price'] = floatval($priceStringWithoutSymbol);
-            $statusInsert = $this->product_model->insertProduct($product);
-            if ($statusInsert) {
-                // get id 
-                $id = $this->product_model->getLastId();
-                // xử lý up label
 
-                $dataLabel['label_id'] = 69;
-                $dataLabel['product_id'] =  $id['id'];
-                $statusInsert = $this->product_model->insertLabel($dataLabel);
-                if ($statusInsert) {
-                    $imgData['img_dir'] = $product['thumbnail'];
-                    $imgData['product_id'] = $id['id'];
-                    $statusInsert = $this->product_model->insertImgProduct($imgData);
+                $product['img'] = $node->filter('.images-container .product-image .product-image img')->attr('data-src');
+                if ($node->filter('.special-price')->count() > 0) {
+                    $getPrice = $node->filter('.special-price')->text();
+                } else {
+                    $getPrice = 1000;
                 }
-                // xử lý upanh
-            }
+                $priceString = str_replace("đ", "", $getPrice);
+                $priceString = str_replace('.', '', $priceString);
+                $product['price'] = floatval($priceString);
+                $statusInsert = $this->product_model->insertCrawl($product);
+                if ($statusInsert) {
+                    echo 'Thêm thành công!';
+                }
+            });
+        }
+    }
+    function crawl_detail()
+    {
+        $data = $this->product_model->getList('crawl');
+        $client = new Client();
+
+        // foreach ($data as $item) {
+
+        $crawler = $client->request('GET', 'https://www.fahasa.com/nguoi-giau-co-nhat-thanh-babylon-291542.html');
+        $product = [];
+        $crawler->filter('.product-view')->each(function ($node) {
+            $product['quantity'] = 100;
+            //         // Assuming you have setters in your Product class
+            $product['product_name'] = $node->filter('.product-essential-detail h1')->text();
+            $product['made_in'] = $node->filter('.product-view-sa-supplier span')->eq(2)->text();
+            $product['author'] = $node->filter('.product-view-sa-author span')->eq(1)->text();
+            $product['form'] = $node->filter('.product-view-sa-author span')->eq(3)->text();
+
+
+
+            //         $product['url'] = $node->filter('.product-name-no-ellipsis a')->attr('href');
+
+
+            //         $product['img'] = $node->filter('.images-container .product-image .product-image img')->attr('data-src');
+            //         if ($node->filter('.special-price')->count() > 0) {
+            //             $getPrice = $node->filter('.special-price')->text();
+            //         } else {
+            //             $getPrice = 1000;
+            //         }
+            //         $priceString = str_replace("đ", "", $getPrice);
+            //         $priceString = str_replace('.', '', $priceString);
+            //         $product['price'] = floatval($priceString);
+            //         $statusInsert = $this->product_model->insertCrawl($product);
+            //         if ($statusInsert) {
+            //             echo 'Thêm thành công!';
+            //         }
+            $crawler = $client->request('GET', 'https://www.fahasa.com/nguoi-giau-co-nhat-thanh-babylon-291542.html');
+
+            $crawler->filter('.product_view_info')->each(function ($node) {
+                $product['description'] = $node->filter('.desc_content')->text();
+            });
+            echo '<pre>';
+            print_r($product);
+            echo '</pre>';
         });
-        // for ($i = 1; $i < 10; $i++) {
-        //     $url = "https://www.fahasa.com/sach-trong-nuoc.html?order=num_orders&limit=24&p={$i}";
-        //     $crawler = $client->request('GET', $url);
-        //     $crawler->filter('.item-inner')->each(function ($node) {
-        //         $product = [];
-        //         // Assuming you have setters in your Product class
-        //         $product['product_name'] = $node->filter('.product-name-no-ellipsis')->text();
-
-        //         $product['thumbnail'] = $node->filter('.images-container .product-image .product-image img')->attr('data-src');
-        //         $product['short_description'] = 'Đây là mô tả';
-        //         // Add product to the list
-        //         $priceStringWithoutSymbol = str_replace("đ", "", $node->filter('.special-price')->text());
-
-        //         // Chuyển đổi thành giá trị số
-        //         $product['price'] = floatval($priceStringWithoutSymbol);
-        //         $statusInsert = $this->product_model->insertProduct($product);
-        //         if ($statusInsert) {
-        //             // get id 
-        //             $id = $this->product_model->getLastId();
-        //             // xử lý up label
-
-        //             $dataLabel['label_id'] = 69;
-        //             $dataLabel['product_id'] =  $id['id'];
-        //             $statusInsert = $this->product_model->insertLabel($dataLabel);
-        //             if ($statusInsert) {
-        //                 $imgData['img_dir'] = $product['thumbnail'];
-        //                 $imgData['product_id'] = $id['id'];
-        //                 $statusInsert = $this->product_model->insertImgProduct($imgData);
-        //             }
-        //             // xử lý upanh
-        //         }
-        //     });
         // }
     }
     function delete()

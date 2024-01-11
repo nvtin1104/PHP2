@@ -39,6 +39,11 @@
                             </select>
                         </div>
                         <div class="col-auto">
+                            <a class="btn app-btn-secondary" href="<?php echo _WEB_ROOT ?>/admin/product/crawl_detail">
+                                Cập nhật
+                            </a>
+                        </div>
+                        <div class="col-auto">
                             <a class="btn app-btn-secondary" href="<?php echo _WEB_ROOT ?>/admin/product/crawl">
                                 Đi tới thêm nhiều
                             </a>

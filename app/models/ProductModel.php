@@ -18,6 +18,11 @@ class ProductModel extends Model
         $statusInsert = $this->db->table('products')->insert($data);
         return $statusInsert;
     }
+    public function insertCrawl($data)
+    {
+        $statusInsert = $this->db->table('crawl')->insert($data);
+        return $statusInsert;
+    }
     public function insertImgProduct($data)
     {
         $statusInsert = $this->db->table('product_img')->insert($data);
@@ -104,8 +109,7 @@ class ProductModel extends Model
                 $result[$key]['img-1'] = substr($img[1]['img_dir'], 1);
             }
             return $result;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -186,4 +190,3 @@ class ProductModel extends Model
         }
     }
 }
-?>
