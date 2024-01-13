@@ -3,12 +3,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h3 class="breadcrumb-title"> <?php  echo $title ?></h3>
+                    <h3 class="breadcrumb-title"> <?php echo $title ?></h3>
                     <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                         <nav aria-label="breadcrumb">
                             <ul>
-                                <li><a href=" <?php  echo _WEB_ROOT ?>">Trang chủ</a></li>
-                                <li class="active" aria-current="page"> <?php  echo $title ?></li>
+                                <li><a href=" <?php echo _WEB_ROOT ?>">Trang chủ</a></li>
+                                <li class="active" aria-current="page"> <?php echo $title ?></li>
                             </ul>
                         </nav>
                     </div>
@@ -17,7 +17,7 @@
         </div>
     </div>
 </div> <!-- ...:::: End Breadcrumb Section:::... -->
- <?php 
+<?php
 if ($page_name == 'book_product') {
     $label_group = $group_book;
 } elseif ($page_name == 'other_product') {
@@ -41,27 +41,27 @@ if ($page_name == 'book_product') {
                                 <li>
                                     <ul class="sidebar-menu-collapse">
                                         <!-- Start Single Menu Collapse List -->
-                                         <?php 
+                                        <?php
                                         foreach ($label_group as $key => $item) {
                                         ?>
                                             <li class="sidebar-menu-collapse-list">
 
-                                                <a href="#" class="accordion-title collapsed" data-bs-toggle="collapse" data-bs-target="#men-fashion-<?php  echo $key ?>" aria-expanded="false"> <?php  echo $item['group_name'] ?> <i class="ion-ios-arrow-right"></i></a>
-                                                <div id="men-fashion-<?php  echo $key ?>" class="collapse">
+                                                <a href="#" class="accordion-title collapsed" data-bs-toggle="collapse" data-bs-target="#men-fashion-<?php echo $key ?>" aria-expanded="false"> <?php echo $item['group_name'] ?> <i class="ion-ios-arrow-right"></i></a>
+                                                <div id="men-fashion-<?php echo $key ?>" class="collapse">
                                                     <ul class="accordion-category-list">
-                                                         <?php 
+                                                        <?php
                                                         foreach ($label_list as $itemLabel) {
                                                             if ($itemLabel['id_group'] == $item['id']) {
                                                         ?>
-                                                                <li><a href="<?php echo _WEB_ROOT . '/product/label?id=' . $itemLabel['id'] ?>"> <?php  echo $itemLabel['label_name'] ?></a></li>
-                                                         <?php 
+                                                                <li><a href="<?php echo _WEB_ROOT . '/product/label?id=' . $itemLabel['id'] ?>"> <?php echo $itemLabel['label_name'] ?></a></li>
+                                                        <?php
                                                             }
                                                         }
                                                         ?>
                                                     </ul>
                                                 </div>
                                             </li>
-                                         <?php 
+                                        <?php
                                         }
                                         ?>
                                         <!-- End Single Menu Collapse List -->
@@ -146,7 +146,7 @@ if ($page_name == 'book_product') {
                     <div class="sidebar-single-widget">
                         <div class="sidebar-content">
                             <a href="product-details-default.html" class="sidebar-banner img-hover-zoom">
-                                <img class="img-fluid" src=" <?php  echo _WEB_ROOT ?>/public/assets/client/images/banner/side-banner.jpg" alt="">
+                                <img class="img-fluid" src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/banner/side-banner.jpg" alt="">
                             </a>
                         </div>
                     </div> <!-- End Single Sidebar Widget -->
@@ -163,8 +163,8 @@ if ($page_name == 'book_product') {
                                 <!-- Start Sort tab Button -->
                                 <div class="sort-tablist d-flex align-items-center">
                                     <ul class="tablist nav sort-tab-btn">
-                                        <li><a class="nav-link active" data-bs-toggle="tab" href="#layout-3-grid"><img src=" <?php  echo _WEB_ROOT ?>/public/assets/client/images/icons/bkg_grid.png" alt=""></a></li>
-                                        <li><a class="nav-link" data-bs-toggle="tab" href="#layout-list"><img src=" <?php  echo _WEB_ROOT ?>/public/assets/client/images/icons/bkg_list.png" alt=""></a></li>
+                                        <li><a class="nav-link active" data-bs-toggle="tab" href="#layout-3-grid"><img src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/icons/bkg_grid.png" alt=""></a></li>
+                                        <li><a class="nav-link" data-bs-toggle="tab" href="#layout-list"><img src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/icons/bkg_list.png" alt=""></a></li>
                                     </ul>
 
                                     <!-- Start Page Amount -->
@@ -180,7 +180,7 @@ if ($page_name == 'book_product') {
                                     <fieldset>
                                         <select name="speed" id="speed">
                                             <option selected="selected">Sort by newness</option>
-                                            <option><a href=" <?php  echo _WEB_ROOT . '/product/' . $page_name . '?sortBy=priceMin' ?>">Giá từ thấp đến cao</a></option>
+                                            <option><a href=" <?php echo _WEB_ROOT . '/product/' . $page_name . '?sortBy=priceMin' ?>">Giá từ thấp đến cao</a></option>
                                             <option>Sort by popularity</option>
                                             <option>Sort by price: low to high</option>
                                             <option>Sort by price: high to low</option>
@@ -207,29 +207,38 @@ if ($page_name == 'book_product') {
                                     <div class="tab-pane active show sort-layout-single" id="layout-3-grid">
                                         <div class="row">
 
-                                             <?php  if (!empty($products)) {
-                                                foreach ($products as $item) { ?>
+                                            <?php if (!empty($products)) {
+                                                foreach ($products as $item) {
+                                                    $url = _WEB_ROOT . $item['thumbnail'];
+                                                    if (strpos($item['thumbnail'], "upload") !== false) {
+                                                        $url = _WEB_ROOT  . $item['thumbnail'];
+                                                    } else {
+                                                        $url = $item['thumbnail'];
+                                                    }
+                                            ?>
                                                     <div class="col-xl-4 col-sm-6 col-12">
                                                         <!-- Start Product Default Single Item -->
                                                         <div class="product-default-single-item product-color--golden" data-aos="fade-up" data-aos-delay="0">
                                                             <div class="image-box">
-                                                                <a href=" <?php  echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="image-link">
-                                                                    <img src=" <?php  echo _WEB_ROOT . $item['img-0'] ?>" alt="">
-                                                                    <img src=" <?php  echo _WEB_ROOT . $item['img-1'] ?>" alt="">
+                                                                <a href=" <?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="image-link">
+                                                                    <!-- <img src=" <?php echo _WEB_ROOT . $item['img-0'] ?>" alt="">
+                                                                    <img src=" <?php echo _WEB_ROOT . $item['img-1'] ?>" alt=""> -->
+                                                                    <img src=" <?php echo $url ?>" alt="">
+
                                                                 </a>
                                                                 <div class="action-link">
                                                                     <div class="action-link-left">
-                                                                        <a href=" <?php  echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>">Xem thêm</a>
+                                                                        <a href=" <?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>">Xem thêm</a>
                                                                     </div>
                                                                     <div class="action-link-right">
-                                                                        <button class="text-white addToWishlist" data-path=" <?php  echo _WEB_ROOT ?>" data-id=" <?php  echo $item['id'] ?>"><i class="icon-heart"></i></button>
-                                                                        <button class="text-white addToCart" data-path=" <?php  echo _WEB_ROOT ?>" data-id=" <?php  echo $item['id'] ?>"><i class="fa-solid fa-cart-shopping"></i></button>
+                                                                        <button class="text-white addToWishlist" data-path=" <?php echo _WEB_ROOT ?>" data-id=" <?php echo $item['id'] ?>"><i class="icon-heart"></i></button>
+                                                                        <button class="text-white addToCart" data-path=" <?php echo _WEB_ROOT ?>" data-id=" <?php echo $item['id'] ?>"><i class="fa-solid fa-cart-shopping"></i></button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="content">
                                                                 <div class="content-left">
-                                                                    <h6 class="title"><a href=" <?php  echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>"> <?php  echo strlen($item['product_name']) > 21 ? substr($item['product_name'], 0, 21) . ' ...' : $item['product_name']; ?></a></h6>
+                                                                    <h6 class="title"><a href=" <?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>"> <?php echo strlen($item['product_name']) > 21 ? substr($item['product_name'], 0, 21) . ' ...' : $item['product_name']; ?></a></h6>
                                                                     <ul class="review-star">
                                                                         <li class="fill"><i class="ion-android-star"></i>
                                                                         </li>
@@ -244,7 +253,7 @@ if ($page_name == 'book_product') {
                                                                     </ul>
                                                                 </div>
                                                                 <div class="content-right">
-                                                                    <span class="price"> <?php  echo number_format($item['price'], 0) . ' VND'; ?></span>
+                                                                    <span class="price"> <?php echo number_format($item['price'], 0) . ' VND'; ?></span>
 
                                                                 </div>
 
@@ -252,7 +261,7 @@ if ($page_name == 'book_product') {
                                                         </div>
                                                         <!-- End Product Default Single Item -->
                                                     </div>
-                                             <?php  }
+                                            <?php  }
                                             } ?>
                                         </div>
                                     </div> <!-- End Grid View Product -->
@@ -260,17 +269,17 @@ if ($page_name == 'book_product') {
                                     <div class="tab-pane sort-layout-single" id="layout-list">
                                         <div class="row">
 
-                                             <?php  if (!empty($products)) {
+                                            <?php if (!empty($products)) {
                                                 foreach ($products as $item) { ?>
                                                     <div class="col-12">
                                                         <!-- Start Product Defautlt Single -->
                                                         <div class="product-list-single product-color--golden">
-                                                            <a href=" <?php  echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="product-list-img-link">
-                                                                <img class="img-fluid" src=" <?php  echo _WEB_ROOT . $item['img-0'] ?>" alt="">
-                                                                <img class="img-fluid" src=" <?php  echo _WEB_ROOT . $item['img-1'] ?>" alt="">
+                                                            <a href=" <?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="product-list-img-link">
+                                                                <img class="img-fluid" src=" <?php echo _WEB_ROOT . $item['img-0'] ?>" alt="">
+                                                                <img class="img-fluid" src=" <?php echo _WEB_ROOT . $item['img-1'] ?>" alt="">
                                                             </a>
                                                             <div class="product-list-content">
-                                                                <h5 class="product-list-link"><a href=" <?php  echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>"> <?php  echo strlen($item['product_name']) > 40 ? substr($item['product_name'], 0, 40) . ' ...' : $item['product_name']; ?></a></h5>
+                                                                <h5 class="product-list-link"><a href=" <?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>"> <?php echo strlen($item['product_name']) > 40 ? substr($item['product_name'], 0, 40) . ' ...' : $item['product_name']; ?></a></h5>
 
                                                                 <ul class="review-star">
                                                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -279,19 +288,19 @@ if ($page_name == 'book_product') {
                                                                     <li class="fill"><i class="ion-android-star"></i></li>
                                                                     <li class="empty"><i class="ion-android-star"></i></li>
                                                                 </ul>
-                                                                <span class="product-list-price"><del> <?php  echo number_format($item['price'], 0) . ' VND'; ?></del>
-                                                                     <?php  echo number_format($item['price'], 0) . ' VND'; ?></span>
-                                                                <p> <?php  echo htmlentities($item['short_description']) ?></p>
+                                                                <span class="product-list-price"><del> <?php echo number_format($item['price'], 0) . ' VND'; ?></del>
+                                                                    <?php echo number_format($item['price'], 0) . ' VND'; ?></span>
+                                                                <p> <?php echo htmlentities($item['short_description']) ?></p>
                                                                 <div class="product-action-icon-link-list">
-                                                                    <a href=" <?php  echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="btn btn-lg btn-black-default-hover">Xem thêm</a>
-                                                                    <button href="#" class=" addToCart btn btn-lg btn-black-default-hover" data-path=" <?php  echo _WEB_ROOT ?>" data-id=" <?php  echo $item['id'] ?>"><i class="fa-solid fa-cart-shopping"></i></button>
-                                                                    <button href="wishlist.html" class=" addToWishlist btn btn-lg btn-black-default-hover" data-path=" <?php  echo _WEB_ROOT ?>" data-id=" <?php  echo $item['id'] ?>"><i class="icon-heart"></i></button>
+                                                                    <a href=" <?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="btn btn-lg btn-black-default-hover">Xem thêm</a>
+                                                                    <button href="#" class=" addToCart btn btn-lg btn-black-default-hover" data-path=" <?php echo _WEB_ROOT ?>" data-id=" <?php echo $item['id'] ?>"><i class="fa-solid fa-cart-shopping"></i></button>
+                                                                    <button href="wishlist.html" class=" addToWishlist btn btn-lg btn-black-default-hover" data-path=" <?php echo _WEB_ROOT ?>" data-id=" <?php echo $item['id'] ?>"><i class="icon-heart"></i></button>
                                                                     <a href="compare.html" class="btn btn-lg btn-black-default-hover"><i class="icon-shuffle"></i></a>
                                                                 </div>
                                                             </div>
                                                         </div> <!-- End Product Defautlt Single -->
                                                     </div>
-                                             <?php  }
+                                            <?php  }
                                             } ?>
                                         </div>
                                     </div> <!-- End List View Product -->
@@ -300,7 +309,7 @@ if ($page_name == 'book_product') {
                         </div>
                     </div>
                 </div> <!-- End Tab Wrapper -->
-                 <?php 
+                <?php
                 $next = $page + 1;
                 $pre = $page - 1;
                 ?>
@@ -308,25 +317,25 @@ if ($page_name == 'book_product') {
                 <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
                     <ul>
 
-                        <li><a class="" href=" <?php  echo _WEB_ROOT . '/product/' . $page_name . '?page=' . 1 ?>"><i class="fa-solid fa-backward-step"></i></a></li>
-                        <li  <?php 
+                        <li><a class="" href=" <?php echo _WEB_ROOT . '/product/' . $page_name . '?page=' . 1 ?>"><i class="fa-solid fa-backward-step"></i></a></li>
+                        <li <?php
                             if ($pre == 0) {
                                 echo 'style="display:none"';
                             }
                             ?>>
-                            <a href=" <?php  echo _WEB_ROOT . '/product/' . $page_name . '?page=' . $pre ?>"> <?php  echo $pre ?></a>
+                            <a href=" <?php echo _WEB_ROOT . '/product/' . $page_name . '?page=' . $pre ?>"> <?php echo $pre ?></a>
                         </li>
                         <li>
-                            <a class="active" href=" <?php  echo _WEB_ROOT . '/product/' . $page_name . '?page=' . $page ?>"> <?php  echo $page ?></a>
+                            <a class="active" href=" <?php echo _WEB_ROOT . '/product/' . $page_name . '?page=' . $page ?>"> <?php echo $page ?></a>
                         </li>
-                        <li  <?php 
+                        <li <?php
                             if ($next > $maxPage) {
                                 echo 'style="display:none"';
                             }
                             ?>>
-                            <a class="" href=" <?php  echo _WEB_ROOT . '/product/' . $page_name . '?page=' . $next ?>"> <?php  echo $next ?></a>
+                            <a class="" href=" <?php echo _WEB_ROOT . '/product/' . $page_name . '?page=' . $next ?>"> <?php echo $next ?></a>
                         </li>
-                        <li><a class="" href=" <?php  echo _WEB_ROOT . '/product/' . $page_name . '?page=' . $maxPage ?>"><i class="fa-solid fa-forward-step"></i></a></li>
+                        <li><a class="" href=" <?php echo _WEB_ROOT . '/product/' . $page_name . '?page=' . $maxPage ?>"><i class="fa-solid fa-forward-step"></i></a></li>
 
                     </ul>
                 </div> <!-- End Pagination -->

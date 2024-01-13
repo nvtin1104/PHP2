@@ -1,4 +1,5 @@
   <!-- Start Hero Slider Section-->
+
   <div class="hero-slider-section">
       <!-- Slider main container -->
       <div class="hero-slider-active swiper-container">
@@ -198,12 +199,18 @@
                                                 $imgDir = substr($filePath, 1);
                                                 $imgArr[] =    $imgDir;
                                             }
+                                            $url = _WEB_ROOT . $item['thumbnail'];
+                                            if (substr($item['thumbnail'], 0, 10) === "./uploads/") {
+                                                $url = _WEB_ROOT  . $item['thumbnail'];
+                                            } else {
+                                                $url = $item['thumbnail'];
+                                            }
                                         ?>
                                           <div class="product-default-single-item product-color--golden swiper-slide">
                                               <div class="image-box">
                                                   <a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="image-link">
-                                                      <img src="<?php echo _WEB_ROOT . $imgArr[0] ?>" alt="">
-                                                      <img src="<?php echo _WEB_ROOT . $imgArr[1] ?>" alt="">
+                                                      <img src="<?php echo $url ?>" alt="">
+                                                      <img src="<?php echo $url ?>" alt="">
                                                   </a>
                                                   <div class="tag">
                                                       <span>sale</span>
@@ -309,13 +316,19 @@
                                                 $imgDir = substr($filePath, 1);
                                                 $imgArr[] =    $imgDir;
                                             }
+                                            $url = '';
+                                            if (strpos($item['thumbnail'], "upload") !== false) {
+                                                $url = _WEB_ROOT  . $item['thumbnail'];
+                                            } else {
+                                                $url = $item['thumbnail'];
+                                            }
                                         ?>
                                           <!-- Start Product Default Single Item -->
                                           <div class="product-default-single-item product-color--golden swiper-slide">
                                               <div class="image-box">
                                                   <a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="image-link">
-                                                      <img src="<?php echo _WEB_ROOT . $imgArr[0] ?>" alt="">
-                                                      <img src="<?php echo _WEB_ROOT . $imgArr[1] ?>" alt="">
+                                                      <img src="<?php echo $url ?>" alt="">
+                                                      <img src="<?php echo $url ?>" alt="">
                                                   </a>
                                                   <div class="tag">
                                                       <span>sale</span>

@@ -48,8 +48,14 @@ class ProductModel extends Model
         $result = $this->db->table('products')->where('category', '=', $category)->limit($limit, $offset)->get();
         foreach ($result as $key => $row) {
             $img = $this->db->select('img_dir')->table('product_img')->where('product_id', '=', $row['id'])->get();
-            $result[$key]['img-0'] = substr($img[0]['img_dir'], 1);
-            $result[$key]['img-1'] = substr($img[1]['img_dir'], 1);
+            if (!empty($img)) {
+                $result[$key]['img-0'] = substr($img[0]['img_dir'], 1);
+                if (count($img) > 1) {
+                    $result[$key]['img-1'] = substr($img[1]['img_dir'], 1);
+                }
+            } else {
+                $result[$key]['img-0'] = $result[$key]['thumbnail'];
+            }
         }
         return $result;
     }

@@ -14,7 +14,65 @@ class DataProduct
     public $short_description;
     public $specification;
     public $quantity;
+    public function setForm($form)
+    {
+        $this->form = $form;
+    }
 
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function setMadeIn($made_in)
+    {
+        $this->made_in = $made_in;
+    }
+
+    public function getMadeIn()
+    {
+        return $this->made_in;
+    }
+
+    public function setShortDescription($short_description)
+    {
+        $this->short_description = $short_description;
+    }
+
+    public function getShortDescription()
+    {
+        return $this->short_description;
+    }
+
+    public function setSpecification($specification)
+    {
+        $this->specification = $specification;
+    }
+
+    public function getSpecification()
+    {
+        return $this->specification;
+    }
+
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
     public function setDescription($description)
     {
         $this->description = $description;
@@ -385,46 +443,27 @@ class Product extends Controller
         $data = $this->product_model->getList('crawl');
         $client = new Client();
 
-        // foreach ($data as $item) {
+        foreach ($data as $item) {
 
-        $crawler = $client->request('GET', 'https://www.fahasa.com/nguoi-giau-co-nhat-thanh-babylon-291542.html');
-        $product = [];
-        $crawler->filter('.product-view')->each(function ($node) {
-            $product['quantity'] = 100;
-            //         // Assuming you have setters in your Product class
-            $product['product_name'] = $node->filter('.product-essential-detail h1')->text();
-            $product['made_in'] = $node->filter('.product-view-sa-supplier span')->eq(2)->text();
-            $product['author'] = $node->filter('.product-view-sa-author span')->eq(1)->text();
-            $product['form'] = $node->filter('.product-view-sa-author span')->eq(3)->text();
-
-
-
-            //         $product['url'] = $node->filter('.product-name-no-ellipsis a')->attr('href');
-
-
-            //         $product['img'] = $node->filter('.images-container .product-image .product-image img')->attr('data-src');
-            //         if ($node->filter('.special-price')->count() > 0) {
-            //             $getPrice = $node->filter('.special-price')->text();
-            //         } else {
-            //             $getPrice = 1000;
-            //         }
-            //         $priceString = str_replace("đ", "", $getPrice);
-            //         $priceString = str_replace('.', '', $priceString);
-            //         $product['price'] = floatval($priceString);
-            //         $statusInsert = $this->product_model->insertCrawl($product);
-            //         if ($statusInsert) {
-            //             echo 'Thêm thành công!';
-            //         }
-            $crawler = $client->request('GET', 'https://www.fahasa.com/nguoi-giau-co-nhat-thanh-babylon-291542.html');
-
-            $crawler->filter('.product_view_info')->each(function ($node) {
-                $product['description'] = $node->filter('.desc_content')->text();
+            $crawler = $client->request('GET', $item['url']);
+            $product = [];
+            $crawler->filter('.product-view')->each(function ($node) {
+                $product['quantity'] = 100;
+                //         // Assuming you have setters in your Product class
+                $product['product_name'] = $node->filter('.product-essential-detail h1')->text();
+                $product['made_in'] = $node->filter('.product-view-sa-supplier span')->eq(2)->text();
+                $product['author'] = $node->filter('.product-view-sa-author span')->eq(1)->text();
+                $product['form'] = $node->filter('.product-view-sa-author span')->eq(3)->text();
+                $getPrice = $node->filter('.price')->text();
+                $priceString = str_replace("đ", "", $getPrice);
+                $priceString = str_replace('.', '', $priceString);
+                $product['price'] = floatval($priceString);
+                $this->product_model->insertProduct($product);
+                echo '<pre>';
+                print_r($product);
+                echo '</pre>';
             });
-            echo '<pre>';
-            print_r($product);
-            echo '</pre>';
-        });
-        // }
+        }
     }
     function delete()
     {
