@@ -87,7 +87,6 @@ class Cart extends Controller
             if ($isLogin) {
                 $dataUser = $this->cart_model->getUser($currentUser);
                 $id = $dataUser['id'];
-
                 if (intval($formData['quantity']) > 0) {
                     $checkExist = $this->cart_model->checkExist('cart_items', $id, $formData['product_id']);
                     if ($checkExist) {
@@ -98,6 +97,8 @@ class Cart extends Controller
                         $dataUpdate['total_price'] = $newPrice;
                         $dataUpdate['quantity'] = $newQuantity;
                         $statusUpdate = $this->cart_model->updateCart('cart_items', $checkExist['id'], $dataUpdate);
+                        $inforCart = $this->cart_model->getInforCart($id, $formData['product_id']);
+                        $responsiveJson["infor"] = $inforCart;
                         if ($statusUpdate) {
                             $responsiveJson["success"] = 'Thêm vào giỏ hàng thành công.';
                         } else $responsiveJson["error"] = 'Thêm vào giỏ hàng thất bại';
@@ -105,7 +106,11 @@ class Cart extends Controller
                         $formData['total_price'] = $formData['quantity'] * $price;
                         $formData['user_id'] = $id;
                         $statusInsert = $this->cart_model->insertCart('cart_items', $formData);
+                        $quantityCart = $this->cart_model->countCart($id);
+                        $responsiveJson["infor"] = $quantityCart;
                         if ($statusInsert) {
+                            $inforCart = $this->cart_model->getInforCart($id, $formData['product_id']);
+                            $responsiveJson["infor"] = $inforCart;
                             $responsiveJson["success"] = 'Thêm vào giỏ hàng thành công.';
                         } else $responsiveJson["error"] = 'Thêm vào giỏ hàng thất bại';
                     }
@@ -373,4 +378,3 @@ class Cart extends Controller
         }
     }
 }
-?>

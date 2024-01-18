@@ -1,13 +1,9 @@
 <?php
+
+
 $config['database'] = [
-    'host' => 'localhost',
-    'user' => 'root',
-    'pass' => '1104',
-    'db' => 'php_2',
+    'host' => $_ENV['DB_HOST'],
+    'user' => $_ENV['DB_USER'],
+    'pass' => $_ENV['DB_PASS'],
+    'db' => $_ENV['DB_NAME'],
 ];
-// $config['database'] = [
-//     'host' => 'mysqldb.cevvjti1valt.us-east-1.rds.amazonaws.com',
-//     'user' => 'admin',
-//     'pass' => 'duanmauitlor',
-//     'db' => 'bookshop',
-// ];

@@ -1,7 +1,8 @@
 <?php
 define('__DIR_ROOT__', __DIR__);
 require_once 'vendor/autoload.php';
-
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 // xử lý web root
 if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
     $web_root = 'https://' . $_SERVER['HTTP_HOST'];
@@ -44,6 +45,7 @@ require_once 'core/Middlewares.php';
 require_once 'core/Routes.php';
 
 require_once 'core/Session.php';
+
 
 if (!empty($config['database'])) {
     $db_config = array_filter($config['database']);

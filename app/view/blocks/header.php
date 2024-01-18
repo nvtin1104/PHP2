@@ -113,7 +113,7 @@
                         <!-- Start Header Action Link -->
                         <ul class="header-action-link action-color--black action-hover-color--golden">
                             <li>
-                                <a href="#offcanvas-wishlish" class="offcanvas-toggle">
+                                <a href="<?php echo _WEB_ROOT . '/cart/wishlist' ?>" class="">
                                     <i class="icon-heart"></i>
                                     <span class="item-count">
                                         <?php
@@ -128,7 +128,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#offcanvas-add-cart" class="offcanvas-toggle">
+                                <a href="<?php echo _WEB_ROOT . '/cart/cart?page=1' ?>" class="">
                                     <i class="icon-bag"></i>
                                     <span class="item-count">
                                         <?php
@@ -190,7 +190,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#offcanvas-wishlish" class="offcanvas-toggle">
+                            <a href="<?php echo _WEB_ROOT . '/cart/wishlist' ?>" class="">
                                 <i class="icon-heart"></i>
                                 <span class="item-count">
                                     <?php
@@ -205,7 +205,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#offcanvas-add-cart" class="offcanvas-toggle">
+                            <a href="<?php echo _WEB_ROOT . '/cart/cart?page=1' ?>" class="">
                                 <i class="icon-bag"></i>
                                 <span class="item-count">
                                     <?php

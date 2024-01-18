@@ -85,22 +85,18 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8">
-                                        <div class="modal-add-cart-info"><i class="fa fa-check-square"></i>Added to cart
-                                            successfully!</div>
+                                        <div class="modal-add-cart-info"><i class="fa fa-check-square"></i>Thêm vào giỏ hàng thành công!</div>
                                         <div class="modal-add-cart-product-cart-buttons">
-                                            <a href="cart.html">View Cart</a>
-                                            <a href="checkout.html">Checkout</a>
+                                            <a href="<?php echo _WEB_ROOT . '/cart/cart?page=1' ?>">Xem giỏ hàng</a></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-5 modal-border">
                                 <ul class="modal-add-cart-product-shipping-info">
-                                    <li> <strong><i class="icon-shopping-cart"></i> There Are 5 Items In Your
-                                            Cart.</strong></li>
-                                    <li> <strong>TOTAL PRICE: </strong> <span>$187.00</span></li>
-                                    <li class="modal-continue-button"><a href="#" data-bs-dismiss="modal">CONTINUE
-                                            SHOPPING</a></li>
+                                    <li> <strong><i class="icon-shopping-cart"></i> Có <strong class="modal-add-cart-product-shipping-info-quantity">0</strong> trong giỏ hàng của bạn</strong></li>
+                                    <li> <strong>Tổng giá tiền: </strong> <span class="modal-add-cart-product-shipping-info-price">$187.00</span></li>
+                                    <li class="modal-continue-button"><a href="#" data-bs-dismiss="modal">Tiếp tục mua sắm</a></li>
                                 </ul>
                             </div>
                         </div>

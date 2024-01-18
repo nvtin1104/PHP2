@@ -17,21 +17,20 @@ class SendMailModel
         $mail->setLanguage('vi', __DIR_ROOT__ . '/public/lib/vendor/phpmailer/phpmailer/language/phpmailer.lang-vi.php');
         try {
             //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;    
-                              //Enable verbose debug output
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'camtinlqd123@gmail.com';                     //SMTP username
-            $mail->Password   = 'fzefvczieneyoqrg';                               //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->Host = $_ENV['SMTP_HOST'];
+            $mail->SMTPAuth = filter_var($_ENV['SMTP_AUTH'], FILTER_VALIDATE_BOOLEAN);
+            $mail->Username = $_ENV['SMTP_USERNAME'];
+            $mail->Password = $_ENV['SMTP_PASSWORD'];
+            $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
+            $mail->Port = $_ENV['SMTP_PORT'];
 
             //Recipients
-            $mail->setFrom('camtinlqd123@gmail.com', 'BookShop BMT');
-            $mail->addAddress($usermail, $username);     //Add a recipient
-            $mail->addReplyTo('camtinlqd123@gmail.com', 'BookShop BMT');
-
+            $mail->setFrom($_ENV['SMTP_USERNAME'], 'BookShop BMT');
+            $mail->addAddress($usermail, $username);
+            $mail->addReplyTo($_ENV['SMTP_USERNAME'], 'BookShop BMT');
             //Attachments
             // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
             // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
@@ -50,4 +49,3 @@ class SendMailModel
         return $status;
     }
 }
-?>

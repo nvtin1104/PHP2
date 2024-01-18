@@ -35,7 +35,19 @@ class CartModel extends Model
         $result = $this->db->table($table)->where('user_id', '=', $user_id)->where('product_id', '=', $product_id)->firt();
         return $result;
     }
+    public function getInforCart($user_id, $product_id)
+    {
+        $img = $this->db->query("SELECT thumbnail FROM products WHERE id = $product_id ")->fetchColumn();
 
+        if (strpos($img, './upload/') !== false) {
+            $result['img']  = _WEB_ROOT . $img;
+        } else {
+            $result['img']  = $img;
+        }
+        $result['quantity'] = $this->db->query("SELECT * FROM cart_items WHERE user_id = $user_id ")->rowCount();
+        $result['total_price'] = $this->db->query("SELECT SUM(total_price) as total FROM cart_items WHERE user_id = $user_id ")->fetchColumn();;
+        return $result;
+    }
     public function getItemOrder($id)
     {
         $result = $this->db->table('cart_items')->where('id', '=', $id)->select('product_id,quantity,total_price')->firt();
@@ -97,4 +109,3 @@ class CartModel extends Model
         return $result;
     }
 }
-?>
