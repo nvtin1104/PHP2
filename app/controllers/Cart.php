@@ -174,6 +174,8 @@ class Cart extends Controller
                     $formData['user_id'] = $id;
                     $statusInsert = $this->cart_model->insertCart('wishlist', $formData);
                     if ($statusInsert) {
+                        $inforCart = $this->cart_model->getInforCart($id, $formData['product_id']);
+                        $responsiveJson["infor"] = $inforCart;
                         $responsiveJson["success"] = 'Thêm vào danh sách yêu thích thành công.';
                     } else $responsiveJson["error"] = 'Thêm vào danh sách yêu thích thất bại';
                 }

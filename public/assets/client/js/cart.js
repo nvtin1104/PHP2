@@ -208,7 +208,16 @@ $(document).ready(function () {
                     alert(response.error);
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
-                    alert(response.success);
+                    // $('.modal-add-cart-product-img img').attr('src', response.infor.img);
+                    // let number = +response.infor.total_price;
+                    // let formattedNumber = number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    // $('.modal-add-cart-product-shipping-info-price').text(formattedNumber);
+                    // // Thay đổi giá tiền
+                    // console.log(formattedNumber)
+                    // // Thay đổi số lượng
+                    // $('.modal-add-cart-product-shipping-info-quantity').text(response.infor.quantity);
+                    // $('#modalAddcart').modal('show');
+                    // alert(response.success);
                     // if (response.location) {
                     //     window.location.href = "<? echo _WEB_ROOT ?>/home";
                     // }
