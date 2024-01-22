@@ -35,7 +35,7 @@ class CartModel extends Model
         $result = $this->db->table($table)->where('user_id', '=', $user_id)->where('product_id', '=', $product_id)->firt();
         return $result;
     }
-    public function getInforCart($user_id, $product_id)
+    public function  getInforCart($user_id, $product_id)
     {
         $img = $this->db->query("SELECT thumbnail FROM products WHERE id = $product_id ")->fetchColumn();
 
