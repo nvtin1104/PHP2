@@ -332,7 +332,7 @@
                 </ul>
             <?php  }; ?>
             <div class="logo mt-5">
-                <a href="index.html"><img src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/logo/logo_white.png" alt=""></a>
+                <a href="/"><img src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/logo/logo_white.png" alt=""></a>
             </div>
 
             <address class="address">
@@ -390,7 +390,7 @@
             </ul>
         <?php  } ?>
         <div class="logo mt-5">
-            <a href="index.html"><img src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/logo/logo_white.png" alt=""></a>
+            <a href="/"><img src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/logo/logo_white.png" alt=""></a>
         </div>
 
         <address class="address">

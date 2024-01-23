@@ -16,4 +16,3 @@ $config['app'] = [
         AppServiceProvider::class,
     ]
 ];
-?>

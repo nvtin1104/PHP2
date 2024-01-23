@@ -8,6 +8,7 @@ $routes['trang-chu'] = 'home/index';
 $routes['trang-chu/'] = 'home/';
 $routes['san-pham/'] = 'product/';
 $routes['quen-mat-khau'] = 'reset_password/';
+$routes['dang-nhap-admin'] = 'auth/loginAdmin';
+
 
 // $routes['tin-tuc/.+(\d+).html'] = 'news/category/$4';
-?>

@@ -21,6 +21,18 @@ class Auth extends Controller
             $this->render('layout/client_layout', $this->data);
         }
     }
+    function loginAdmin()
+    {
+        $isLogin = $this->session->data('isLogin');
+        if ($isLogin) {
+            $this->response->redirect(_WEB_ROOT . '/home');
+        } else {
+            $this->data['page_title'] = 'Đăng nhập';
+            $this->data['sub_content'] = [];
+            $this->data['content'] = 'auth/admin';
+            $this->render('layout/login_layout', $this->data);
+        }
+    }
     function reset_password()
     {
         $isLogin = $this->session->data('isLogin');
@@ -282,4 +294,3 @@ class Auth extends Controller
         ';
     }
 }
-?>

@@ -1,11 +1,11 @@
 <?php
-class AuthMiddlewareAdmin extends Middlewares {
+class AuthMiddlewareAdmin extends Middlewares
+{
     public function handle()
     {
-        if( Session::data('role') !=='admin'){
+        if (Session::data('role') !== 'admin') {
             $response = new Response();
-            $response->redirect('auth');
+            $response->redirect('dang-nhap-admin');
         }
     }
 }
-?>

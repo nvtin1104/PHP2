@@ -19,3 +19,4 @@ function confirmDelete(deleteUrl) {
     }
     // If user clicks Cancel, do nothing
 }
+
