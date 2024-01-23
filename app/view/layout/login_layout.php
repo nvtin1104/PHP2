@@ -22,10 +22,16 @@
 
     <!-- App CSS -->
     <link id="theme-style" rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/admin/css/portal.css">
+    <link id="theme-style" rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/admin/css/custom.css">
+
 
 </head>
 
 <body class="app app-login p-0">
+    <div id="toast">
+        <div class="toast-img" id="img"></div>
+        <div class="toast-desc" id="desc">A notification message..</div>
+    </div>
     <!--//app-header-->
     <?php $this->render($content, $sub_content); ?>
 </body>

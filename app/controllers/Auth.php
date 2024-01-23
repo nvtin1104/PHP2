@@ -21,6 +21,55 @@ class Auth extends Controller
             $this->render('layout/client_layout', $this->data);
         }
     }
+    public function handleLogin()
+    {
+        $responsiveJson = [];
+        if ($this->request->isPost()) {
+            $data = $this->request->getFields();
+            $this->request->rules(
+                [
+                    'username' => 'required|confirm:user:username',
+                    'password' => 'required',
+                ]
+            );
+            $this->request->messages([
+                'username.required' => 'Tên đăng nhập không được để trống',
+                'password.required' => 'Mật khẩu không được để trống',
+                'username.confirm' => 'Tên đăng nhập không tồn tại',
+            ]);
+
+            $this->request->valides();
+            if ($this->request->valides()) {
+                $status = $this->model_Auth->checkPassword($data['password'], $data['username']);
+                if ($status) {
+                    $statusUser = $this->model_Auth->getUserStatus($data['username']);
+                    if ($statusUser['status'] == 'active') {
+                        $role = $this->model_Auth->getRole('username', $data['username']);
+                        if ($role['role'] == 'admin' || $role['role'] == 'adminroot') {
+                            $this->session->data('role', 'admin');
+                            $responsiveJson["success"] = 'Đăng nhập thành công';
+                            $responsiveJson["location"] = true;
+                        } else {
+                            $this->session->data('role', 'user');
+                            $responsiveJson["error"] = 'Tài khoản không có quyền truy cập';
+                        }
+                        $this->session->data('isLogin', true);
+                        $this->session->data('user_name', $data['username']);
+                    } else {
+                        $responsiveJson["error"] = 'Tài khoản bị cấm';
+                    }
+                } else $responsiveJson["error"] = 'Sai mật khẩu';
+            } else {
+                $sessionKey = Session::isInvalid();
+                $errors = Session::flash($sessionKey . '_errors');
+                $error = reset($errors);
+                $responsiveJson["error"] = $error;
+            }
+            echo json_encode($responsiveJson);
+        } else {
+            $this->response->redirect(_WEB_ROOT . '/auth');
+        }
+    }
     function loginAdmin()
     {
         $isLogin = $this->session->data('isLogin');
