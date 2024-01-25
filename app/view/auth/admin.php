@@ -1,9 +1,10 @@
 <div class="row g-0 app-auth-wrapper">
+
     <div class="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
         <div class="d-flex flex-column align-content-end">
             <div class="app-auth-body mx-auto">
                 <div class="app-auth-branding mb-4">
-                    <a href="/"><img src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/logo/logo_black.png" alt=""></a>
+                    <a href="<?php echo _WEB_ROOT ?>"><img src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/logo/logo_black.png" alt=""></a>
                 </div>
                 <h2 class="auth-heading text-center mb-5">Đăng nhập quản trị</h2>
                 <div class="auth-form-container text-start">

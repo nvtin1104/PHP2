@@ -73,8 +73,9 @@ class Auth extends Controller
     function loginAdmin()
     {
         $isLogin = $this->session->data('isLogin');
-        if ($isLogin) {
-            $this->response->redirect(_WEB_ROOT . '/home');
+        $isAdmin = $this->session->data('role');
+        if ($isLogin &&  $isAdmin == 'admin') {
+            $this->response->redirect(_WEB_ROOT . '/admin/dashboard');
         } else {
             $this->data['page_title'] = 'Đăng nhập';
             $this->data['sub_content'] = [];

@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/client/css/style.min.css">
     <link rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/client/css/custom.css">
     <meta name="keywords" content="<?php echo $meta ?>">
+    <link id="theme-style" rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/admin/css/custom.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -53,6 +54,20 @@
         <div class="load-div three"></div>
         <div class="load-div four"></div>
         <div class="load-div five"></div>
+    </div>
+    <div class="toast-container">
+        <div class="toasts"></div>
+        <div class="master-toast-notification hide-toast">
+            <div class="toast-content">
+                <div class="toast-icon">
+                    <i id="icon-toast" class="fa-solid"></i>
+                </div>
+                <div class="toast-msg"></div>
+            </div>
+            <div class="toast-progress">
+                <div class="toast-progress-bar"></div>
+            </div>
+        </div>
     </div>
     <?php
     if (!empty($user_infor)) {
@@ -117,6 +132,46 @@
     <!-- <script src="<?php echo _WEB_ROOT ?>/public/lib/node_modules/jquery/dist/jquery.min.js"></script> -->
     <script>
         $(document).ready(function() {
+            let toastCounter = 1;
+            const toast = {
+                success: {
+                    icon: "fa-check",
+                    color: "#27ae60",
+                    animation: "slide-in-slide-out"
+                },
+                error: {
+                    icon: "fa-triangle-exclamation",
+                    color: "#c0392b",
+                    animation: "slide-in-fade-out"
+                },
+                info: {
+                    icon: "fa-info",
+                    color: "#2980b9",
+                    animation: "slide-in-slide-out"
+                },
+                warning: {
+                    icon: "fa-triangle-exclamation",
+                    color: "#f39c12",
+                    animation: "slide-in-fade-out"
+                }
+            };
+
+            function displayToastNotification(msg, type) {
+                let class_name = 'toast-' + toastCounter;
+                let new_node;
+                let htmlToast = toast[type];
+                let icon = $('#icon-toast');
+                icon.addClass(htmlToast.icon);
+                console.log(icon);
+                new_node = $('.master-toast-notification').clone().appendTo('.toasts').addClass(class_name + ' toast-notification').removeClass('master-toast-notification');
+                new_node.find('.toast-msg').text(msg);
+                new_node.find('.toast-icon').addClass('wiggle-me').css('background-color', htmlToast.color);
+                new_node.removeClass('hide-toast').addClass(htmlToast.animation);
+                setTimeout(function() {
+                    new_node.remove();
+                }, 3800);
+                toastCounter++;
+            }
             $('#bg_loading').hide();
             $("#registerBtn").click(function(event) {
                 event.preventDefault();
@@ -141,10 +196,10 @@
                         $("#bg_loading").hide();
                         if (response.error) {
                             // Hiển thị thông báo lỗi
-                            alert(response.error);
+                            displayToastNotification(response.error, 'error');
                         } else if (response.success) {
                             // Hiển thị thông báo thành công
-                            alert(response.success);
+                            displayToastNotification(response.success, 'success');
                         }
                     },
                     error: function(xhr, status, error) {
@@ -175,10 +230,10 @@
                         $("#bg_loading").hide();
                         if (response.error) {
                             // Hiển thị thông báo lỗi
-                            alert(response.error);
+                            displayToastNotification(response.error, 'error');
                         } else if (response.success) {
                             // Hiển thị thông báo thành công
-                            alert(response.success);
+                            displayToastNotification(response.success, 'success');
                             window.location.href = "<?php echo _WEB_ROOT ?>/home";
                         } else if (response.log) {
                             // Hiển thị thông báo thành công
@@ -192,6 +247,7 @@
                     }
                 });
             });
+
             $("#cfMail").click(function(event) {
                 event.preventDefault();
                 var token = $("#token").val();

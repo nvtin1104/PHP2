@@ -21,11 +21,13 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    launchToast("error", response.error);
+                    displayToastNotification(response.error, 'error');
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
-                    alert(response.success);
-                    window.location.href = url + "/admin/dashboard";
+                    displayToastNotification(response.success, 'success');
+                    setTimeout(function () {
+                        window.location.href = url + "/admin/dashboard";
+                    }, 2000); // 5 seconds
                 } else if (response.log) {
                     // Hiển thị thông báo thành công
                     console.log(response.log);
@@ -38,16 +40,44 @@ $(document).ready(function () {
             }
         });
     });
-    // let x = $("#toast").addClass("show");
-
-    function launchToast(type = "success", message = "Thành công!") {
-        let x = $("#toast");
-        let img = $(".toast-img");
-        let desc = $(".toast-desc");
-        img.html(type === 'success' ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-check"></i>');
-        desc.html(message);
-        x.addClass(type);
-        x.addClass("show");
-        setTimeout(function () { x.removeClass("show"); }, 2300);
+    let toastCounter = 1;
+    const toast = {
+        success: {
+            icon: "fa-check",
+            color: "#27ae60",
+            animation: "slide-in-slide-out"
+        },
+        error: {
+            icon: "fa-triangle-exclamation",
+            color: "#c0392b",
+            animation: "slide-in-fade-out"
+        },
+        info: {
+            icon: "fa-info",
+            color: "#2980b9",
+            animation: "slide-in-slide-out"
+        },
+        warning: {
+            icon: "fa-triangle-exclamation",
+            color: "#f39c12",
+            animation: "slide-in-fade-out"
+        }
+    };
+    function displayToastNotification(msg, type) {
+        let class_name = 'toast-' + toastCounter;
+        let new_node;
+        let htmlToast = toast[type];
+        let icon = $('#icon-toast');
+        icon.addClass(htmlToast.icon);
+        console.log(icon);
+        new_node = $('.master-toast-notification').clone().appendTo('.toasts').addClass(class_name + ' toast-notification').removeClass('master-toast-notification');
+        new_node.find('.toast-msg').text(msg);
+        new_node.find('.toast-icon').addClass('wiggle-me').css('background-color', htmlToast.color);
+        new_node.removeClass('hide-toast').addClass(htmlToast.animation);
+        setTimeout(function () {
+            new_node.remove();
+        }, 3800);
+        toastCounter++;
     }
+
 });

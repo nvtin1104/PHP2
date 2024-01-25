@@ -28,11 +28,21 @@
 </head>
 
 <body class="app app-login p-0">
-    <div id="toast">
-        <div class="toast-img" id="img"><i class="fa-solid fa-check"></i></div>
-        <div class="toast-desc" id="desc">Đây là thông báo</div>
-    </div>
     <!--//app-header-->
+    <div class="toast-container">
+        <div class="toasts"></div>
+        <div class="master-toast-notification hide-toast">
+            <div class="toast-content">
+                <div class="toast-icon">
+                    <i id="icon-toast" class="fa-solid"></i>
+                </div>
+                <div class="toast-msg"></div>
+            </div>
+            <div class="toast-progress">
+                <div class="toast-progress-bar"></div>
+            </div>
+        </div>
+    </div>
     <?php $this->render($content, $sub_content); ?>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
