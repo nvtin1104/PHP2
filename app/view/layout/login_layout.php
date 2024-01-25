@@ -29,8 +29,8 @@
 
 <body class="app app-login p-0">
     <div id="toast">
-        <div class="toast-img" id="img"></div>
-        <div class="toast-desc" id="desc">A notification message..</div>
+        <div class="toast-img" id="img"><i class="fa-solid fa-check"></i></div>
+        <div class="toast-desc" id="desc">Đây là thông báo</div>
     </div>
     <!--//app-header-->
     <?php $this->render($content, $sub_content); ?>

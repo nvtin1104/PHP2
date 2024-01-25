@@ -1,14 +1,13 @@
 #toast {
-    visibility: hidden;
-    max-width: 50px;
+    /* visibility: hidden; */
+    max-width: 400px;
     height: 50px;
     /*margin-left: -125px;*/
+    z-index: 9999;
     margin: auto;
-    background-color: #333;
-    color: #fff;
+    background-color: #fff;
     text-align: center;
     border-radius: 2px;
-
     position: fixed;
     z-index: 1;
     left: 0;
@@ -16,44 +15,53 @@
     bottom: 30px;
     font-size: 17px;
     white-space: nowrap;
+    box-shadow: 0 0 4px #000;
 }
 
-.toast-img.success {
-    background-color: #28a745;
+#toast.success #desc {
+    color: #28a745;
 }
 
-.toast-img svg {
-    font-size: 16px;
-    color: #643737;
+#toast.error #desc {
+    color: #dd2c00;
 }
+
+#toast.success #img {
+    color: #28a745;
+}
+
+#toast.error #img {
+    color: #dd2c00;
+}
+
 
 #toast #img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50px;
     height: 50px;
-
     float: left;
-
     padding-top: 16px;
     padding-bottom: 16px;
-
     box-sizing: border-box;
-    color: #fff;
+    color: #28a745;
 }
 
 #toast #desc {
     color: #fff;
-
     padding: 16px;
-
     overflow: hidden;
     white-space: nowrap;
+    line-height: auto;
 }
 
-#toast.show {
+/* #toast.show {
+    overflow: hidden;
     visibility: visible;
-    -webkit-animation: fadein 0.25s, expand 0.25s 0.25s, stay 1.5s 0.5s, shrink 0.25s 2s, fadeout 0.25s 2.25s;
-    animation: fadein 0.25s, expand 0.25s 0.25s, stay 1.5s 0.5s, shrink 0.25s 2s, fadeout 0.25s 2.25s;
-}
+    -webkit-animation: fadein 0.25s, expand 0.25s 0.25s, stay 1.5s 0.5s, shrink 0.25s 2s, fadeout 0.15s 2toa.25s;
+    animation: fadein 0.25s, expand 0.25s 0.25s, stay 1.5s 0.5s, shrink 0.25s 2s, fadeout 0.15s 2.25s;
+} */
 
 @-webkit-keyframes fadein {
     from {
