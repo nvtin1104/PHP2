@@ -1,3 +1,10 @@
+<?php
+// var_dump($data['group_other']);
+if (!empty($user_infor)) {
+    $wishlist = $user_infor['wishlist'];
+    $carts = $user_infor['cart'];
+}
+?>
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
         <div class="container">
@@ -9,7 +16,7 @@
                             <ul>
                                 <li><a href="index.html">Trang chủ</a></li>
                                 <li><a href="shop-grid-sidebar-left.html">Sản phẩm</a></li>
-                                <li class="active" aria-current="page"><?php  echo $product_infor['product_name'] ?></li>
+                                <li class="active" aria-current="page"><?php echo $product_infor['product_name'] ?></li>
                             </ul>
                         </nav>
                     </div>
@@ -20,7 +27,7 @@
 </div> <!-- ...:::: End Breadcrumb Section:::... -->
 
 <!-- Start Product Details Section -->
-<?php 
+<?php
 if (!empty($product_infor)) {
     foreach ($product_img as $itemImg) {
         $filePath = $itemImg['img_dir'];
@@ -36,12 +43,12 @@ if (!empty($product_infor)) {
                         <!-- Start Large Image -->
                         <div class="product-large-image product-large-image-horaizontal swiper-container">
                             <div class="swiper-wrapper">
-                                <?php 
+                                <?php
                                 foreach ($imgArr as $value) {
                                     // var_dump($value);
                                 ?>
                                     <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
-                                        <img src="<?php  echo _WEB_ROOT . $value ?>" alt="">
+                                        <img src="<?php echo _WEB_ROOT . $value ?>" alt="">
                                     </div>
                                 <?php  }
                                 ?>
@@ -50,12 +57,12 @@ if (!empty($product_infor)) {
                         <!-- Start Thumbnail Image -->
                         <div class="product-image-thumb product-image-thumb-horizontal swiper-container pos-relative mt-5">
                             <div class="swiper-wrapper">
-                                <?php 
+                                <?php
                                 foreach ($imgArr as $value) {
                                     // var_dump($value);
                                 ?>
                                     <div class="product-image-thumb-single swiper-slide">
-                                        <img class="img-fluid" src="<?php  echo _WEB_ROOT . $value ?>" alt="">
+                                        <img class="img-fluid" src="<?php echo _WEB_ROOT . $value ?>" alt="">
                                     </div>
                                 <?php  }
                                 ?>
@@ -71,7 +78,7 @@ if (!empty($product_infor)) {
                     <div class="product-details-content-area product-details--golden" data-aos="fade-up" data-aos-delay="200">
                         <!-- Start  Product Details Text Area-->
                         <div class="product-details-text">
-                            <h4 class="title"><?php  echo $product_infor['product_name'] ?></h4>
+                            <h4 class="title"><?php echo $product_infor['product_name'] ?></h4>
                             <div class="d-flex align-items-center">
                                 <ul class="review-star">
                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -82,15 +89,15 @@ if (!empty($product_infor)) {
                                 </ul>
                                 <a href="#" class="customer-review ml-2">(Đánh giá)</a>
                             </div>
-                            <div class="price"><?php  echo number_format($product_infor['price'], 0) . ' VND'; ?></div>
-                            <p><?php  echo $product_infor['short_description'] ?></p>
+                            <div class="price"><?php echo number_format($product_infor['price'], 0) . ' VND'; ?></div>
+                            <p><?php echo $product_infor['short_description'] ?></p>
                         </div> <!-- End  Product Details Text Area-->
                         <!-- Start Product Variable Area -->
                         <div class="product-details-variable">
                             <h4 class="title">Tùy chọn có sẵn:</h4>
                             <!-- Product Variable Single Item -->
                             <div class="variable-single-item">
-                                <div class="product-stock"> <span class="product-stock-in"><i class="ion-checkmark-circled"></i></span> <?php  echo $product_infor['quantity']; ?> SẢN PHẨM</div>
+                                <div class="product-stock"> <span class="product-stock-in"><i class="ion-checkmark-circled"></i></span> <?php echo $product_infor['quantity']; ?> SẢN PHẨM</div>
                             </div>
                             <!-- Product Variable Single Item -->
                             <div class="d-flex align-items-center ">
@@ -101,8 +108,8 @@ if (!empty($product_infor)) {
                                             <input id="quantity" name="quantity" min="1" value="1" type="number">
                                         </div>
                                     </div>
-                                    <input id="product_id" type="hidden" name="product_id" value="<?php  echo $product_infor['id'] ?>">
-                                    <input id="path" type="hidden" name="path" value="<?php  echo _WEB_ROOT ?>">
+                                    <input id="product_id" type="hidden" name="product_id" value="<?php echo $product_infor['id'] ?>">
+                                    <input id="path" type="hidden" name="path" value="<?php echo _WEB_ROOT ?>">
                                     <div class="product-add-to-cart-btn">
                                         <button class="btn btn-block btn-lg btn-black-default-hover" id="addToCart">+ Thêm vào giỏ hàng</button>
 
@@ -112,7 +119,7 @@ if (!empty($product_infor)) {
                             </div>
                             <!-- Start  Product Details Meta Area-->
                             <div class="product-details-meta mb-20">
-                                <span><label for="addToWishlist"><i class="fa-regular fa-heart"></i></label></span><button class="addToWishlist" id="addToWishlist" data-path="<?php  echo _WEB_ROOT ?>" data-id="<?php  echo $product_infor['id'] ?>">Thêm vào yêu thích</button>
+                                <span><label for="addToWishlist"><i class="fa-regular fa-heart"></i></label></span><button class="addToWishlist" id="addToWishlist" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $product_infor['id'] ?>">Thêm vào yêu thích</button>
                             </div> <!-- End  Product Details Meta Area-->
                         </div> <!-- End Product Variable Area -->
 
@@ -166,7 +173,7 @@ if (!empty($product_infor)) {
                                 <!-- Start Product Details Tab Content Singel -->
                                 <div class="tab-pane active show" id="description">
                                     <div class="single-tab-content-item">
-                                        <?php 
+                                        <?php
                                         echo $product_infor['description'];
                                         ?>
                                     </div>
@@ -178,24 +185,24 @@ if (!empty($product_infor)) {
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Tác giả:</th>
-                                                    <td> <?php 
+                                                    <td> <?php
                                                             echo $product_infor['author'];
                                                             ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Nhà sản xuất:</th>
-                                                    <td> <?php 
+                                                    <td> <?php
                                                             echo $product_infor['made_in'];
                                                             ?></td>
                                                 <tr>
                                                     <th scope="row">Kiểu dáng:</th>
-                                                    <td> <?php 
+                                                    <td> <?php
                                                             echo $product_infor['form'];
                                                             ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <p> <?php 
+                                        <p> <?php
                                             echo $product_infor['specification'];
                                             ?></p>
                                     </div>
@@ -368,7 +375,7 @@ if (!empty($product_infor)) {
             </div>
         </div>
     </div>
-<?php 
+<?php
 }
 ?>
 <!-- End Product Details Section -->
@@ -404,7 +411,7 @@ if (!empty($product_infor)) {
                             <!-- Additional required wrapper -->
                             <div class="swiper-wrapper">
 
-                                <?php 
+                                <?php
                                 foreach ($product_releted as $item) {
                                     $imgArr = [];
 
@@ -416,9 +423,9 @@ if (!empty($product_infor)) {
                                 ?>
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
-                                            <a href="<?php  echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="image-link">
-                                                <img src="<?php  echo _WEB_ROOT . $imgArr[0] ?>" alt="">
-                                                <img src="<?php  echo _WEB_ROOT . $imgArr[1] ?>" alt="">
+                                            <a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>" class="image-link">
+                                                <img src="<?php echo _WEB_ROOT . $imgArr[0] ?>" alt="">
+                                                <img src="<?php echo _WEB_ROOT . $imgArr[1] ?>" alt="">
                                             </a>
                                             <div class="tag">
                                                 <span>sale</span>
@@ -428,14 +435,32 @@ if (!empty($product_infor)) {
                                                     <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">Mua ngay</a>
                                                 </div>
                                                 <div class="action-link-right">
-                                                    <button class="text-white addToWishlist" data-path="<?php  echo _WEB_ROOT ?>" data-id="<?php  echo $item['id'] ?>"><i class="icon-heart"></i></button>
-                                                    <button class="text-white addToCart" data-path="<?php  echo _WEB_ROOT ?>" data-id="<?php  echo $item['id'] ?>"><i class="fa-solid fa-cart-shopping"></i></button>
+                                                    <button class="text-white addToWishlist" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>">
+                                                        <?php
+                                                        if (!empty($wishlist)) {
+                                                            $count = 0;
+                                                            foreach ($wishlist as $itemWishlist) {
+                                                                if ($itemWishlist['product_id'] == $item['id']) {
+                                                                    $count++;
+                                                                }
+                                                            }
+                                                            if ($count > 0) {
+                                                                echo '<i class="fa-solid fa-heart"></i>';
+                                                            } else {
+                                                                echo '<i class="fa-regular fa-heart"></i>';
+                                                            }
+                                                        } else {
+                                                            echo '<i class="fa-regular fa-heart"></i>';
+                                                        }
+                                                        ?>
+                                                    </button>
+                                                    <button class="text-white addToCart" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>"><i class="fa-solid fa-cart-shopping"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="content">
                                             <div class="content-left">
-                                                <h6 class="title"><a href="product-details-default.html"><?php  echo strlen($item['product_name']) > 21 ? substr($item['product_name'], 0, 21) . ' ...' : $item['product_name']; ?></a></h6>
+                                                <h6 class="title"><a href="product-details-default.html"><?php echo strlen($item['product_name']) > 21 ? substr($item['product_name'], 0, 21) . ' ...' : $item['product_name']; ?></a></h6>
                                                 <ul class="review-star">
                                                     <li class="fill"><i class="ion-android-star"></i></li>
                                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -445,12 +470,12 @@ if (!empty($product_infor)) {
                                                 </ul>
                                             </div>
                                             <div class="content-right">
-                                                <span class="price"><?php  echo number_format($item['price'], 0) . ' VND'; ?></span>
+                                                <span class="price"><?php echo number_format($item['price'], 0) . ' VND'; ?></span>
                                             </div>
 
                                         </div>
                                     </div>
-                                <?php 
+                                <?php
                                 }
                                 ?>
                             </div>

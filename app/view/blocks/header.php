@@ -130,7 +130,7 @@
                             <li>
                                 <a href="<?php echo _WEB_ROOT . '/cart/cart?page=1' ?>" class="">
                                     <i class="icon-bag"></i>
-                                    <span class="item-count">
+                                    <span class="item-count count-cart">
                                         <?php
                                         if (!empty($cart)) {
                                             $total = count($cart);
@@ -207,7 +207,7 @@
                         <li>
                             <a href="<?php echo _WEB_ROOT . '/cart/cart?page=1' ?>" class="">
                                 <i class="icon-bag"></i>
-                                <span class="item-count">
+                                <span class="item-count count-cart">
                                     <?php
                                     if (!empty($cart)) {
                                         $total = count($cart);

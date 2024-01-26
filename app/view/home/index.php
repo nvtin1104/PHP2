@@ -1,5 +1,11 @@
   <!-- Start Hero Slider Section-->
-
+  <?php
+    // var_dump($data['group_other']);
+    if (!empty($user_infor)) {
+        $wishlist = $user_infor['wishlist'];
+        $carts = $user_infor['cart'];
+    }
+    ?>
   <div class="hero-slider-section">
       <!-- Slider main container -->
       <div class="hero-slider-active swiper-container">
@@ -220,14 +226,32 @@
                                                           <a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>">Mua ngay</a>
                                                       </div>
                                                       <div class="action-link-right">
-                                                          <button class="text-white addToWishlist" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>"><i class="icon-heart"></i></button>
+                                                          <button class="text-white addToWishlist" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>">
+                                                              <?php
+                                                                if (!empty($wishlist)) {
+                                                                    $count = 0;
+                                                                    foreach ($wishlist as $itemWishlist) {
+                                                                        if ($itemWishlist['product_id'] == $item['id']) {
+                                                                            $count++;
+                                                                        }
+                                                                    }
+                                                                    if ($count > 0) {
+                                                                        echo '<i class="fa-solid fa-heart"></i>';
+                                                                    } else {
+                                                                        echo '<i class="fa-regular fa-heart"></i>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<i class="fa-regular fa-heart"></i>';
+                                                                }
+                                                                ?>
+                                                          </button>
                                                           <button class="text-white addToCart" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>"><i class="fa-solid fa-cart-shopping"></i></button>
                                                       </div>
                                                   </div>
                                               </div>
                                               <div class="content">
                                                   <div class="content-left">
-                                                      <h6 class="title"><a href="product-details-default.html"><?php echo strlen($item['product_name']) > 21 ? substr($item['product_name'], 0, 21) . ' ...' : $item['product_name']; ?></a></h6>
+                                                      <h6 class="title"> <a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>"><?php echo strlen($item['product_name']) > 21 ? substr($item['product_name'], 0, 21) . ' ...' : $item['product_name']; ?></a></h6>
                                                       <ul class="review-star">
                                                           <li class="fill"><i class="ion-android-star"></i></li>
                                                           <li class="fill"><i class="ion-android-star"></i></li>
@@ -338,7 +362,25 @@
                                                           <a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>">Mua ngay</a>
                                                       </div>
                                                       <div class="action-link-right">
-                                                          <button class="text-white addToWishlist" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>"><i class="icon-heart"></i></button>
+                                                          <button class="text-white addToWishlist" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>">
+                                                              <?php
+                                                                if (!empty($wishlist)) {
+                                                                    $count = 0;
+                                                                    foreach ($wishlist as $itemWishlist) {
+                                                                        if ($itemWishlist['product_id'] == $item['id']) {
+                                                                            $count++;
+                                                                        }
+                                                                    }
+                                                                    if ($count > 0) {
+                                                                        echo '<i class="fa-solid fa-heart"></i>';
+                                                                    } else {
+                                                                        echo '<i class="fa-regular fa-heart"></i>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<i class="fa-regular fa-heart"></i>';
+                                                                }
+                                                                ?>
+                                                          </button>
                                                           <button class="text-white addToCart" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>"><i class="fa-solid fa-cart-shopping"></i></button>
                                                       </div>
                                                   </div>

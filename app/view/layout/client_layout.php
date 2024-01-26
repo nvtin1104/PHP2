@@ -200,6 +200,9 @@
                         } else if (response.success) {
                             // Hiển thị thông báo thành công
                             displayToastNotification(response.success, 'success');
+                            setTimeout(function() {
+                                window.location.href = url + "/home";
+                            }, 2000); // 5 seconds
                         }
                     },
                     error: function(xhr, status, error) {

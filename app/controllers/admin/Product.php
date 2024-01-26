@@ -411,32 +411,35 @@ class Product extends Controller
     {
         $client = new Client();
         // Go to the symfony.com website
-
-        for ($i = 1; $i < 10; $i++) {
-            $url = "https://www.fahasa.com/sach-trong-nuoc.html?order=num_orders&limit=24&p=" . $i;
+        for ($i = 1; $i < 3; $i++) {
+            $url = "https://nhasachphuongnam.com/sach-tieng-viet-page-" . $i . ".html";
             $crawler = $client->request('GET', $url);
-            $crawler->filter('.item-inner')->each(function ($node) {
+            $crawler->filter('.ty-column4')->each(function ($node) {
                 $product = [];
-                // Assuming you have setters in your Product class
-                $product['name'] = $node->filter('.product-name-no-ellipsis')->text();
-                $product['url'] = $node->filter('.product-name-no-ellipsis a')->attr('href');
+                // // Assuming you have setters in your Product class
+                $product['name'] = $node->filter('.ut2-gl__name')->text();
+                $product['url'] = $node->filter('.ut2-gl__name a')->attr('href');
 
 
-                $product['img'] = $node->filter('.images-container .product-image .product-image img')->attr('data-src');
-                if ($node->filter('.special-price')->count() > 0) {
-                    $getPrice = $node->filter('.special-price')->text();
+                $product['img'] = $node->filter('.ut2-gl__image  a img')->attr('src');
+                if ($node->filter('.ty-price-update')->count() > 0) {
+                    $getPrice = $node->filter('.ty-price-update')->text();
                 } else {
                     $getPrice = 1000;
                 }
-                $priceString = str_replace("đ", "", $getPrice);
-                $priceString = str_replace('.', '', $priceString);
-                $product['price'] = floatval($priceString);
+                $priceString = str_replace(',', '', $getPrice);
+
+                // Loại bỏ ký tự 'đ'
+                $priceString = str_replace('đ', '', $priceString);
+
+                // Chuyển đổi chuỗi thành số dấu phẩy động
+                $product['price'] = (float) $priceString;
                 $statusInsert = $this->product_model->insertCrawl($product);
-                if ($statusInsert) {
-                    echo 'Thêm thành công!';
-                }
             });
         }
+
+        $this->session->flash('delete_success', 'Cào thành công!');
+        $this->response->redirect(_WEB_ROOT . '/admin/product?page=1');
     }
     function crawl_detail()
     {
@@ -447,21 +450,21 @@ class Product extends Controller
 
             $crawler = $client->request('GET', $item['url']);
             $product = [];
-            $crawler->filter('.product-view')->each(function ($node) {
+            $crawler->filter('.ut2-pb__wrapper')->each(function ($node, $item) {
                 $product['quantity'] = 100;
                 //         // Assuming you have setters in your Product class
-                $product['product_name'] = $node->filter('.product-essential-detail h1')->text();
+                $product['product_name'] =  $node->filter('.ut2-pb__title h1')->text();;
                 $product['made_in'] = $node->filter('.product-view-sa-supplier span')->eq(2)->text();
-                $product['author'] = $node->filter('.product-view-sa-author span')->eq(1)->text();
-                $product['form'] = $node->filter('.product-view-sa-author span')->eq(3)->text();
-                $getPrice = $node->filter('.price')->text();
-                $priceString = str_replace("đ", "", $getPrice);
-                $priceString = str_replace('.', '', $priceString);
-                $product['price'] = floatval($priceString);
-                $this->product_model->insertProduct($product);
+                // $product['author'] = $node->filter('.product-view-sa-author span')->eq(1)->text();
+                // $product['form'] = $node->filter('.product-view-sa-author span')->eq(3)->text();
+                // $getPrice = $node->filter('.price')->text();
+                // $priceString = str_replace("đ", "", $getPrice);
+                // $priceString = str_replace('.', '', $priceString);
+                // $product['price'] = floatval($priceString);
                 echo '<pre>';
                 print_r($product);
                 echo '</pre>';
+                // $this->product_model->insertProduct($product);
             });
         }
     }

@@ -1,4 +1,43 @@
 $(document).ready(function () {
+    let toastCounter = 1;
+    const toast = {
+        success: {
+            icon: "fa-check",
+            color: "#27ae60",
+            animation: "slide-in-slide-out"
+        },
+        error: {
+            icon: "fa-triangle-exclamation",
+            color: "#c0392b",
+            animation: "slide-in-fade-out"
+        },
+        infor: {
+            icon: "fa-info",
+            color: "#2980b9",
+            animation: "slide-in-slide-out"
+        },
+        warning: {
+            icon: "fa-triangle-exclamation",
+            color: "#f39c12",
+            animation: "slide-in-fade-out"
+        }
+    };
+    function displayToastNotification(msg, type) {
+        let class_name = 'toast-' + toastCounter;
+        let new_node;
+        let htmlToast = toast[type];
+        let icon = $('#icon-toast');
+        icon.addClass(htmlToast.icon);
+        console.log(icon);
+        new_node = $('.master-toast-notification').clone().appendTo('.toasts').addClass(class_name + ' toast-notification').removeClass('master-toast-notification');
+        new_node.find('.toast-msg').text(msg);
+        new_node.find('.toast-icon').addClass('wiggle-me').css('background-color', htmlToast.color);
+        new_node.removeClass('hide-toast').addClass(htmlToast.animation);
+        setTimeout(function () {
+            new_node.remove();
+        }, 3800);
+        toastCounter++;
+    }
     // Sử dụng jQuery để bắt sự kiện click cho các nút có class là 'updateCart'
     $('.updateCart').click(function (event) {
         event.preventDefault();
@@ -116,9 +155,6 @@ $(document).ready(function () {
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
                     alert(response.success);
-                    // if (response.location) {
-                    //     window.location.href = "<? echo _WEB_ROOT ?>/home";
-                    // }
                 } else if (response.log) {
                     // Hiển thị thông báo thành công
                     console.log(response.log);
@@ -155,16 +191,15 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+                    displayToastNotification(response.error, 'error');
                 } else if (response.success) {
                     // Thay đổi hình ảnh
-                    console.log(response.infor);
+                    $('.count-cart').text(response.infor.quantity);
                     $('.modal-add-cart-product-img img').attr('src', response.infor.img);
                     let number = +response.infor.total_price;
                     let formattedNumber = number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
                     $('.modal-add-cart-product-shipping-info-price').text(formattedNumber);
                     // Thay đổi giá tiền
-                    console.log(formattedNumber)
                     // Thay đổi số lượng
                     $('.modal-add-cart-product-shipping-info-quantity').text(response.infor.quantity);
                     $('#modalAddcart').modal('show');
@@ -187,7 +222,7 @@ $(document).ready(function () {
         // Get the data-id attribute value for the clicked button
         let dataId = $(this).data('id');
         let dataPath = $(this).data('path');
-
+        let $button = $(this);
         // Perform your AJAX request with the specific dataId
         $.ajax({
             url: dataPath + '/cart/handleAddToWishlist', // Replace with the actual endpoint URL
@@ -205,23 +240,17 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+                    displayToastNotification(response.error, 'error');
+
                 } else if (response.success) {
-                    // Hiển thị thông báo thành công
-                    // $('.modal-add-cart-product-img img').attr('src', response.infor.img);
-                    // let number = +response.infor.total_price;
-                    // let formattedNumber = number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-                    // $('.modal-add-cart-product-shipping-info-price').text(formattedNumber);
-                    // // Thay đổi giá tiền
-                    // console.log(formattedNumber)
-                    // // Thay đổi số lượng
-                    // $('.modal-add-cart-product-shipping-info-quantity').text(response.infor.quantity);
-                    // $('#modalAddcart').modal('show');
-                    // alert(response.success);
-                    // if (response.location) {
-                    //     window.location.href = "<? echo _WEB_ROOT ?>/home";
-                    // }
-                } else if (response.log) {
+                    displayToastNotification(response.success, 'success');
+                    $button.removeClass('fa-regular').addClass('fa-solid');
+
+                } else if (response.infor) {
+                    displayToastNotification(response.infor, 'infor');
+
+                }
+                else if (response.log) {
                     // Hiển thị thông báo thành công
                     console.log(response.log);
                 }

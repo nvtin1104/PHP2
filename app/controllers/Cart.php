@@ -106,8 +106,6 @@ class Cart extends Controller
                         $formData['total_price'] = $formData['quantity'] * $price;
                         $formData['user_id'] = $id;
                         $statusInsert = $this->cart_model->insertCart('cart_items', $formData);
-                        $quantityCart = $this->cart_model->countCart($id);
-                        $responsiveJson["infor"] = $quantityCart;
                         if ($statusInsert) {
                             $inforCart = $this->cart_model->getInforCart($id, $formData['product_id']);
                             $responsiveJson["infor"] = $inforCart;
@@ -168,7 +166,7 @@ class Cart extends Controller
                 $id = $dataUser['id'];
                 $checkExist = $this->cart_model->checkExist('wishlist', $id, $formData['product_id']);
                 if ($checkExist) {
-                    $responsiveJson["success"] = 'Sản phẩm đã có trong danh sách yêu thích.';
+                    $responsiveJson["infor"] = 'Sản phẩm đã có trong danh sách yêu thích.';
                 } else {
                     $formData['total_price'] = $formData['quantity'] * $price;
                     $formData['user_id'] = $id;
@@ -180,7 +178,7 @@ class Cart extends Controller
                     } else $responsiveJson["error"] = 'Thêm vào danh sách yêu thích thất bại';
                 }
             } else {
-                $responsiveJson["error"] = 'Chua dang nhap';
+                $responsiveJson["error"] = 'Chưa đăng nhập';
             }
             echo json_encode($responsiveJson);
         } else {
