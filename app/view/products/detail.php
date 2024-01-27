@@ -29,11 +29,6 @@ if (!empty($user_infor)) {
 <!-- Start Product Details Section -->
 <?php
 if (!empty($product_infor)) {
-    foreach ($product_img as $itemImg) {
-        $filePath = $itemImg['img_dir'];
-        $imgDir = substr($filePath, 1);
-        $imgArr[] =    $imgDir;
-    }
 ?>
     <div class="product-details-section">
         <div class="container">
@@ -43,29 +38,18 @@ if (!empty($product_infor)) {
                         <!-- Start Large Image -->
                         <div class="product-large-image product-large-image-horaizontal swiper-container">
                             <div class="swiper-wrapper">
-                                <?php
-                                foreach ($imgArr as $value) {
-                                    // var_dump($value);
-                                ?>
-                                    <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
-                                        <img src="<?php echo _WEB_ROOT . $value ?>" alt="">
-                                    </div>
-                                <?php  }
-                                ?>
+
+                                <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                                    <img src="<?php echo $product_infor['thumbnail'] ?>" alt="">
+                                </div>
                             </div>
                         </div>
                         <!-- Start Thumbnail Image -->
                         <div class="product-image-thumb product-image-thumb-horizontal swiper-container pos-relative mt-5">
                             <div class="swiper-wrapper">
-                                <?php
-                                foreach ($imgArr as $value) {
-                                    // var_dump($value);
-                                ?>
-                                    <div class="product-image-thumb-single swiper-slide">
-                                        <img class="img-fluid" src="<?php echo _WEB_ROOT . $value ?>" alt="">
-                                    </div>
-                                <?php  }
-                                ?>
+                                <div class="product-image-thumb-single swiper-slide">
+                                    <img class="img-fluid" src="<?php echo $product_infor['thumbnail'] ?>" alt="">
+                                </div>
                             </div>
                             <!-- Add Arrows -->
                             <div class="gallery-thumb-arrow swiper-button-next"></div>

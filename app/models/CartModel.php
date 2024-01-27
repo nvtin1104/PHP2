@@ -69,13 +69,12 @@ class CartModel extends Model
         if (!empty($result)) {
             foreach ($result as $key => $item) {
                 $imgList = $this->db->table('product_img')->where('product_id', '=', $item['product_id'])->firt();
-                $filePath = $imgList['img_dir'];
-                $imgDir = substr($filePath, 1);
                 $price = $this->db->table('products')->where('id', '=', $item['product_id'])->select('price')->firt();
+                $product = $this->db->table('products')->where('id', '=', $item['product_id'])->firt();
                 $productname = $this->db->table('products')->where('id', '=', $item['product_id'])->select('product_name')->firt();
                 $result[$key]['price'] = $price['price'];
                 $result[$key]['product_name'] = $productname['product_name'];
-                $result[$key]['imgDir'] = $imgDir;
+                $result[$key]['imgDir'] = $product['thumbnail'];
             }
         }
         return $result;

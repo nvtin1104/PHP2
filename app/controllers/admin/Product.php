@@ -412,28 +412,29 @@ class Product extends Controller
         $client = new Client();
         // Go to the symfony.com website
         for ($i = 1; $i < 3; $i++) {
-            $url = "https://nhasachphuongnam.com/sach-tieng-viet-page-" . $i . ".html";
+            $url = "https://nhanam.vn/collections/all?q=&page=" . $i . "&view=grid";
             $crawler = $client->request('GET', $url);
-            $crawler->filter('.ty-column4')->each(function ($node) {
+            $crawler->filter('.item_product_main')->each(function ($node) {
                 $product = [];
                 // // Assuming you have setters in your Product class
-                $product['name'] = $node->filter('.ut2-gl__name')->text();
-                $product['url'] = $node->filter('.ut2-gl__name a')->attr('href');
+                $product['name'] = $node->filter('.product-name')->text();
+                $product['url'] = $node->filter('.image_thumb')->attr('href');
 
 
-                $product['img'] = $node->filter('.ut2-gl__image  a img')->attr('src');
-                if ($node->filter('.ty-price-update')->count() > 0) {
-                    $getPrice = $node->filter('.ty-price-update')->text();
+                $product['img'] = $node->filter('.image_thumb img')->attr('data-src');
+                if ($node->filter('.price-box .price')->count() > 0) {
+                    $getPrice = $node->filter('.price-box .price')->text();
                 } else {
                     $getPrice = 1000;
                 }
-                $priceString = str_replace(',', '', $getPrice);
+                $priceString = str_replace('.', '', $getPrice);
 
                 // Loại bỏ ký tự 'đ'
                 $priceString = str_replace('đ', '', $priceString);
 
                 // Chuyển đổi chuỗi thành số dấu phẩy động
                 $product['price'] = (float) $priceString;
+
                 $statusInsert = $this->product_model->insertCrawl($product);
             });
         }
@@ -445,28 +446,46 @@ class Product extends Controller
     {
         $data = $this->product_model->getList('crawl');
         $client = new Client();
-
+        $i = 1;
         foreach ($data as $item) {
 
-            $crawler = $client->request('GET', $item['url']);
-            $product = [];
-            $crawler->filter('.ut2-pb__wrapper')->each(function ($node, $item) {
-                $product['quantity'] = 100;
-                //         // Assuming you have setters in your Product class
-                $product['product_name'] =  $node->filter('.ut2-pb__title h1')->text();;
-                $product['made_in'] = $node->filter('.product-view-sa-supplier span')->eq(2)->text();
-                // $product['author'] = $node->filter('.product-view-sa-author span')->eq(1)->text();
-                // $product['form'] = $node->filter('.product-view-sa-author span')->eq(3)->text();
-                // $getPrice = $node->filter('.price')->text();
-                // $priceString = str_replace("đ", "", $getPrice);
-                // $priceString = str_replace('.', '', $priceString);
-                // $product['price'] = floatval($priceString);
-                echo '<pre>';
-                print_r($product);
-                echo '</pre>';
-                // $this->product_model->insertProduct($product);
+            $crawler = $client->request('GET', 'https://nhanam.vn' . $item['url']);
+
+            $crawler->filter('.child-content')->each(function ($node) use ($item) {
+
+                $item['quantity'] = 100;
+                // print_r($item);
+                $item['author'] = $node->filter('.book-info-detail li')->eq(0)->filter('span')->eq(1)->text();
+                $item['form'] = $node->filter('.book-info-detail li')->eq(3)->filter('span')->eq(1)->text();
+                $item['made_in'] = $node->filter('.book-info-detail li')->eq(2)->filter('span')->eq(1)->text();
+                $item['description'] = $node->filter('.product_getcontent')->text();
+                $item['product_name'] = $item['name'];
+                $item['specification'] = $item['description'];
+                $item['thumbnail'] = $item['img'];
+                unset($item['name']);
+                unset($item['url']);
+                unset($item['img']);
+                unset($item['id']);
+                $status = $this->product_model->insertProduct($item);
+                if ($status) {
+                    $data = [
+                        array(
+                            'img_dir' => $item['thumbnail'],
+                        ),
+                        array(
+                            'img_dir' => $item['thumbnail'],
+                        )
+                    ];
+                    $id = $this->product_model->getLastId();
+                    foreach ($data as $img) {
+                        $img['product_id'] = $id['id'];
+                        $statusInsert = $this->product_model->insertImgProduct($img);
+                    }
+                }
             });
         }
+        $this->session->flash('delete_success', 'Cap nhat thành công!');
+        $this->response->redirect(_WEB_ROOT . '/admin/product?page=1');
     }
     function delete()
     {
