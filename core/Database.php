@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Database
 {
     private $__conn;
@@ -15,7 +15,7 @@ class Database
             $fieldStr = '';
             $valueStr = '';
             foreach ($data as $key => $value) {
-                $fieldStr .= $key . ',';
+                $fieldStr .= $key  . ',';
                 $valueStr .= "'" . $value . "',";
             }
             $fieldStr = rtrim($fieldStr, ', ');
@@ -76,4 +76,3 @@ class Database
         }
     }
 }
-?>
