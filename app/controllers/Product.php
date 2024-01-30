@@ -39,6 +39,27 @@ class Product extends Controller
         $this->data['sub_content']['maxPage'] = $maxPage;
         $this->render('layout/client_layout', $this->data);
     }
+    public function data_search()
+    {
+        $users = array();
+
+        for ($i = 0; $i < 10; $i++) {
+            $user = array(
+                'name' => 'User ' . ($i + 1),
+                'age' => rand(18, 60), // Tuổi ngẫu nhiên từ 18 đến 60
+                'email' => 'user' . ($i + 1) . '@example.com'
+            );
+            $users[] = $user;
+        }
+
+        // In ra dữ liệu mảng chứa thông tin của 10 người dùng
+
+        // Chuyển đổi dữ liệu thành chuỗi JSON
+        $jsonString = json_encode($users);
+
+        // In ra chuỗi JSON
+        echo $jsonString;
+    }
     public function other_product()
     {
         if ($this->request->isGet()) {
@@ -169,4 +190,3 @@ class Product extends Controller
         }
     }
 }
-?>

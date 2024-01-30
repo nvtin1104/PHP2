@@ -560,8 +560,12 @@
 <div id="search" class="search-modal">
     <button type="button" class="close">×</button>
     <form action="<?php echo _WEB_ROOT ?>/product/search" method="post">
-        <input type="search" name="search" placeholder="Viết gì đó" />
+        <input type="search" name="search" id="search-input" placeholder="Viết gì đó" />
+
         <button type="submit" class="btn btn-lg btn-golden">Tìm kiếm</button>
     </form>
+    <div id="select-search">
+
+    </div>
 </div>
 <div class="offcanvas-overlay"></div>

@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
         } else {
             $data['user_infor'] = '';
         }
+
+        // In ra chuỗi JSON
         $inforWeb = $this->getInforWebsite();
         foreach ($inforWeb as $value) {
             $data['inforWebsite'][$value['name']] = $value['value'];

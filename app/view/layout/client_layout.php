@@ -120,7 +120,7 @@
             </div>
         </div>
     </div> <!-- End Modal Add cart -->
-
+    <input type="hidden" data-route="<?php echo _WEB_ROOT ?>" id="root-route">
     <!-- Start Modal Quickview cart -->
 
     <!-- End Modal Quickview cart -->
@@ -304,6 +304,7 @@
     } else {
         echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/cart.js"></script>';
     };
+    echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/search.js"></script>';
 
     ?>
     <script type="text/javascript" src="<?php echo _WEB_ROOT ?>/public/assets/client/js/account.js"></script>
