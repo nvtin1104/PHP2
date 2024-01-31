@@ -26,10 +26,10 @@ $(document).ready(async function () {
         // Bắt đầu bộ đếm thời gian mới
         typingTimer = setTimeout(() => {
             let searchValue = search.val();
-            let matchingEmails = [];
+            let matchingProducts = [];
             dataResponse.forEach((item) => {
-                if (item.email.toLowerCase().includes(searchValue.toLowerCase())) {
-                    matchingEmails.push(item.email);
+                if (item.product_name.toLowerCase().includes(searchValue.toLowerCase())) {
+                    matchingProducts.push(item.product_name);
                 }
             });
 
@@ -37,12 +37,12 @@ $(document).ready(async function () {
             let selectElement = $('<ul>');
 
             // Thêm tùy chọn vào phần tử <select>
-            matchingEmails.forEach((email) => {
+            matchingProducts.forEach((product_name) => {
                 let optionElement = $('<li>');
-                let aElement = $('<a>').text(email);
-                aElement.attr('href', route + '/product/search/' + email);
+                let aElement = $('<a>').text(product_name);
+                aElement.attr('href', route + '/product/search/' + product_name);
                 optionElement.append(aElement);
-                optionElement.attr('value', email);
+                optionElement.attr('value', product_name);
                 selectElement.append(optionElement);
             });
 

@@ -558,13 +558,17 @@
 
 <!-- Start Offcanvas Search Bar Section -->
 <div id="search" class="search-modal">
-    <button type="button" class="close">×</button>
-    <form action="<?php echo _WEB_ROOT ?>/product/search" method="post">
-        <input type="search" name="search" id="search-input" placeholder="Viết gì đó" />
-
-        <button type="submit" class="btn btn-lg btn-golden">Tìm kiếm</button>
-    </form>
-    <div id="select-search">
+    <div class="form-search">
+        <button type="button" class="close">×</button>
+        <form action="<?php echo _WEB_ROOT ?>/product/search" method="post">
+            <div class="bg-form">
+                <input type="search" name="search" id="search-input" placeholder="Viết gì đó" />
+                <button type="submit" class="btn-search"> <i class="icon-magnifier"></i></button>
+                <div id="select-search">
+                    hell
+                </div>
+            </div>
+        </form>
 
     </div>
 </div>

@@ -41,21 +41,11 @@ class Product extends Controller
     }
     public function data_search()
     {
-        $users = array();
-
-        for ($i = 0; $i < 10; $i++) {
-            $user = array(
-                'name' => 'User ' . ($i + 1),
-                'age' => rand(18, 60), // Tuổi ngẫu nhiên từ 18 đến 60
-                'email' => 'user' . ($i + 1) . '@example.com'
-            );
-            $users[] = $user;
-        }
-
+        $data = $this->product_model->getDataSearch();
         // In ra dữ liệu mảng chứa thông tin của 10 người dùng
 
         // Chuyển đổi dữ liệu thành chuỗi JSON
-        $jsonString = json_encode($users);
+        $jsonString = json_encode($data);
 
         // In ra chuỗi JSON
         echo $jsonString;

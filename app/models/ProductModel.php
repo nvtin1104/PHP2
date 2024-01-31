@@ -84,6 +84,11 @@ class ProductModel extends Model
         $result = $this->db->table('labels')->get();
         return $result;
     }
+    public function getDataSearch()
+    {
+        $result = $this->db->query("SELECT product_name, thumbnail, id FROM products")->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
     public function getImg($id)
     {
         $result = $this->db->table('product_img')->where('product_id', '=', $id)->get();
