@@ -7,3 +7,4 @@ $config['database'] = [
     'pass' => $_ENV['DB_PASS'],
     'db' => $_ENV['DB_NAME'],
 ];
+?>

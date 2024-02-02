@@ -12,3 +12,4 @@ $routes['dang-nhap-admin'] = 'auth/loginAdmin';
 
 
 // $routes['tin-tuc/.+(\d+).html'] = 'news/category/$4';
+?>

@@ -81,3 +81,4 @@ require_once 'core/Response.php';
 
 
 // print_r($config);
+?>

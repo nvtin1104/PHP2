@@ -86,3 +86,4 @@ class Blogs extends Controller
         $this->render('layout/client_layout', $this->data);
     }
 }
+?>

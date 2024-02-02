@@ -378,3 +378,4 @@ class Cart extends Controller
         }
     }
 }
+?>

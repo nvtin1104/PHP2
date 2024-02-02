@@ -344,3 +344,4 @@ class Auth extends Controller
         ';
     }
 }
+?>
