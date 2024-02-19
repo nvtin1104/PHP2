@@ -20414,13 +20414,18 @@ table {
     border-color: #b19361
 }
 
+#select-search::-webkit-scrollbar { /* Chrome, Edge, and Safari */
+    display: none;
+  }
 #select-search {
+    max-height: 80vh;
+    overflow-y: scroll;
+    scrollbar-width: none; 
     position: absolute;
     top: 80px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #fef5ef;
-    padding: 32px;
     width: 100%;
     border-radius: 12px;
 }

@@ -36,5 +36,13 @@ class HomeModel extends Model
         }
         return $result;
     }
+    public function getFullOder(){
+        $result = $this->db->table('orders')->get();
+        return $result;
+    }
+    public function getFullUser(){
+        $result = $this->db->query("SELECT * FROM user ")->rowCount();
+        return $result;
+    }
 }
 ?>

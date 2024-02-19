@@ -565,7 +565,6 @@
                 <input type="search" name="search" id="search-input" placeholder="Viết gì đó" />
                 <button type="submit" class="btn-search"> <i class="icon-magnifier"></i></button>
                 <div id="select-search">
-                    hell
                 </div>
             </div>
         </form>

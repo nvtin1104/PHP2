@@ -15,8 +15,8 @@ $(document).ready(async function () {
     const dataResponse = await fetchData();
     console.log(dataResponse);
     let search = $('#search-input');
-    let typingTimer;
-    let doneTypingInterval = 1000; // Thời gian chờ sau khi ngừng nhập, tính bằng mili giây
+    let typingTimer = 200;
+    let doneTypingInterval = 500; // Thời gian chờ sau khi ngừng nhập, tính bằng mili giây
 
     // Khi người dùng nhập vào ô tìm kiếm
     search.on('input', () => {
@@ -28,21 +28,48 @@ $(document).ready(async function () {
             let searchValue = search.val();
             let matchingProducts = [];
             dataResponse.forEach((item) => {
+                let product = {};
                 if (item.product_name.toLowerCase().includes(searchValue.toLowerCase())) {
-                    matchingProducts.push(item.product_name);
+                    product.name = item.product_name;
+                    product.id = item.id;
+                    product.thumbnail = item.thumbnail;
+                    matchingProducts.push(product);
                 }
             });
-
+            if (matchingProducts.length === 0) {
+                let product = {};
+                product.name = 'Không tìm thấy sản phẩm nào phù hợp với từ khóa tìm kiếm của bạn!';
+                product.id = '#';
+                product.thumbnail = '#';
+                matchingProducts.push(product);
+            }
             // Tạo một phần tử <select> mới
             let selectElement = $('<ul>');
 
             // Thêm tùy chọn vào phần tử <select>
-            matchingProducts.forEach((product_name) => {
+            matchingProducts.forEach((product) => {
+                let urlImg = product.thumbnail;
+                console.log(product.thumbnail)// Thay thế bằng route thực tế của bạn
+                if (urlImg.includes('upload')) {
+                    urlImg = route + urlImg;
+                }
+
                 let optionElement = $('<li>');
-                let aElement = $('<a>').text(product_name);
-                aElement.attr('href', route + '/product/search/' + product_name);
+                let imgElement;
+                product.id !== '#' ? imgElement = $('<img>').attr('src', urlImg) : imgElement = '';
+                if (imgElement !== '') {
+                    imgElement.css({
+                        'width': '50px',
+                        'height': '50px',
+                        'margin': '10px'
+                    });
+                }
+                optionElement.append(imgElement);
+                let aElement = $('<a>').text(product.name);
+                product.id === '#' ? '' : aElement.attr('href', route + '/product/detail?id=' + product.id);
                 optionElement.append(aElement);
-                optionElement.attr('value', product_name);
+
+                optionElement.attr('value', product.name);
                 selectElement.append(optionElement);
             });
 
@@ -51,8 +78,11 @@ $(document).ready(async function () {
 
             // Đặt tên cho phần tử <select>
             selectElement.attr('name', 'matching-emails');
-            console.log(selectElement);
             // Đưa phần tử <select> vào DOM
+            $('#select-search').empty();
+            $('#select-search').css({
+                'padding': '32px'
+            });
             $('#select-search').append(selectElement);
 
         }, doneTypingInterval);
