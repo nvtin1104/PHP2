@@ -118,10 +118,10 @@ class AuthModel extends Model
     {
         $result = $this->db->table('order_list')->where('order_id', '=', $id)->get();
         foreach ($result as $key => $item) {
-            $img = $this->db->select('img_dir')->table('product_img')->where('product_id', '=', $item['product_id'])->firt();
-            $product_name = $this->db->select('product_name')->table('products')->where('id', '=', $item['product_id'])->firt();
-            $filePath = $img['img_dir'];
-            $result[$key]['img'] = substr($filePath, 1);
+            // $img = $this->db->select('img_dir')->table('product_img')->where('product_id', '=', $item['product_id'])->firt();
+            $product_name = $this->db->table('products')->where('id', '=', $item['product_id'])->firt();
+            $filePath = $product_name['thumbnail'];
+            $result[$key]['img'] = $filePath;
             $result[$key]['product_name'] = $product_name['product_name'];
         }
         return $result;

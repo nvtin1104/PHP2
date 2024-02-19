@@ -18,7 +18,7 @@
     <!-- FontAwesome JS-->
     <script defer src="<?php echo _WEB_ROOT ?>/public/assets/admin/plugins/fontawesome/js/all.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/ob2bst5rg8fd0hqhqaxcd9fln8ydipgsidblxo0aakpn3d1c/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- App CSS -->
     <link id="theme-style" rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/assets/admin/css/portal.css">
 
@@ -29,6 +29,8 @@
     <header>
         <?php $this->render('blocks/admin_header') ?>
     </header>
+    <input type="hidden" data-route="<?php echo _WEB_ROOT ?>" id="root-route">
+
     <div class="app-wrapper">
 
         <?php $this->render($content, $sub_content); ?>

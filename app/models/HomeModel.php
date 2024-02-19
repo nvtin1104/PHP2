@@ -44,5 +44,9 @@ class HomeModel extends Model
         $result = $this->db->query("SELECT * FROM user ")->rowCount();
         return $result;
     }
+    public function getOrderWithDate($date){
+        $result = $this->db->table('orders')->where('create_at', '>=', $date)->orderBy('create_at', 'DESC')->get();
+        return $result;
+    }
 }
 ?>
