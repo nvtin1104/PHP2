@@ -12,7 +12,7 @@ class Product extends Controller
     public function book_product()
     {
         if ($this->request->isGet()) {
-            $countRow = $this->product_model->getCount('products');
+            $countRow = $this->product_model->getCountBookProduct('products', 'book_product');
             $limit = 21;
             $maxPage = ceil($countRow / $limit);
             $result = $this->request->getFields();
@@ -53,7 +53,7 @@ class Product extends Controller
     public function other_product()
     {
         if ($this->request->isGet()) {
-            $countRow = $this->product_model->getCount('products');
+            $countRow = $this->product_model->getCountBookProduct('products', 'other_product');
             $limit = 21;
             $maxPage = ceil($countRow / $limit);
             $result = $this->request->getFields();

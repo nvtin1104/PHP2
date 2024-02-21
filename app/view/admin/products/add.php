@@ -29,7 +29,7 @@
                                 <?php echo form_error('author', '<span style="color:red;">', '</span>'); ?>
                             </div>
                             <div class="accordion accordion-flush" id="accordionFlushExample">
-                               
+
                                 <label for="" class="form-label">Nhãn sản phẩm</label>
                                 <br>
                                 <?php echo form_error('label_check', '<span style="color:red;">', '</span>'); ?>
@@ -93,39 +93,50 @@
                                 </select>
                             </div>
                             <div class="mb-3 form-floating">
-                                <textarea style="height: 200px;" type="text" name="description" class="form-control" id="description" placeholder="Mô tả..."><?php echo old_data('description', '') ?></textarea>
-                                <label for="description" class="form-label">Mô tả:</label>
+                                <script>
+                                    tinymce.init({
+                                        selector: 'textarea',
+                                        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                                    });
+                                </script>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Mô tả:</label>
+                                    <textarea name="description">
+                                         <?php echo old_data('description', '') ?> hello
+                                    </textarea>
+                                </div>
                                 <?php echo form_error('description', '<span style="color:red;">', '</span>'); ?>
                             </div>
                             <div class="mb-3 form-floating">
-                                <textarea style="height: 200px;" type="text" name="short_description" class="form-control" id="short_description" placeholder="Mô tả ngắn..."><?php echo old_data('short_description', '') ?></textarea>
-                                <label for="short_description" class="form-label">Mô tả ngắn:</label>
+                                <div class="mb-3">
+                                    <label for="short_description" class="form-label">Mô tả ngắn:</label>
+                                    <textarea name="short_description">
+                                         <?php echo old_data('short_description', '') ?> 
+                                    </textarea>
+                                </div>
                                 <?php echo form_error('short_description', '<span style="color:red;">', '</span>'); ?>
                             </div>
                             <div class="mb-3 form-floating">
-                                <textarea style="height: 200px;" type="text" name="specification" class="form-control" id="specification" placeholder="Chi tiết..."><?php echo old_data('specification', '') ?></textarea>
-                                <label for="specification" class="form-label">Chi tiết:</label>
+                                <div class="mb-3">
+                                    <label for="specification" class="form-label">Chi tiết:</label>
+                                    <textarea name="specification">
+                                         <?php echo old_data('specification', '') ?>
+                                    </textarea>
+                                </div>
                                 <?php echo form_error('specification', '<span style="color:red;">', '</span>'); ?>
                             </div>
                             <div class="mb-3">
-
                                 <div class="d-flex">
-                                    <img id="preview_img_1" src="#" alt="Preview Image" style="width: 100px; height: 100px; display: none;">
-                                    <img id="preview_img_2" src="#" alt="Preview Image" style="width: 100px; height: 100px; display: none;">
-                                    <img id="preview_img_3" src="#" alt="Preview Image" style="width: 100px; height: 100px; display: none;">
-                                    <img id="preview_img_4" src="#" alt="Preview Image" style="width: 100px; height: 100px; display: none;">
+                                    <div id="image_previews"></div>
                                 </div>
                                 <?php if (!empty($error_upload)) {
                                     echo '<span style="color:red;">' . $error_upload . '</span>';
                                 } ?>
-                                <input type="file" name="img_1" class="form-control" id="img_1" accept="image/*" onchange="previewImage(this, 'preview_img_1')">
-
-                                <input type="file" name="img_2" class="form-control" id="img_2" accept="image/*" onchange="previewImage(this, 'preview_img_2')">
-
-                                <input type="file" name="img_3" class="form-control" id="img_3" accept="image/*" onchange="previewImage(this, 'preview_img_3')">
-
-                                <input type="file" name="img_4" class="form-control" id="img_4" accept="image/*" onchange="previewImage(this, 'preview_img_4')">
+                                <input type="file" name="images[]" class="form-control" id="images" accept="image/*" multiple onchange="previewMultipleImages(this)">
                             </div>
+
                             <button type="submit" class="btn app-btn-primary">Thêm sản phẩm</button>
                         </form>
                     </div><!--//app-card-body-->

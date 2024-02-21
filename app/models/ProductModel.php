@@ -104,6 +104,11 @@ class ProductModel extends Model
         $result = $this->db->query("SELECT * FROM $field ")->rowCount();
         return $result;
     }
+    public function getCountBookProduct($field , $category)
+    {
+        $result = $this->db->query("SELECT * FROM $field WHERE category = '$category'")->rowCount();
+        return $result;
+    }
     public function getCountLabel($id)
     {
         $result = $this->db->query("SELECT * FROM products INNER JOIN product_label ON products.id = product_label.product_id WHERE product_label.label_id = $id")->rowCount();
@@ -158,46 +163,51 @@ class ProductModel extends Model
     {
         $session = new Session();
         $target_dir = './uploads/';
-        // Thư mục lưu trữ tệp
         $dirArr = [];
-        foreach ($files as $inputName => $file) {
-            if (isset($file["error"]) && $file["error"] == UPLOAD_ERR_NO_FILE) {
-                $session->data('upload_file_erorr', 'File ' . $inputName . ' trống');
-            } elseif ($file["error"] == UPLOAD_ERR_OK) {
-                // Tiếp tục xử lý tệp tin đã được tải lên
-                $target_file = $target_dir . basename($file["name"]);
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-                // Kiểm tra định dạng hợp lệ và xử lý tiếp
-                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                    $session->flash('upload_file_erorr', 'Chỉ chấp nhận các tệp JPG, JPEG, PNG. Tại file ' . $inputName . '');
-                } else {
-                    if (file_exists($target_file)) {
-                        $fileName = pathinfo($file['name'], PATHINFO_FILENAME);
-                        $newFileName = $fileName . '-Copy';
-                        $target_file = $target_dir . $newFileName . '.' . $imageFileType;
-                        $cnt = 1;
-                        while (file_exists($target_file)) {
-                            $fileName = pathinfo($file['name'], PATHINFO_FILENAME);
-                            $newFileName = $fileName . '-Copy(' . $cnt . ')';
-                            $target_file = $target_dir . $newFileName . '.' . $imageFileType;
-                            $cnt++;
-                        }
-                    }
-                    if (move_uploaded_file($file["tmp_name"], $target_file)) {
-                        // Lưu thông tin sản phẩm vào cơ sở dữ liệu
-                        $dirArr[$inputName] = $target_file;
+    
+        // Kiểm tra xem mảng $files['images'] có tồn tại không
+        if(isset($files['images'])) {
+            // Lặp qua mảng các ảnh
+            foreach ($files['images']['name'] as $index => $name) {
+                // Kiểm tra nếu không có lỗi và file đã được tải lên thành công
+                if ($files['images']['error'][$index] == UPLOAD_ERR_OK) {
+                    // Tiếp tục xử lý tệp tin đã được tải lên
+                    $target_file = $target_dir . basename($name);
+                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                    // Kiểm tra định dạng hợp lệ và xử lý tiếp
+                    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                        $session->flash('upload_file_erorr', 'Chỉ chấp nhận các tệp JPG, JPEG, PNG. Tại file ' . $name . '');
                     } else {
-                        $session->flash('upload_file_erorr', 'Lỗi khi tải file ' . $inputName . '');
+                        if (file_exists($target_file)) {
+                            $fileName = pathinfo($name, PATHINFO_FILENAME);
+                            $newFileName = $fileName . '-Copy';
+                            $target_file = $target_dir . $newFileName . '.' . $imageFileType;
+                            $cnt = 1;
+                            while (file_exists($target_file)) {
+                                $fileName = pathinfo($name, PATHINFO_FILENAME);
+                                $newFileName = $fileName . '-Copy(' . $cnt . ')';
+                                $target_file = $target_dir . $newFileName . '.' . $imageFileType;
+                                $cnt++;
+                            }
+                        }
+                        if (move_uploaded_file($files["images"]["tmp_name"][$index], $target_file)) {
+                            // Lưu thông tin sản phẩm vào cơ sở dữ liệu
+                            $dirArr[] = $target_file;
+                        } else {
+                            $session->flash('upload_file_erorr', 'Lỗi khi tải file ' . $name . '');
+                        }
                     }
                 }
             }
         }
+    
         $error = $session->flash('upload_file_erorr');
         if (!empty($error)) {
             return false;
         } else {
             $session->flash('dirArr', $dirArr);
-            return  true;
+            return true;
         }
     }
+    
 }

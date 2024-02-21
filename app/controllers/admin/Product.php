@@ -156,104 +156,104 @@ class Product extends Controller
     function add_product()
     {
         if ($this->request->isPost()) {
-            $data = $this->request->getFields();
-            if ($data['label'] == null) {
-                $data['label_check'] = ''; // Nếu mảng label không tồn tại hoặc không phải là mảng
-            } else {
-                $data['label_check'] = 'true';
-            }
-            $statusUpload = $this->product_model->upload($_FILES);
-
-            $this->request->rules([
-                'product_name' => 'required|min:4|max:150',
-                'made_in' => 'required|min:4|max:100',
-                'label_check' => 'required',
-                'form' => 'required|min:4|max:20',
-                'author' => 'required|min:4|max:50',
-                'description' => 'required|min:4|callback_check_word500',
-                'short_description' => 'required|min:4|callback_check_word150',
-                'specification' => 'required|min:4|callback_check_word150',
-                'quantity' => 'required|number|positiveNumber',
-                'price' => 'required|number|positiveNumber',
-            ]);
-            $this->request->messages([
-                'product_name.required' => 'Tên sản phẩm không được để trống',
-                'product_name.min' => 'Tên sản phẩm tối thiểu 4 kí tự',
-                'product_name.max' => 'Tên sản phẩm tối đa 150 kí tự',
-                'quantity.required' => 'Số lượng không được để trống',
-                'quantity.number' => 'Số lượng phải là số',
-                'quantity.positiveNumber' => 'Số phải dương',
-                'price.required' => 'Giá không được để trống',
-                'label_check.required' => 'Nhãn không được để trống',
-                'price.number' => 'Giá phải là số',
-                'price.positiveNumber' => 'Giá phải dương',
-                'made_in.required' => 'Nhà sản xuất không được để trống',
-                'made_in.min' => 'Nhà sản xuất tối thiểu 4 kí tự',
-                'made_in.max' => 'Nhà sản xuất tối đa 100 kí tự',
-                'form.required' => 'Kiểu dáng không được để trống',
-                'form.min' => 'Kiểu dáng tối thiểu 4 kí tự',
-                'form.max' => 'Kiểu dáng tối đa 20 kí tự',
-                'author.required' => 'Tác giả không được để trống',
-                'author.min' => 'Tác giả tối thiểu 4 kí tự',
-                'author.max' => 'Tác giả tối đa 50 kí tự',
-                'description.required' => 'Mô tả xuất không được để trống',
-                'description.min' => 'Mô tả xuất tối thiểu 4 kí tự',
-                'description.callback_check_word500' => 'Mô tả xuất tối đa 500 từ',
-                'short_description.required' => 'Mô tả ngắn xuất không được để trống',
-                'short_description.min' => 'Mô tả ngắn xuất tối thiểu 4 kí tự',
-                'short_description.callback_check_word150' => 'Mô tả ngắn xuất tối đa 150 từ',
-                'specification.required' => 'Chi tiết xuất không được để trống',
-                'specification.min' => 'Chi tiết xuất tối thiểu 4 kí tự',
-                'specification.callback_check_word500' => 'Chi tiết xuất tối đa 500 từ',
-            ]);
-            $statusValides = $this->request->valides($data);
-
-            if ($statusUpload && $statusValides) {
-                $dirArr = $this->session->flash('dirArr');
-
-                if (isset($data['label']) && is_array($data['label'])) {
-                    $label = $data['label'];
-                    unset($data['label']);
+                $data = $this->request->getFields();
+                if ($data['label'] == null) {
+                    $data['label_check'] = ''; // Nếu mảng label không tồn tại hoặc không phải là mảng
+                } else {
+                    $data['label_check'] = 'true';
                 }
-                unset($data['label_check']);
-                $data['thumbnail'] = $dirArr[0];
-                $statusInsert = $this->product_model->insertProduct($data);
-                if ($statusInsert) {
-                    // get id 
-                    $id = $this->product_model->getLastId();
-                    // xử lý up label
+                $statusUpload = $this->product_model->upload($_FILES);
 
-                    foreach ($label as $item) {
-                        $dataLabel['label_id'] = $item;
-                        $dataLabel['product_id'] =  $id['id'];
-                        $statusInsert = $this->product_model->insertLabel($dataLabel);
+                $this->request->rules([
+                    'product_name' => 'required|min:4|max:150',
+                    'made_in' => 'required|min:4|max:100',
+                    'label_check' => 'required',
+                    'form' => 'required|min:4|max:20',
+                    'author' => 'required|min:4|max:50',
+                    'description' => 'required|min:4|callback_check_word500',
+                    'short_description' => 'required|min:4|callback_check_word150',
+                    'specification' => 'required|min:4|callback_check_word150',
+                    'quantity' => 'required|number|positiveNumber',
+                    'price' => 'required|number|positiveNumber',
+                ]);
+                $this->request->messages([
+                    'product_name.required' => 'Tên sản phẩm không được để trống',
+                    'product_name.min' => 'Tên sản phẩm tối thiểu 4 kí tự',
+                    'product_name.max' => 'Tên sản phẩm tối đa 150 kí tự',
+                    'quantity.required' => 'Số lượng không được để trống',
+                    'quantity.number' => 'Số lượng phải là số',
+                    'quantity.positiveNumber' => 'Số phải dương',
+                    'price.required' => 'Giá không được để trống',
+                    'label_check.required' => 'Nhãn không được để trống',
+                    'price.number' => 'Giá phải là số',
+                    'price.positiveNumber' => 'Giá phải dương',
+                    'made_in.required' => 'Nhà sản xuất không được để trống',
+                    'made_in.min' => 'Nhà sản xuất tối thiểu 4 kí tự',
+                    'made_in.max' => 'Nhà sản xuất tối đa 100 kí tự',
+                    'form.required' => 'Kiểu dáng không được để trống',
+                    'form.min' => 'Kiểu dáng tối thiểu 4 kí tự',
+                    'form.max' => 'Kiểu dáng tối đa 20 kí tự',
+                    'author.required' => 'Tác giả không được để trống',
+                    'author.min' => 'Tác giả tối thiểu 4 kí tự',
+                    'author.max' => 'Tác giả tối đa 50 kí tự',
+                    'description.required' => 'Mô tả xuất không được để trống',
+                    'description.min' => 'Mô tả xuất tối thiểu 4 kí tự',
+                    'description.callback_check_word500' => 'Mô tả xuất tối đa 500 từ',
+                    'short_description.required' => 'Mô tả ngắn xuất không được để trống',
+                    'short_description.min' => 'Mô tả ngắn xuất tối thiểu 4 kí tự',
+                    'short_description.callback_check_word150' => 'Mô tả ngắn xuất tối đa 150 từ',
+                    'specification.required' => 'Chi tiết xuất không được để trống',
+                    'specification.min' => 'Chi tiết xuất tối thiểu 4 kí tự',
+                    'specification.callback_check_word500' => 'Chi tiết xuất tối đa 500 từ',
+                ]);
+                $statusValides = $this->request->valides($data);
+
+                if ($statusUpload && $statusValides) {
+                    $dirArr = $this->session->flash('dirArr');
+                    if (isset($data['label']) && is_array($data['label'])) {
+                        $label = $data['label'];
+                        unset($data['label']);
                     }
+                    unset($data['label_check']);
+                    // $data['thumbnail'] = $dirArr[0];
+                
+                    $statusInsert = $this->product_model->insertProduct($data);
                     if ($statusInsert) {
-                        if (!empty($dirArr)) {
-                            foreach ($dirArr as $dirItem) {
-                                $imgData = [];
-                                $imgData['img_dir'] = $dirItem;
-                                $imgData['product_id'] = $id['id'];
-                                $statusInsert = $this->product_model->insertImgProduct($imgData);
-                            }
-                            if ($statusInsert) {
-                                $this->session->flash('insert_success', 'Thêm sản phẩm thành công!');
-                                $this->response->redirect(_WEB_ROOT . '/admin/product/add');
-                            } else {
-                                $this->session->flash('insert_error', 'Thêm sản phẩm thất bại!');
-                                $this->response->redirect(_WEB_ROOT . '/admin/product/add');
-                            }
+                        // get id 
+                        $id = $this->product_model->getLastId();
+                        // xử lý up label
+
+                        foreach ($label as $item) {
+                            $dataLabel['label_id'] = $item;
+                            $dataLabel['product_id'] =  $id['id'];
+                            $statusInsert = $this->product_model->insertLabel($dataLabel);
                         }
-                    } else {
-                        $this->session->flash('insert_error', 'Thêm sản phẩm thất bại!');
-                        $this->response->redirect(_WEB_ROOT . '/admin/product/add');
+                        if ($statusInsert) {
+                            if (!empty($dirArr)) {
+                                foreach ($dirArr as $dirItem) {
+                                    $imgData = [];
+                                    $imgData['img_dir'] = $dirItem;
+                                    $imgData['product_id'] = $id['id'];
+                                    $statusInsert = $this->product_model->insertImgProduct($imgData);
+                                }
+                                if ($statusInsert) {
+                                    $this->session->flash('insert_success', 'Thêm sản phẩm thành công!');
+                                    $this->response->redirect(_WEB_ROOT . '/admin/product/add');
+                                } else {
+                                    $this->session->flash('insert_error', 'Thêm sản phẩm thất bại!');
+                                    $this->response->redirect(_WEB_ROOT . '/admin/product/add');
+                                }
+                            }
+                        } else {
+                            $this->session->flash('insert_error', 'Thêm sản phẩm thất bại!');
+                            $this->response->redirect(_WEB_ROOT . '/admin/product/add');
+                        }
+                        // xử lý upanh
                     }
-                    // xử lý upanh
+                } else {
+                    $this->session->flash('insert_error', 'Lỗi kiểm tra dữ liệu');
+                    $this->response->redirect(_WEB_ROOT . '/admin/product/add');
                 }
-            } else {
-                $this->session->flash('insert_error', 'Lỗi kiểm tra dữ liệu');
-                $this->response->redirect(_WEB_ROOT . '/admin/product/add');
-            }
         } else {
             $this->response->redirect(_WEB_ROOT . '/admin/product/add');
         }
@@ -382,7 +382,7 @@ class Product extends Controller
             $statusValides = $this->request->valides();
             if ($statusUpload && $statusValides) {
                 $dirImg = $this->session->flash('dirArr');
-                $data['img_dir'] = $dirImg['img'];
+                $data['img_dir'] = $dirImg[0];
                 $statusUpdate = $this->product_model->updateProduct('product_img', $id, $data);
                 if ($statusUpdate) {
                     $this->session->flash('edit_success', 'Cập nhật sản phẩm thành công');

@@ -54,7 +54,7 @@
                                 <label for="link" class="form-label">Link</label>
                                 <?php echo form_error('link', '<span style="color:red;">', '</span>'); ?>
                             </div>
-                            <input type="file" name="img" class="form-control">
+                            <input type="file" name="images[]" class="form-control">
                             <input type="hidden" name="id" value="<?php echo $img_product['id']; ?>">
                             <input type="hidden" name="product_id" value="<?php echo $img_product['product_id']; ?>">
                             <button type="submit" class="btn btn-info text-white mb-2">Lưu</button>

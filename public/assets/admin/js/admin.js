@@ -1,14 +1,22 @@
-function previewImage(input, imageId, display = false) {
-    var preview = document.getElementById(imageId);
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        preview.style.display = display ? 'block' : 'none';
+function previewMultipleImages(input) {
+    var imagesPreview = document.getElementById('image_previews');
+    imagesPreview.innerHTML = '';
+
+    if (input.files) {
+        var filesAmount = input.files.length;
+        for (i = 0; i < filesAmount; i++) {
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+                var img = document.createElement('img');
+                img.src = event.target.result;
+                img.style.width = '100px';
+                img.style.height = '100px';
+                imagesPreview.appendChild(img);
+            }
+
+            reader.readAsDataURL(input.files[i]);
+        }
     }
 }
 function confirmDelete(deleteUrl) {
