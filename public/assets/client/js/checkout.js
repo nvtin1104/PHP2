@@ -1,4 +1,43 @@
 $(document).ready(function () {
+    let toastCounter = 1;
+    const toast = {
+        success: {
+            icon: "fa-check",
+            color: "#27ae60",
+            animation: "slide-in-slide-out"
+        },
+        error: {
+            icon: "fa-triangle-exclamation",
+            color: "#c0392b",
+            animation: "slide-in-fade-out"
+        },
+        infor: {
+            icon: "fa-info",
+            color: "#2980b9",
+            animation: "slide-in-slide-out"
+        },
+        warning: {
+            icon: "fa-triangle-exclamation",
+            color: "#f39c12",
+            animation: "slide-in-fade-out"
+        }
+    };
+    function displayToastNotification(msg, type) {
+        let class_name = 'toast-' + toastCounter;
+        let new_node;
+        let htmlToast = toast[type];
+        let icon = $('#icon-toast');
+        icon.addClass(htmlToast.icon);
+        console.log(icon);
+        new_node = $('.master-toast-notification').clone().appendTo('.toasts').addClass(class_name + ' toast-notification').removeClass('master-toast-notification');
+        new_node.find('.toast-msg').text(msg);
+        new_node.find('.toast-icon').addClass('wiggle-me').css('background-color', htmlToast.color);
+        new_node.removeClass('hide-toast').addClass(htmlToast.animation);
+        setTimeout(function () {
+            new_node.remove();
+        }, 3800);
+        toastCounter++;
+    }
     // Attach a click event handler to all buttons with the class 'addToCart'
     $("#goCheckout").click(function (event) {
         event.preventDefault();
@@ -43,11 +82,15 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+                    displayToastNotification(response.error, 'error');
+
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
-                    alert(response.success);
-                    window.location.href = path;
+                    displayToastNotification(response.success, 'success');
+
+                    setTimeout(() => {
+                        window.location.href = path;
+                    }, 2000)
 
                 }
             },

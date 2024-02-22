@@ -1,4 +1,43 @@
 $(document).ready(function () {
+    let toastCounter = 1;
+    const toast = {
+        success: {
+            icon: "fa-check",
+            color: "#27ae60",
+            animation: "slide-in-slide-out"
+        },
+        error: {
+            icon: "fa-triangle-exclamation",
+            color: "#c0392b",
+            animation: "slide-in-fade-out"
+        },
+        infor: {
+            icon: "fa-info",
+            color: "#2980b9",
+            animation: "slide-in-slide-out"
+        },
+        warning: {
+            icon: "fa-triangle-exclamation",
+            color: "#f39c12",
+            animation: "slide-in-fade-out"
+        }
+    };
+    function displayToastNotification(msg, type) {
+        let class_name = 'toast-' + toastCounter;
+        let new_node;
+        let htmlToast = toast[type];
+        let icon = $('#icon-toast');
+        icon.addClass(htmlToast.icon);
+        console.log(icon);
+        new_node = $('.master-toast-notification').clone().appendTo('.toasts').addClass(class_name + ' toast-notification').removeClass('master-toast-notification');
+        new_node.find('.toast-msg').text(msg);
+        new_node.find('.toast-icon').addClass('wiggle-me').css('background-color', htmlToast.color);
+        new_node.removeClass('hide-toast').addClass(htmlToast.animation);
+        setTimeout(function () {
+            new_node.remove();
+        }, 3800);
+        toastCounter++;
+    }
     $("#resetPassword").click(function (event) {
         event.preventDefault();
         let value = $("#value").val();
@@ -18,11 +57,13 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+                    displayToastNotification(response.error, 'error');
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
-                    alert(response.success);
-                    location.href = path + '/auth';
+                    displayToastNotification(response.success, 'success');
+                    setTimeout(() => {
+                        location.href = path + '/auth';
+                    }, 2000);
                 }
             },
             error: function (xhr, status, error) {
@@ -62,12 +103,15 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+                    displayToastNotification(response.error, 'error');
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
-                    alert(response.success);
+               displayToastNotification(response.success, 'success');
                     if (response.location) {
-                        window.location.href = "home";
+                        setTimeout(() => {
+                            window.location.href = "home";
+
+                        }, 2000);
                     }
                 } else if (response.log) {
                     // Hiển thị thông báo thành công
@@ -106,12 +150,15 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+             displayToastNotification(response.error, 'error');
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
-                    alert(response.success);
+                   displayToastNotification(response.success, 'success');
                     if (response.location) {
-                        window.location.href = "home";
+                        setTimeout(() => {
+                            window.location.href = "home";
+
+                        }, 2000);
                     }
                 } else if (response.log) {
                     // Hiển thị thông báo thành công
@@ -132,7 +179,7 @@ $(document).ready(function () {
         var cfPassword = $("#cf-password").val();
         var path = $("#path").val();
         var id = $("#id").val();
-        console.log(password, cfPassword, path, id,newPassword);
+        console.log(password, cfPassword, path, id, newPassword);
         $.ajax({
             type: "POST",
             url: path + "/profile/handle_change_password",
@@ -151,12 +198,14 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+                 displayToastNotification(response.error, 'error');
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
-                    alert(response.success);
-                    window.location.href = path + "/quan-ly-tai-khoan";
+                  displayToastNotification(response.success, 'success');
 
+                  setTimeout(() => {
+                    window.location.href = path + "/quan-ly-tai-khoan";
+                  }, 2000);
                 } else if (response.log) {
                     // Hiển thị thông báo thành công
                     console.log(response.log);

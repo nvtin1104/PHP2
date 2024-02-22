@@ -65,10 +65,12 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+                    displayToastNotification(response.error, 'error');
+
                 } else if (response.success) {
                     // Hiển thị thông báo thành công
-                    alert(response.success);
+                    displayToastNotification(response.success, 'success');
+
                     // if (response.location) {
                     //     window.location.href = "<? echo _WEB_ROOT ?>/home";
                     // }
@@ -285,11 +287,13 @@ $(document).ready(function () {
                 $("#bg_loading").hide();
                 if (response.error) {
                     // Hiển thị thông báo lỗi
-                    alert(response.error);
+                   displayToastNotification(response.error, 'error');
                 } else if (response.success) {
+                 displayToastNotification(response.success, 'success');
+                 setTimeout(() => {
                     location.href = path + "/quan-ly-tai-khoan";
+                 }, 2000);
                     // Hiển thị thông báo thành công
-                    alert(response.success);
                 }
             },
             error: function (xhr, status, error) {

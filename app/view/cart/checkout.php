@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h3 class="breadcrumb-title">Checkout</h3>
+                    <h3 class="breadcrumb-title">Thanh toán</h3>
                     <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                         <nav aria-label="breadcrumb">
                             <ul>
@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="default-form-box">
-                                    <label>Tên đăng nhập <span>*</span></label>
+                                    <label>Tên người nhận <span>*</span></label>
                                     <input type="text" disabled name='username' value=" <?php echo  $user_infor['username'] ?>">
                                     <input type="hidden" name='user_id' id='user_id' value=" <?php echo  $user_infor['id'] ?>">
                                     <input type="hidden" id="path" value=" <?php echo _WEB_ROOT ?>">

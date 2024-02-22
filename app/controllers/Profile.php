@@ -46,6 +46,7 @@ class Profile extends Controller
             $this->request->valides();
             $id =  $data['id'];
             unset($data['id']);
+            unset($data['username']);
             if ($this->request->valides()) {
                 $statusInsert = $this->model_profile->updateUser($data, $id);
                 if ($statusInsert) {

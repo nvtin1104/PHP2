@@ -74,7 +74,13 @@ class CartModel extends Model
                 $productname = $this->db->table('products')->where('id', '=', $item['product_id'])->select('product_name')->firt();
                 $result[$key]['price'] = $price['price'];
                 $result[$key]['product_name'] = $productname['product_name'];
-                $result[$key]['imgDir'] = $product['thumbnail'];
+                if(strpos($productname['product_name'], './upload/') == false){
+                    $result[$key]['imgDir'] = $product['thumbnail'];
+                }
+                else {
+                    $result[$key]['imgDir'] = _WEB_ROOT . $product['thumbnail'];
+                }
+
             }
         }
         return $result;

@@ -179,11 +179,11 @@
                                                 <span class="custom-radio"><input type="radio" value="Khác"  <?php  if ($user_infor['sex'] == "Khác") echo "checked"; ?> name="sex"> Khác</span>
                                             </div>
                                             <div class="default-form-box mb-20">
-                                                <label>Birthdate</label>
+                                                <label>Ngày sinh</label>
                                                 <input type="date" name="birthday" id="birthday" value=" <?php  echo $user_infor['birthday'] ?>">
                                             </div>
                                             <div class="default-form-box mb-20">
-                                                <label>Create At:</label>
+                                                <label>Ngày tạo:</label>
                                                 <input type="text" name="create_at" id="create_at" disabled value=" <?php  echo $user_infor['create_at'] ?>">
                                             </div>
                                             <input type="hidden" name="id" id="user_id" value=" <?php  echo $user_infor['id'] ?>">

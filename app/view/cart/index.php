@@ -50,7 +50,7 @@
                                                         <a class=" removeCart" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['id'] ?>"><i class="fa fa-trash-o"></button>
                                                     </td>
                                                     <td class="product_thumb"><a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>">
-                                                            <img src="<?php echo _WEB_ROOT . $item['imgDir'] ?>" alt="">
+                                                            <img src="<?php echo $item['imgDir'] ?>" alt="">
                                                         </a></td>
                                                     <td class="product_name"><a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['id'] ?>"><?php echo $item['product_name'] ?></a></td>
                                                     <td class="product-price"><?php echo $item['price'] ?></td>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="coupon_code right" data-aos="fade-up" data-aos-delay="400">
-                            <h3>Cart Totals</h3>
+                            <h3>Tổng tiền</h3>
                             <div class="coupon_inner">
                                 <div class="cart_subtotal">
                                     <p>Tổng tiền: </p>
