@@ -169,11 +169,26 @@ class Product extends Controller
                 $imgList = $this->db->table('product_img')->where('product_id', '=', $item['id'])->get();
                 $productReleted[$key]['imgList'] = $imgList;
             }
+        
             $productData = $this->product_model->getDetail($product_id['id']);
+            $listImgHandle = [];
             $imgList = $this->db->table('product_img')->where('product_id', '=', $productData['id'])->get();
+            if($imgList == null) {
+                $imgList[0]['img_dir'] = $productData['thumbnail'];
+            }
+            foreach ($imgList as $key => $item) {
+
+        
+                if(strpos($item['img_dir'], './upload/') === false) {
+                    $listImgHandle[$key]['img_dir'] = $item['img_dir'];
+                }
+                else {
+                    $listImgHandle[$key]['img_dir'] = _WEB_ROOT . $item['img_dir'];
+                }
+            }
             $this->data['sub_content']['product_infor'] = $productData;
             $this->data['sub_content']['product_releted'] = $productReleted;
-            $this->data['sub_content']['product_img'] = $imgList;
+            $this->data['sub_content']['product_img'] = $listImgHandle;
             $this->data['content'] = 'products/detail';
             $this->data['page_title'] = $productData['product_name'];
             $this->render('layout/client_layout', $this->data);

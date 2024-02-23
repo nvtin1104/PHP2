@@ -61,7 +61,13 @@ class OrderModel extends Model
         foreach ($result as $key => $item) {
             $product = $this->db->table('products')->where('id', '=', $item['product_id'])->firt();
             $filePath = $product['thumbnail'];
-            $result[$key]['img'] = substr($filePath, 1);
+            if(strpos($filePath, './upload/') === false) {
+                $filePath = $filePath;
+            }
+            else {
+                $filePath = _WEB_ROOT . $filePath;
+            }
+            $result[$key]['img'] = $filePath;
             $result[$key]['product_name'] = $product['product_name'];
         }
         return $result;

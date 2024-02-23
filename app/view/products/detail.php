@@ -38,18 +38,27 @@ if (!empty($product_infor)) {
                         <!-- Start Large Image -->
                         <div class="product-large-image product-large-image-horaizontal swiper-container">
                             <div class="swiper-wrapper">
-
-                                <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
-                                    <img src="<?php echo $product_infor['thumbnail'] ?>" alt="">
-                                </div>
+                                <?php
+                                foreach ($product_img as $item) { ?>
+                                    <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                                        <img src="<?php echo _WEB_ROOT . $item['img_dir'] ?>" alt="">
+                                    </div>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                         <!-- Start Thumbnail Image -->
                         <div class="product-image-thumb product-image-thumb-horizontal swiper-container pos-relative mt-5">
                             <div class="swiper-wrapper">
-                                <div class="product-image-thumb-single swiper-slide">
-                                    <img class="img-fluid" src="<?php echo $product_infor['thumbnail'] ?>" alt="">
-                                </div>
+                                <?php
+                                foreach ($product_img as $item) { ?>
+                                    <div class="product-image-thumb-single swiper-slide">
+                                        <img class="img-fluid" src="<?php echo _WEB_ROOT . $item['img_dir'] ?>" alt="">
+                                    </div>
+                                <?php
+                                }
+                                ?>
                             </div>
                             <!-- Add Arrows -->
                             <div class="gallery-thumb-arrow swiper-button-next"></div>

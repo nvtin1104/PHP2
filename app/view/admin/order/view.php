@@ -99,7 +99,7 @@
                     ?>
                         <tr>
                             <td class="cell">{{$infor_order['order_code']}}</td>
-                            <td class="cell"><img src="<?php echo _WEB_ROOT . $order_item['img'] ?>" style="witdh:50px;height:50px;" alt=""></td>
+                            <td class="cell"><img src="<?php echo  $order_item['img'] ?>" style="witdh:50px;height:50px;" alt=""></td>
                             <td class="cell"><span class="truncate">{{$order_item['product_name']}}</span></td>
                             <td class="cell"><span class="truncate">{{$order_item['quantity']}}</span></td>
                             <td class="cell"><?php echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
