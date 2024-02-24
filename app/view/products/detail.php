@@ -41,7 +41,7 @@ if (!empty($product_infor)) {
                                 <?php
                                 foreach ($product_img as $item) { ?>
                                     <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
-                                        <img src="<?php echo _WEB_ROOT . $item['img_dir'] ?>" alt="">
+                                        <img src="<?php echo $item['img_dir'] ?>" alt="">
                                     </div>
                                 <?php
                                 }
@@ -54,7 +54,7 @@ if (!empty($product_infor)) {
                                 <?php
                                 foreach ($product_img as $item) { ?>
                                     <div class="product-image-thumb-single swiper-slide">
-                                        <img class="img-fluid" src="<?php echo _WEB_ROOT . $item['img_dir'] ?>" alt="">
+                                        <img class="img-fluid" src="<?php echo  $item['img_dir'] ?>" alt="">
                                     </div>
                                 <?php
                                 }

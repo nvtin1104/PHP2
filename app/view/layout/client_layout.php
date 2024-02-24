@@ -298,7 +298,7 @@
     if ($content == 'products/detail') {
         echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/product.js"></script>';
     } elseif ($content == 'cart/checkout') {
-        echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/checkout.js"></script>';
+        echo '<script type="module" src="' . _WEB_ROOT . '/public/assets/client/js/checkout.js"></script>';
     } elseif ($content == 'blogs/detail') {
         echo '<script src="' . _WEB_ROOT . '/public/assets/client/js/blog.js"></script>';
     } else {

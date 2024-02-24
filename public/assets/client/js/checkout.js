@@ -1,3 +1,4 @@
+import api from './api.js';
 $(document).ready(function () {
     let toastCounter = 1;
     const toast = {
@@ -101,5 +102,6 @@ $(document).ready(function () {
             }
         });
     });
-
+    // Get gee GHN
+    api.fetchProvinceData();
 });

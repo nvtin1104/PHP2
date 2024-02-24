@@ -178,8 +178,7 @@ class Product extends Controller
             }
             foreach ($imgList as $key => $item) {
 
-        
-                if(strpos($item['img_dir'], './upload/') === false) {
+                if(strpos($item['img_dir'], './uploads/') === false) {
                     $listImgHandle[$key]['img_dir'] = $item['img_dir'];
                 }
                 else {
