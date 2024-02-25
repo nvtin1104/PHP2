@@ -1,5 +1,9 @@
 import api from './api.js';
 $(document).ready(function () {
+    let ward = "";
+    let district = "";
+    let service_id = "";
+    let service_type_id = "";
     let toastCounter = 1;
     const toast = {
         success: {
@@ -103,5 +107,51 @@ $(document).ready(function () {
         });
     });
     // Get gee GHN
-    api.fetchProvinceData();
+    function fetchProvinceData() {
+        // ward = "";
+        var apiUrl =
+            "https://online-gateway.ghn.vn/shiip/public-api/master-data/province";
+        var apiKey = "7293aab0-b9b0-11ee-b38e-f6f098158c7e"; // Replace with your actual API key
+
+        $.ajax({
+            url: apiUrl,
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Token: apiKey,
+            },
+            success: function (data) {
+                renderProvinceDropdown(data.data);
+            },
+            error: function (error) {
+                console.error("Error fetching province data:", error);
+            },
+        });
+    }
+    function renderProvinceDropdown(provinceData) {
+        var container = $("#provinceContainer");
+        var selectProvince = $("<select id='province' class='country_option nice-select wide'></select>");
+
+        selectProvince.append('<option value="" selected>--chọn tỉnh--</option>');
+
+        console.log(provinceData);
+        provinceData.forEach(function (province) {
+            selectProvince.append('<option value="' + province.ProvinceID + '">' + province.ProvinceName + "</option>");
+        });
+
+        container.append(selectProvince);
+
+        // // Set up event listener for province change
+        // selectProvince.on("change", function () {
+        //     var selectedProvinceId = $(this).val();
+        //     if (selectedProvinceId) {
+        //         fetchDistrictsData(selectedProvinceId);
+        //     } else {
+        //         // If no province selected, clear districts and wards dropdowns
+        //         renderDistrictsDropdown([]);
+        //         renderWardsDropdown([]);
+        //     }
+        // });
+    }
+    fetchProvinceData();
 });
