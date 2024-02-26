@@ -49,8 +49,20 @@
                                 </div>
                             </div>
                             <div class="col-12">
+                                <div class="default-form-box">
+                                    <label>Địa chỉ</label>
+                                </div>
+                            </div>
+                            <div class="col-4" id="address">
                                 <div class="default-form-box" id="provinceContainer">
-
+                                </div>
+                            </div>
+                            <div class="col-4" id="address">
+                                <div class="default-form-box" id="districtContainer">
+                                </div>
+                            </div>
+                            <div class="col-4" id="address">
+                                <div class="default-form-box" id="wardContainer">
                                 </div>
                             </div>
                             <div class="col-12">

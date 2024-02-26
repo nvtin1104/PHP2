@@ -1,4 +1,3 @@
-import api from './api.js';
 $(document).ready(function () {
     let ward = "";
     let district = "";
@@ -107,14 +106,14 @@ $(document).ready(function () {
         });
     });
     // Get gee GHN
+    const apiKey = '7293aab0-b9b0-11ee-b38e-f6f098158c7e';
+
+    var apiUrl = "https://online-gateway.ghn.vn/shiip/public-api/master-data/";
     function fetchProvinceData() {
         // ward = "";
-        var apiUrl =
-            "https://online-gateway.ghn.vn/shiip/public-api/master-data/province";
-        var apiKey = "7293aab0-b9b0-11ee-b38e-f6f098158c7e"; // Replace with your actual API key
 
         $.ajax({
-            url: apiUrl,
+            url: apiUrl + "province",
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -129,12 +128,12 @@ $(document).ready(function () {
         });
     }
     function renderProvinceDropdown(provinceData) {
-        var container = $("#provinceContainer");
-        var selectProvince = $("<select id='province' class='country_option nice-select wide'></select>");
+        let container = $("#provinceContainer");
 
+        let selectProvince = $("<select id='province' class='country_option nice-select wide'></select>");
+        selectProvince.style = "margin-bottom: 12px;";
         selectProvince.append('<option value="" selected>--chọn tỉnh--</option>');
 
-        console.log(provinceData);
         provinceData.forEach(function (province) {
             selectProvince.append('<option value="' + province.ProvinceID + '">' + province.ProvinceName + "</option>");
         });
@@ -142,16 +141,100 @@ $(document).ready(function () {
         container.append(selectProvince);
 
         // // Set up event listener for province change
-        // selectProvince.on("change", function () {
-        //     var selectedProvinceId = $(this).val();
-        //     if (selectedProvinceId) {
-        //         fetchDistrictsData(selectedProvinceId);
-        //     } else {
-        //         // If no province selected, clear districts and wards dropdowns
-        //         renderDistrictsDropdown([]);
-        //         renderWardsDropdown([]);
-        //     }
+        selectProvince.on("change", function () {
+            renderDistrictsDropdown([]);
+            renderWardsDropdown([]);
+            var selectedProvinceId = $(this).val();
+            if (selectedProvinceId) {
+                fetchDistrictsData(selectedProvinceId);
+            } else {
+                renderDistrictsDropdown([]);
+                renderWardsDropdown([]);
+            }
+        });
+    }
+    function fetchDistrictsData(provinceId) {
+        ward = "";
+        $.ajax({
+            url: apiUrl + "district",
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Token: apiKey,
+            },
+            data: {
+                province_id: provinceId,
+            },
+            success: function (data) {
+                renderDistrictsDropdown(data.data);
+            },
+            error: function (error) {
+                console.error("Error fetching district data:", error);
+            },
+        });
+    }
+    function renderDistrictsDropdown(districtsData) {
+        let container = $("#districtContainer");
+        container.empty();
+        var selectDistricts = $("<select id='district' class='country_option nice-select wide'></select>");
+
+        selectDistricts.append('<option value="" selected>--chọn huyện--</option>');
+        selectDistricts.style = "margin-bottom: 12px;";
+        districtsData.forEach(function (district) {
+            selectDistricts.append('<option value="' + district.DistrictID + '">' + district.DistrictName + "</option>");
+        });
+        container.append(selectDistricts);
+
+
+        // Set up event listener for district change
+        selectDistricts.on("change", function () {
+            var selectedDistrictId = $(this).val();
+            renderWardsDropdown([]);
+
+            if (selectedDistrictId) {
+                district = selectedDistrictId;
+                fetchWardsData(selectedDistrictId);
+            } else {
+                // If no district selected, clear wards dropdown
+                renderWardsDropdown([]);
+            }
+        });
+    }
+    function fetchWardsData(districtId) {
+        $.ajax({
+            url: apiUrl + "ward",
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Token: apiKey,
+            },
+            data: {
+                district_id: districtId,
+            },
+            success: function (data) {
+                renderWardsDropdown(data.data);
+            },
+            error: function (error) {
+                console.error("Error fetching ward data:", error);
+            },
+        });
+    }
+    function renderWardsDropdown(wardsData) {
+        let container = $("#wardContainer");
+        container.empty();
+        var selectWards = $("<select id='ward' class='country_option nice-select wide'></select>");
+        selectWards.style = "margin-bottom: 12px;";
+        selectWards.append('<option value="" selected>--chọn xã--</option>');
+
+        wardsData.forEach(function (Ward) {
+            selectWards.append('<option value="' + Ward.WardID + '">' + Ward.WardName + "</option>");
+        });
+        container.append(selectWards);
+        // selectWards.on("change", function () {
+        //     ward = $(this).val();
         // });
     }
+
+
     fetchProvinceData();
 });
