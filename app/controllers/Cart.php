@@ -335,9 +335,6 @@ class Cart extends Controller
             ]);
             $statusValidate = $this->request->valides();
             if ($statusValidate) {
-                $provine = $data['country'];
-                unset($data['country']);
-                $data['address'] = '(' . $provine . ') - ' . $data['address'];
                 $currentDate = date("Y-m-d H:i:s");
                 $currentDate = str_replace("-", "",  str_replace(":", "",  str_replace(" ", "", $currentDate)));
                 $data['order_code'] = '#OD' . $currentDate;
@@ -362,6 +359,13 @@ class Cart extends Controller
                         $statusRemove = $this->cart_model->removeCartQuery($cart_id);
                         if ($statusRemove) {
                             $responsiveJson['success'] = 'Đặt hàng thành công!';
+                            if ($data['payment'] == 2) {
+                                $responsiveJson['data'] = [
+                                    'order_id' => $order_id['id'],
+                                    'total_price' => $data['total_price'],
+                                    'order_code' => $data['order_code']
+                                ];
+                            }
                         } else {
                             $responsiveJson['error'] = 'Đặt hàng thất bại!';
                         }
@@ -377,5 +381,221 @@ class Cart extends Controller
             echo json_encode($responsiveJson);
         }
     }
+    function handlePaymentReturn()
+    {
+        // require_once("./config.php");
+        $inputData = array();
+        $returnData = array();
+
+        foreach ($_GET as $key => $value) {
+            if (substr($key, 0, 4) == "vnp_") {
+                $inputData[$key] = $value;
+            }
+        }
+
+        $vnp_SecureHash = $inputData['vnp_SecureHash'];
+        unset($inputData['vnp_SecureHash']);
+        ksort($inputData);
+        $i = 0;
+        $hashData = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+        }
+        $vnp_HashSecret = $_ENV['vnp_HashSecret'];
+        $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+        $vnpTranId = $inputData['vnp_TransactionNo']; //Mã giao dịch tại VNPAY
+        $vnp_BankCode = $inputData['vnp_BankCode']; //Ngân hàng thanh toán
+        $vnp_Amount = $inputData['vnp_Amount'] / 100; // Số tiền thanh toán VNPAY phản hồi
+
+        $Status = 0; // Là trạng thái thanh toán của giao dịch chưa có IPN lưu tại hệ thống của merchant chiều khởi tạo URL thanh toán.
+        $orderId = $inputData['vnp_TxnRef'];
+
+        try {
+            //Check Orderid    
+            //Kiểm tra checksum của dữ liệu
+            if ($secureHash == $vnp_SecureHash) {
+                //Lấy thông tin đơn hàng lưu trong Database và kiểm tra trạng thái của đơn hàng, mã đơn hàng là: $orderId            
+                //Việc kiểm tra trạng thái của đơn hàng giúp hệ thống không xử lý trùng lặp, xử lý nhiều lần một giao dịch
+                //Giả sử: $order = mysqli_fetch_assoc($result);   
+                $order = $this->cart_model->getOne('orders', 'id', $orderId);
+                if ($order != NULL) {
+                    if ($order["total_price"] == $vnp_Amount) //Kiểm tra số tiền thanh toán của giao dịch: giả sử số tiền kiểm tra là đúng. //$order["Amount"] == $vnp_Amount
+                    {
+                        if ($order["status"] == 1) {
+                            if ($inputData['vnp_ResponseCode'] == '00' || $inputData['vnp_TransactionStatus'] == '00') {
+                                $data = $this->request->getFields();
+                                $baseUrl = _WEB_ROOT . '/cart/handlePaymentReturn';
+                                // Tạo query string từ mảng dữ liệu
+                                $queryString = http_build_query($data);
+
+                                // Tạo URL hoàn chỉnh
+                                $completeUrl = $baseUrl . '?' . $queryString;
+                                $dataUpdate = [
+                                    'status' => 1,
+                                    'payment_return' => $completeUrl
+                                ];
+                                $orderUpdate['status'] = 5;
+                                $dataPayment = $this->cart_model->getOne('handle_payment', 'order_id', $orderId);
+                                $status = $this->cart_model->updateCart('orders', $orderId, $orderUpdate);
+                                if ($status) {
+                                    $update = $this->cart_model->updateCart('handle_payment', $dataPayment['id'], $dataUpdate);
+                                    $returnData['message'] = 'Xác nhận thành công';
+                                    $returnData['status'] = 'Success';
+                                } else {
+                                    $returnData['message'] = 'Xác nhận thất bại';
+                                    $returnData['status'] = 'Fail';
+                                }
+                            } else {
+                                $returnData['message'] = 'Thanh toán thất bại';
+                                $returnData['status'] = 'Fail';
+                            }
+                        } else {
+                            $returnData['message'] = 'Đơn hàng đã được xử lý';
+                            $returnData['status'] = 'Warning';
+                        }
+                    } else {
+                        $returnData['status'] = 'Fail';
+                        $returnData['message'] = 'Số tiền không hợp lệ';
+                    }
+                } else {
+                    $returnData['status'] = 'Fail';
+                    $returnData['message'] = 'Không tìm thấy đơn hàng';
+                }
+            } else {
+                $returnData['status'] = 'Fail';
+                $returnData['message'] = 'Chữ ký không hợp lệ';
+            }
+        } catch (Exception $e) {
+            $returnData['status'] = 'Fail';
+            $returnData['message'] = 'Không tồn tại';
+        }
+        //Trả lại VNPAY theo định dạng JSON
+        $this->data['sub_content']['data'] =  $returnData;
+        $this->data['page_title'] = 'Thanh toán';
+        $this->data['content'] = 'cart/mess';
+        $this->render('layout/client_layout', $this->data);
+    }
+    function handlePayment()
+    {
+        $data = $this->request->getFields();
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "http://localhost/php2/cart/handlePaymentReturn";
+        $vnp_TmnCode = $_ENV['vnp_TmnCode'];
+        $vnp_HashSecret = $_ENV['vnp_HashSecret'];
+
+        $vnp_TxnRef = $data['order_id'];
+        // $vnp_TxnRef = $_POST['order_id']; 
+        // $vnp_OrderInfo = $_POST['order_desc'];
+        // $vnp_OrderType = $_POST['order_type'];
+        // $vnp_Amount = $_POST['amount'];
+        $vnp_Amount = $data['total'] * 100;
+        $vnp_OrderInfo = $data['order_code'];
+        $vnp_OrderType = 'billpayment';
+
+        $vnp_Locale = 'vn';
+        $vnp_BankCode = 'NCB';
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        //Add Params of 2.0.1 Version
+        // $vnp_ExpireDate = $_POST['txtexpire'];
+        // //Billing
+        // $vnp_Bill_Mobile = $_POST['txt_billing_mobile'];
+        // $vnp_Bill_Email = $_POST['txt_billing_email'];
+        // $fullName = trim($_POST['txt_billing_fullname']);
+        // if (isset($fullName) && trim($fullName) != '') {
+        //     $name = explode(' ', $fullName);
+        //     $vnp_Bill_FirstName = array_shift($name);
+        //     $vnp_Bill_LastName = array_pop($name);
+        // }
+        // $vnp_Bill_Address = $_POST['txt_inv_addr1'];
+        // $vnp_Bill_City = $_POST['txt_bill_city'];
+        // $vnp_Bill_Country = $_POST['txt_bill_country'];
+        // $vnp_Bill_State = $_POST['txt_bill_state'];
+        // Invoice
+        // $vnp_Inv_Phone = $_POST['txt_inv_mobile'];
+        // $vnp_Inv_Email = $_POST['txt_inv_email'];
+        // $vnp_Inv_Customer = $_POST['txt_inv_customer'];
+        // $vnp_Inv_Address = $_POST['txt_inv_addr1'];
+        // $vnp_Inv_Company = $_POST['txt_inv_company'];
+        // $vnp_Inv_Taxcode = $_POST['txt_inv_taxcode'];
+        // $vnp_Inv_Type = $_POST['cbo_inv_type'];
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+            // "vnp_ExpireDate" => $vnp_ExpireDate,
+            // "vnp_Bill_Mobile" => $vnp_Bill_Mobile,
+            // "vnp_Bill_Email" => $vnp_Bill_Email,
+            // "vnp_Bill_FirstName" => $vnp_Bill_FirstName,
+            // "vnp_Bill_LastName" => $vnp_Bill_LastName,
+            // "vnp_Bill_Address" => $vnp_Bill_Address,
+            // "vnp_Bill_City" => $vnp_Bill_City,
+            // "vnp_Bill_Country" => $vnp_Bill_Country,
+            // "vnp_Inv_Phone" => $vnp_Inv_Phone,
+            // "vnp_Inv_Email" => $vnp_Inv_Email,
+            // "vnp_Inv_Customer" => $vnp_Inv_Customer,
+            // "vnp_Inv_Address" => $vnp_Inv_Address,
+            // "vnp_Inv_Company" => $vnp_Inv_Company,
+            // "vnp_Inv_Taxcode" => $vnp_Inv_Taxcode,
+            // "vnp_Inv_Type" => $vnp_Inv_Type
+        );
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+        if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
+            $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+        }
+
+        //var_dump($inputData);
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        $returnData = array(
+            'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+        );
+        $dataInsert  = [
+            'order_id' => $data['order_id'],
+            'payment_url' => _WEB_ROOT . '/cart/handlePayment?order_id=' . $data['order_id'] . '&total=' . $data['total'] . '&order_code=' . $data['order_code'],
+        ];
+        $statusInsert = $this->cart_model->insertCart('handle_payment', $dataInsert);
+        if ($statusInsert) {
+            if (isset($_POST['redirect'])) {
+                // echo json_encode($vnp_Url);
+                header("Location: " . $vnp_Url);
+                die();
+            } else {
+                header("Location: " . $vnp_Url);
+            }
+        }
+    }
 }
-?>

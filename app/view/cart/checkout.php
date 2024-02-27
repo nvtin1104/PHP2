@@ -53,15 +53,15 @@
                                     <label>Địa chỉ</label>
                                 </div>
                             </div>
-                            <div class="col-4" id="address">
+                            <div class="col-4">
                                 <div class="default-form-box" id="provinceContainer">
                                 </div>
                             </div>
-                            <div class="col-4" id="address">
+                            <div class="col-4">
                                 <div class="default-form-box" id="districtContainer">
                                 </div>
                             </div>
-                            <div class="col-4" id="address">
+                            <div class="col-4">
                                 <div class="default-form-box" id="wardContainer">
                                 </div>
                             </div>
@@ -117,16 +117,16 @@
                                 <tfoot>
                                     <tr>
                                         <th>Thành tiền:</th>
-                                        <td> <?php echo number_format($total_price, 0) . ' VND'; ?></td>
+                                        <td id="firstTotal"> <?php echo number_format($total_price, 0) . ' VND'; ?></td>
                                     </tr>
                                     <tr>
                                         <th>Phí</th>
-                                        <td><strong> <?php echo number_format(10000, 0) . ' VND'; ?></strong></td>
+                                        <td><strong id="GHNFee"> <?php echo number_format(10000, 0) . ' VND'; ?></strong></td>
                                     </tr>
                                     <tr class="order_total">
                                         <th>Tổng giá:</th>
-                                        <input type="hidden" id="total_price" name="total_price" value="{{$total_price + 10000}}">
-                                        <td><strong> <?php echo number_format($total_price + 10000, 0) . ' VND'; ?></strong></td>
+                                        <input type="hidden" id="total_price" name="total_price" value="{{$total_price}}">
+                                        <td><strong id="endTotal"> <?php echo number_format($total_price, 0) . ' VND'; ?></strong></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -153,7 +153,7 @@
                                     <label for="payment">Hình thức thanh toán: </label>
                                     <select class="payment_option nice-select wide" name="payment" id="payment">
                                         <option value="1">Tiền mặt</option>
-                                        <option value="2">Chuyển khoản</option>
+                                        <option value="2">VNPay</option>
                                     </select>
                                 </div>
                             </div>

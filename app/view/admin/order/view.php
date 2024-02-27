@@ -23,6 +23,8 @@
                                     echo '<span class="badge bg-success">Giao thành công</span>';
                                 } elseif ($infor_order['status'] == '4') {
                                     echo '<span class="badge bg-success">Hoàn thành</span>';
+                                } elseif ($infor_order['status'] == '5') {
+                                    echo '<span class="badge bg-success">Đã thanh toán</span>';
                                 } elseif ($infor_order['status'] == '0') {
                                     echo '<span class="badge bg-danger">Hủy</span>';
                                 }
@@ -31,7 +33,7 @@
                     Ghi chú: <span>{{$infor_order['note']}}</span>
                     <br>
                     <?php
-                    if ($infor_order['status'] == '1') {
+                    if ($infor_order['status'] == '1' || $infor_order['status'] == '5') {
                         echo '<a type="submit" href=' . _WEB_ROOT . '/admin/order/handleChangeStatus?status=2&id=' . $infor_order['id'] . ' class="btn app-btn-infor mt-5">Xác nhận đơn hàng</a>';
                     } elseif ($infor_order['status'] == '3') {
                         echo '<a type="submit" href=' . _WEB_ROOT . '/admin/order/handleChangeStatus?status=4&id=' . $infor_order['id'] . ' class="btn app-btn-primary mt-5">Xác nhận đơn hàng</a>';
@@ -53,27 +55,27 @@
 
                     <div class="app-card-body">
                         <!-- <form class="settings-form"> -->
-                            <div class="mb-3">
-                                <label for="setting-input-1" class="form-label">Tên khách hàng:<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" />
-                                            <circle cx="8" cy="4.5" r="1" />
-                                        </svg></span></label>
-                                <input type="text" class="form-control" name="fullname" id="setting-input-1" value="{{$infor_order['fullname']}}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="setting-input-2" class="form-label">Email:</label>
-                                <input type="text" class="form-control" name="email" id="setting-input-2" value="{{$infor_order['email']}}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="setting-input-3" class="form-label">Địa chỉ:</label>
-                                <input type="text" class="form-control" name="address" id="setting-input-3" value="{{$infor_order['address']}}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="setting-input-4" class="form-label">Số điện thoại:</label>
-                                <input type="text" class="form-control" name="phone" id="setting-input-4" value="{{$infor_order['phone']}}">
-                            </div>
-                            <button  class="btn app-btn-primary">Lưu Thay Đổi</button>
+                        <div class="mb-3">
+                            <label for="setting-input-1" class="form-label">Tên khách hàng:<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" />
+                                        <circle cx="8" cy="4.5" r="1" />
+                                    </svg></span></label>
+                            <input type="text" class="form-control" name="fullname" id="setting-input-1" value="{{$infor_order['fullname']}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="setting-input-2" class="form-label">Email:</label>
+                            <input type="text" class="form-control" name="email" id="setting-input-2" value="{{$infor_order['email']}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="setting-input-3" class="form-label">Địa chỉ:</label>
+                            <input type="text" class="form-control" name="address" id="setting-input-3" value="{{$infor_order['address']}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="setting-input-4" class="form-label">Số điện thoại:</label>
+                            <input type="text" class="form-control" name="phone" id="setting-input-4" value="{{$infor_order['phone']}}">
+                        </div>
+                        <button class="btn app-btn-primary">Lưu Thay Đổi</button>
                         <!-- </form> -->
                     </div><!--//app-card-body-->
 

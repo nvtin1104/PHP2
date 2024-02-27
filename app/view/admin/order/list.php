@@ -58,7 +58,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									 <?php 
+									<?php
 									foreach ($data_order as $order_item) {
 									?>
 										<tr>
@@ -67,7 +67,7 @@
 											<td class="cell">{{$order_item['fullname']}}</td>
 											<td class="cell"><span class="cell-data">16 Oct</span><span class="note">01:16 AM</span></td>
 											<td class="cell">
-												 <?php 
+												<?php
 												if ($order_item['status'] == '1') {
 													echo '<span class="badge bg-info">Chờ xác nhận</span>';
 												} elseif ($order_item['status'] == '2') {
@@ -76,16 +76,18 @@
 													echo '<span class="badge bg-success">Giao thành công</span>';
 												} elseif ($order_item['status'] == '4') {
 													echo '<span class="badge bg-success">Hoàn thành</span>';
+												} elseif ($order_item['status'] == '5') {
+													echo '<span class="badge bg-success">Đã thanh toán</span>';
 												} elseif ($order_item['status'] == '0') {
 													echo '<span class="badge bg-danger">Hủy</span>';
 												}
 												?>
 
 											</td>
-											<td class="cell"> <?php  echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
-											<td class="cell"><a class="btn-sm app-btn-secondary" href=" <?php  echo _WEB_ROOT . '/admin/order/view?id=' . $order_item['id'] ?>">Xem</a></td>
+											<td class="cell"> <?php echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
+											<td class="cell"><a class="btn-sm app-btn-secondary" href=" <?php echo _WEB_ROOT . '/admin/order/view?id=' . $order_item['id'] ?>">Xem</a></td>
 										</tr>
-									 <?php 
+									<?php
 									}
 									?>
 
@@ -96,7 +98,7 @@
 
 					</div><!--//app-card-body-->
 				</div><!--//app-card-->
-				 <?php 
+				<?php
 				// echo '<pre>';
 				// print_r($maxPage);
 				// echo '</pre>';
@@ -105,34 +107,34 @@
 				?>
 				<nav class="app-pagination">
 					<ul class="pagination justify-content-center">
-						<li class="page-item  <?php 
+						<li class="page-item  <?php
 												if ($page == 1) {
 													echo 'disabled';
 												}
 												?>">
-							<a class="page-link" href=" <?php  echo _WEB_ROOT . '/admin/order/list?page=1' ?>" tabindex="-1" aria-disabled="true">Đầu</a>
+							<a class="page-link" href=" <?php echo _WEB_ROOT . '/admin/order/list?page=1' ?>" tabindex="-1" aria-disabled="true">Đầu</a>
 						</li>
-						<li class="page-item  <?php 
+						<li class="page-item  <?php
 												if ($pre == 0) {
 													echo 'disabled';
 												}
 												?>">
-							<a class="page-link" href=" <?php  echo _WEB_ROOT . '/admin/order/list?page=' . $pre ?>" tabindex="-1" aria-disabled="true">Trước</a>
+							<a class="page-link" href=" <?php echo _WEB_ROOT . '/admin/order/list?page=' . $pre ?>" tabindex="-1" aria-disabled="true">Trước</a>
 						</li>
-						<li class="page-item active"><a class="page-link" href=" <?php  echo _WEB_ROOT . '/admin/order/list?page=' . $page ?>"> <?php  echo $page ?></a></li>
+						<li class="page-item active"><a class="page-link" href=" <?php echo _WEB_ROOT . '/admin/order/list?page=' . $page ?>"> <?php echo $page ?></a></li>
 						<li class="page-item">
-							<a class="page-link  <?php 
-												if ($page == $maxPage) {
-													echo 'disabled';
-												}
-												?>" href=" <?php  echo _WEB_ROOT . '/admin/order/list?page=' . $next ?>">Tiếp</a>
+							<a class="page-link  <?php
+													if ($page == $maxPage) {
+														echo 'disabled';
+													}
+													?>" href=" <?php echo _WEB_ROOT . '/admin/order/list?page=' . $next ?>">Tiếp</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link  <?php 
-												if ($page == $maxPage) {
-													echo 'disabled';
-												}
-												?>" href=" <?php  echo _WEB_ROOT . '/admin/order/list?page=' . $maxPage ?>">Cuối</a>
+							<a class="page-link  <?php
+													if ($page == $maxPage) {
+														echo 'disabled';
+													}
+													?>" href=" <?php echo _WEB_ROOT . '/admin/order/list?page=' . $maxPage ?>">Cuối</a>
 						</li>
 					</ul>
 				</nav><!--//app-pagination-->
@@ -156,7 +158,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									 <?php 
+									<?php
 									foreach ($data_order as $order_item) {
 										if ($order_item['status'] == '4') {
 									?>
@@ -166,16 +168,16 @@
 												<td class="cell">{{$order_item['fullname']}}</td>
 												<td class="cell"><span class="cell-data">16 Oct</span><span class="note">01:16 AM</span></td>
 												<td class="cell">
-													 <?php 
+													<?php
 													echo '<span class="badge bg-success">Hoàn thành</span>';
 													?>
 
 												</td>
-												<td class="cell"> <?php  echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
-												<td class="cell"><a class="btn-sm app-btn-secondary" href=" <?php  echo _WEB_ROOT . '/admin/order/view?id=' . $order_item['id'] ?>">Xem</a></td>
+												<td class="cell"> <?php echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
+												<td class="cell"><a class="btn-sm app-btn-secondary" href=" <?php echo _WEB_ROOT . '/admin/order/view?id=' . $order_item['id'] ?>">Xem</a></td>
 											</tr>
-									 <?php 
-										} 
+									<?php
+										}
 									}
 									?>
 
@@ -204,7 +206,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									 <?php 
+									<?php
 									foreach ($data_order as $order_item) {
 										if ($order_item['status'] == '1' || $order_item['status'] == '2' || $order_item['status'] == '3') {
 									?>
@@ -214,7 +216,7 @@
 												<td class="cell">{{$order_item['fullname']}}</td>
 												<td class="cell"><span class="cell-data">16 Oct</span><span class="note">01:16 AM</span></td>
 												<td class="cell">
-													 <?php 
+													<?php
 													if ($order_item['status'] == '1') {
 														echo '<span class="badge bg-info">Chờ xác nhận</span>';
 													} elseif ($order_item['status'] == '2') {
@@ -225,11 +227,11 @@
 													?>
 
 												</td>
-												<td class="cell"> <?php  echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
-												<td class="cell"><a class="btn-sm app-btn-secondary" href=" <?php  echo _WEB_ROOT . '/admin/order/view?id=' . $order_item['id'] ?>">Xem</a></td>
+												<td class="cell"> <?php echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
+												<td class="cell"><a class="btn-sm app-btn-secondary" href=" <?php echo _WEB_ROOT . '/admin/order/view?id=' . $order_item['id'] ?>">Xem</a></td>
 											</tr>
-									 <?php 
-										} 
+									<?php
+										}
 									}
 									?>
 
@@ -257,7 +259,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									 <?php 
+									<?php
 									foreach ($data_order as $order_item) {
 										if ($order_item['status'] == '0') {
 									?>
@@ -267,15 +269,15 @@
 												<td class="cell">{{$order_item['fullname']}}</td>
 												<td class="cell"><span class="cell-data">16 Oct</span><span class="note">01:16 AM</span></td>
 												<td class="cell">
-													 <?php 
+													<?php
 													echo '<span class="badge bg-danger">Hủy</span>';
 													?>
 
 												</td>
-												<td class="cell"> <?php  echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
-												<td class="cell"><a class="btn-sm app-btn-secondary" href=" <?php  echo _WEB_ROOT . '/admin/order/view?id=' . $order_item['id'] ?>">Xem</a></td>
+												<td class="cell"> <?php echo number_format($order_item['total_price'], 0) . ' VND'; ?></td>
+												<td class="cell"><a class="btn-sm app-btn-secondary" href=" <?php echo _WEB_ROOT . '/admin/order/view?id=' . $order_item['id'] ?>">Xem</a></td>
 											</tr>
-									 <?php 
+									<?php
 										}
 									}
 									?>

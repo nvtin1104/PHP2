@@ -1,8 +1,13 @@
 $(document).ready(function () {
-    let ward = "";
-    let district = "";
-    let service_id = "";
-    let service_type_id = "";
+    let locationInfo = {
+        province: "",
+        ward: "",
+        district: "",
+        service_id: "",
+        service_type_id: "",
+        total: 0,
+    };
+
     let toastCounter = 1;
     const toast = {
         success: {
@@ -49,68 +54,84 @@ $(document).ready(function () {
         let phone = $("#phone").val();
         let path = $("#path").val();
         let fullname = $("#fullname").val();
-        let country = $("#country").val();
         let email = $("#email").val();
         let address = $("#address").val();
         let note = $("#order_note").val();
-        let total_price = $("#total_price").val();
         let payment = $("#payment").val();
         let cartIds = []; // Initialize an array to store the values
+        let province = $("#province").find(":selected").text();
+        let district = $("#district").find(":selected").text();
+        let ward = $("#ward").find(":selected").text();
+        if (address === '' || ward === '' || district === '' || province === '') {
+            displayToastNotification('Vui lòng nhập đầy đủ địa chỉ', 'error');
+            return;
+        }
+        else {
 
-        $(".cart_id").each(function () {
-            cartIds.push($(this).val());
-        });
-        // console.log(fullname, payment, cartIds, country, total_price, note, email, address);
-        $.ajax({
-            type: "POST",
-            url: path + "/cart/handleCheckout",
-            data: {
+            const addressInfo = `${address}, ${ward}, ${district}, ${province}`;
 
-                user_id: user_id,
-                phone: phone,
-                fullname: fullname,
-                country: country,
-                address: address,
-                email: email,
-                note: note,
-                total_price: total_price,
-                payment: payment,
-                cart_id: cartIds
-            },
-            dataType: "json", // Loại dữ liệu mà bạn mong đợi từ máy chủ
-            beforeSend: function () {
-                // Thêm hiệu ứng loading tại đây (ví dụ: hiển thị một biểu tượng loading)
-                $("#bg_loading").show();
-            },
-            success: function (response) {
-                $("#bg_loading").hide();
-                if (response.error) {
-                    // Hiển thị thông báo lỗi
-                    displayToastNotification(response.error, 'error');
+            $(".cart_id").each(function () {
+                cartIds.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                url: path + "/cart/handleCheckout",
+                data: {
 
-                } else if (response.success) {
-                    // Hiển thị thông báo thành công
-                    displayToastNotification(response.success, 'success');
+                    user_id: user_id,
+                    phone: phone,
+                    fullname: fullname,
+                    address: addressInfo,
+                    email: email,
+                    note: note,
+                    total_price: locationInfo.total,
+                    payment: payment,
+                    cart_id: cartIds
+                },
+                dataType: "json", // Loại dữ liệu mà bạn mong đợi từ máy chủ
+                beforeSend: function () {
+                    // Thêm hiệu ứng loading tại đây (ví dụ: hiển thị một biểu tượng loading)
+                    $("#bg_loading").show();
+                },
+                success: function (response) {
+                    $("#bg_loading").hide();
+                    if (response.error) {
+                        // Hiển thị thông báo lỗi
+                        displayToastNotification(response.error, 'error');
 
-                    setTimeout(() => {
-                        window.location.href = path;
-                    }, 2000)
+                    } else if (response.success) {
+                        // Hiển thị thông báo thành công
+                        displayToastNotification(response.success, 'success');
+                        Object.keys(locationInfo).forEach(key => {
+                            locationInfo[key] = null; // hoặc locationInfo[key] = undefined;
+                        });
 
+                        if (payment == 2) {
+                            setTimeout(() => {
+                                window.location.href = path + `/cart/handlePayment?order_id=${response.data.order_id}&total=${response.data.total_price}&order_code=${response.data.order_code.slice(1)}`;
+                            }, 2000)
+                        }
+                        else {
+                            setTimeout(() => {
+                                window.location.href = path;
+                            }, 2000)
+                        }
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $("#bg_loading").hide();
+                    // Xử lý lỗi AJAX (nếu có)
+                    console.error("Lỗi AJAX: " + status + " - " + error);
                 }
-            },
-            error: function (xhr, status, error) {
-                $("#bg_loading").hide();
-                // Xử lý lỗi AJAX (nếu có)
-                console.error("Lỗi AJAX: " + status + " - " + error);
-            }
-        });
+            });
+        }
+
     });
     // Get gee GHN
-    const apiKey = '7293aab0-b9b0-11ee-b38e-f6f098158c7e';
-
+    var apiKey = "7293aab0-b9b0-11ee-b38e-f6f098158c7e";
     var apiUrl = "https://online-gateway.ghn.vn/shiip/public-api/master-data/";
     function fetchProvinceData() {
-        // ward = "";
 
         $.ajax({
             url: apiUrl + "province",
@@ -129,7 +150,6 @@ $(document).ready(function () {
     }
     function renderProvinceDropdown(provinceData) {
         let container = $("#provinceContainer");
-
         let selectProvince = $("<select id='province' class='country_option nice-select wide'></select>");
         selectProvince.style = "margin-bottom: 12px;";
         selectProvince.append('<option value="" selected>--chọn tỉnh--</option>');
@@ -139,13 +159,14 @@ $(document).ready(function () {
         });
 
         container.append(selectProvince);
-
+        locationInfo.province = '';
         // // Set up event listener for province change
         selectProvince.on("change", function () {
             renderDistrictsDropdown([]);
             renderWardsDropdown([]);
             var selectedProvinceId = $(this).val();
             if (selectedProvinceId) {
+                locationInfo.province = selectedProvinceId;
                 fetchDistrictsData(selectedProvinceId);
             } else {
                 renderDistrictsDropdown([]);
@@ -154,7 +175,6 @@ $(document).ready(function () {
         });
     }
     function fetchDistrictsData(provinceId) {
-        ward = "";
         $.ajax({
             url: apiUrl + "district",
             method: "GET",
@@ -185,14 +205,14 @@ $(document).ready(function () {
         });
         container.append(selectDistricts);
 
-
+        locationInfo.district = '';
         // Set up event listener for district change
         selectDistricts.on("change", function () {
             var selectedDistrictId = $(this).val();
             renderWardsDropdown([]);
 
             if (selectedDistrictId) {
-                district = selectedDistrictId;
+                locationInfo.district = selectedDistrictId;
                 fetchWardsData(selectedDistrictId);
             } else {
                 // If no district selected, clear wards dropdown
@@ -226,13 +246,110 @@ $(document).ready(function () {
         selectWards.style = "margin-bottom: 12px;";
         selectWards.append('<option value="" selected>--chọn xã--</option>');
 
-        wardsData.forEach(function (Ward) {
-            selectWards.append('<option value="' + Ward.WardID + '">' + Ward.WardName + "</option>");
+        wardsData.forEach(function (ward) {
+            selectWards.append('<option value="' + ward.WardCode + '">' + ward.WardName + "</option>");
         });
         container.append(selectWards);
-        // selectWards.on("change", function () {
-        //     ward = $(this).val();
-        // });
+        selectWards.on("change", function () {
+            let selectedWardId = $(this).val();
+            console.log(selectWards);
+            if (selectedWardId) {
+                locationInfo.ward = selectedWardId;
+                fetchService(locationInfo.district);
+            }
+        });
+    }
+    function fetchService(districtId) {
+        let apiService = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services";
+        $.ajax({
+            url: apiService,
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Token: apiKey,
+            },
+            data: {
+                shop_id: 2506771,
+                from_district: 1788,
+                to_district: districtId,
+            },
+            success: function (data) {
+                if (data.data && data.data.length > 0) {
+                    const firstService = data.data[0];
+                    locationInfo.service_id = firstService.service_id;
+                    locationInfo.service_type_id = firstService.service_type_id;
+                    fetchFee(locationInfo.ward, locationInfo.district, locationInfo.service_id);
+                } else {
+                    console.error("No available services found.");
+                    callback(null); // or handle the absence of services in another way
+                }
+            },
+            error: function (error) {
+                console.error("Error fetching service data:", error);
+                callback(null);
+            },
+        });
+    }
+    function fetchFee(ward, district, serviceId) {
+        let apiService = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
+        console.log(district, ward, serviceId);
+        $.ajax({
+            url: apiService,
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Token: apiKey,
+            },
+            data: {
+                from_district_id: 1788,
+                // from_ward_code: "21211",
+                service_id: serviceId,
+                // service_type_id: null,
+                to_district_id: district,
+                to_ward_code: ward,
+                " height": 50,
+                " length": 20,
+                weight: 200,
+                " width": 20,
+                insurance_value: 0,
+                // cod_failed_amount: 2000,
+                // coupon: null
+            },
+            success: function (data) {
+                renderFee(data.data.total);
+            },
+            error: function (error) {
+                console.error("Error fetching ward data:", error);
+            },
+        });
+    }
+    function renderFee(fee) {
+        let feeHtml = $("#GHNFee");
+        feeHtml.empty();
+
+        // Lấy giá trị firstTotal và chuyển đổi thành số
+        let firstTotal = $("#firstTotal").text();
+        let firstTotalValue = parseFloat(firstTotal.replace(/[₫,.]/g, ""));
+
+
+        // Đảm bảo 'fee' đã được định nghĩa trước khi sử dụng
+        let total = firstTotalValue + fee;
+        locationInfo.total = total;
+        // Định dạng lại fee và hiển thị
+        let numberFormat = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        });
+        let formattedFee = numberFormat.format(fee);
+        formattedFee = formattedFee.replace('₫', "VND");
+
+        feeHtml.text(formattedFee);
+
+        // Định dạng lại total và hiển thị
+        let formattedTotal = total.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+        formattedTotal = formattedTotal.replace('₫', "VND");
+        console.log(formattedTotal);
+        $("#endTotal").empty().text(formattedTotal);
     }
 
 
