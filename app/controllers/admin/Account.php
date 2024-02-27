@@ -43,7 +43,7 @@ class Account extends Controller
             $data_user = $this->account_model->getOne('user', 'id', $data['id']);
             $error = $this->session->flash('error_update_user');
             $success = $this->session->flash('success_update_user');
-            $total_order = $this->account_model->getSum('total_price','orders', 'user_id', $data['id']);
+            $total_order = $this->account_model->getSum('total_price', 'orders', 'user_id', $data['id']);
             $quatity_order = $this->account_model->count('orders', 'user_id', $data['id']);
             $day = new DateTime;
             $exp_account = $data_user['create_at'];
@@ -85,7 +85,7 @@ class Account extends Controller
                 $offset = 0;
             }
         }
-        $list = $this->account_model->getListAccount($limit, $offset,'ban');
+        $list = $this->account_model->getListAccount($limit, $offset, 'ban');
         $this->data['sub_content']['maxPage'] = $maxPage;
         $this->data['sub_content']['list'] = $list;
         $this->data['sub_content']['page'] = $result['page'] || 1;
@@ -109,13 +109,11 @@ class Account extends Controller
                     $this->session->data('error_update_user', 'Cập nhật thất bại');
                     $this->response->redirect('admin/account/view?id=' . $id);
                 }
-            }
-            else {
+            } else {
                 $this->session->data('error_update_user', 'Bạn không có quyền kích hoạt!Vui lòng liên hệ quản trị viên!');
                 $this->response->redirect('admin/account/view?id=' . $id);
             }
-        }
-        else {
+        } else {
             $this->response->redirect('admin/dashboard');
         }
     }

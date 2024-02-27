@@ -201,7 +201,6 @@ class Label extends Controller
             $this->data['content'] = 'admin/label/edit_labels';
             $this->render('layout/admin_layout', $this->data);
         }
-
     }
     public function deleteLabel()
     {
@@ -219,8 +218,7 @@ class Label extends Controller
                 $this->session->flash('error', 'Không tìm thấy ID để xóa');
             }
             $this->response->redirect('admin/label');
-        }
-        else{
+        } else {
             $this->response->redirect('admin/label');
         }
     }

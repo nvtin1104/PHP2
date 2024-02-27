@@ -30,7 +30,7 @@ class Setting extends Controller
                     'address' => 'required|min:10|max:500',
                     'email' => 'required|min:10|max:100',
                     'phone' => 'required|phone|max:10',
-                    
+
 
                 ]
             );

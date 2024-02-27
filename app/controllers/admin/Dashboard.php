@@ -87,3 +87,4 @@ class Dashboard extends Controller
         echo $jsonString;
     }
 }
+?>

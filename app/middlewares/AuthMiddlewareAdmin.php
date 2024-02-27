@@ -9,3 +9,4 @@ class AuthMiddlewareAdmin extends Middlewares
         }
     }
 }
+?>
