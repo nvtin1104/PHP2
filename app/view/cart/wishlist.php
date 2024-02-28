@@ -21,7 +21,7 @@
 </div> <!-- ...:::: End Breadcrumb Section:::... -->
 
 <!-- ...:::: Start Wishlist Section:::... -->
- <?php 
+<?php
 if (!empty($wishlist)) { ?>
     <div class="wishlist-section">
         <!-- Start Cart Table -->
@@ -43,19 +43,19 @@ if (!empty($wishlist)) { ?>
                                         </tr>
                                     </thead> <!-- End Cart Table Head -->
                                     <tbody>
-                                         <?php 
+                                        <?php
                                         foreach ($wishlist as $item) {
                                         ?>
                                             <tr>
                                                 <td class="product_remove">
-                                                    <a class=" removeWishlist" data-path=" <?php  echo _WEB_ROOT ?>" data-id=" <?php  echo $item['id'] ?>"><i class="fa fa-trash-o"></button>
+                                                    <a class=" removeWishlist" data-path=" <?php echo _WEB_ROOT ?>" data-id=" <?php echo $item['id'] ?>"><i class="fa fa-trash-o"></button>
                                                 </td>
-                                                <td class="product_thumb"><a href="product-details-default.html"><img src=" <?php  echo _WEB_ROOT . $item['imgDir'] ?>" alt=""></a></td>
-                                                <td class="product_name"><a href="product-details-default.html"> <?php  echo $item['product_name'] ?></a></td>
-                                                <td class="product-price"> <?php  echo $item['price'] ?></td>
-                                                <td class="product_addcart"><a class="btn btn-md btn-golden addToCart" data-path=" <?php  echo _WEB_ROOT ?>" data-id=" <?php  echo $item['product_id'] ?>">Thêm giỏ hàng</a></td>
+                                                <td class="product_thumb"><a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['product_id'] ?>"><img src=" <?php echo $item['imgDir'] ?>" alt=""></a></td>
+                                                <td class="product_name"><a href="<?php echo _WEB_ROOT . '/product/detail?id=' . $item['product_id'] ?>"> <?php echo $item['product_name'] ?></a></td>
+                                                <td class="product-price"><?php echo number_format($item['price'], 0) . ' VND'; ?></td>
+                                                <td class="product_addcart"><a class="btn btn-md btn-golden addToCart" data-path=" <?php echo _WEB_ROOT ?>" data-id=" <?php echo $item['product_id'] ?>">Thêm giỏ hàng</a></td>
                                             </tr>
-                                         <?php  } ?>
+                                        <?php  } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -65,7 +65,7 @@ if (!empty($wishlist)) { ?>
             </div>
         </div>
     </div>
- <?php  } else {
+<?php  } else {
 ?><div class="empty-cart-section section-fluid">
         <div class="emptycart-wrapper">
             <div class="container">
@@ -73,16 +73,16 @@ if (!empty($wishlist)) { ?>
                     <div class="col-12 col-md-10 offset-md-1 col-xl-6 offset-xl-3">
                         <div class="emptycart-content text-center">
                             <div class="image">
-                                <img class="img-fluid" src=" <?php  echo _WEB_ROOT ?>/public/assets/client/images/emprt-cart/empty-cart.png" alt="">
+                                <img class="img-fluid" src=" <?php echo _WEB_ROOT ?>/public/assets/client/images/emprt-cart/empty-cart.png" alt="">
                             </div>
                             <h4 class="title">Danh sách yêu thích của bạn trống trơn</h4>
-                            <h6 class="sub-title">Xin lỗi bạn đời... Không tìm thấy mặt hàng nào trong danh sách yêu thích  của bạn!</h6>
+                            <h6 class="sub-title">Xin lỗi bạn đời... Không tìm thấy mặt hàng nào trong danh sách yêu thích của bạn!</h6>
                             <a href="shop-grid-sidebar-left.html" class="btn btn-lg btn-golden">Tiếp tục mua sắm</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> <?php 
+    </div> <?php
         }
             ?>

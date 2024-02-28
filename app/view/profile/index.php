@@ -19,7 +19,7 @@
         </div>
     </div>
 </div> <!-- ...:::: End Breadcrumb Section:::... -->
-<input type="hidden" id="path" value=" <?php  echo _WEB_ROOT ?>">
+<input type="hidden" id="path" value=" <?php echo _WEB_ROOT ?>">
 
 <!-- ...:::: Start Account Dashboard Section:::... -->
 <div class="account-dashboard">
@@ -62,12 +62,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <?php  if (!empty($data_order)) :
+                                    <?php if (!empty($data_order)) :
                                         foreach ($data_order as $value) { ?>
                                             <tr>
                                                 <td>{{$value['order_code']}}</td>
                                                 <td>{{$value['create_at']}}</td>
-                                                <td><span class="success"> <?php  if ($value['status'] ==  1) {
+                                                <td><span class="success"> <?php if ($value['status'] ==  1) {
                                                                                 echo 'Chờ xác nhận';
                                                                             } elseif ($value['status'] ==  2) {
                                                                                 echo 'Đang giao';
@@ -75,18 +75,20 @@
                                                                                 echo 'Đã Nhận Hàng';
                                                                             } elseif ($value['status'] ==  4) {
                                                                                 echo 'Hoàn thành';
+                                                                            } elseif ($value['status'] ==  5) {
+                                                                                echo 'Đã thanh toán';
                                                                             } elseif ($value['status'] ==  0) {
                                                                                 echo 'Hủy';
                                                                             } ?></span></td>
-                                                <td> <?php  echo number_format($value['total_price'], 0) . ' VND'; ?></td>
-                                                <td><a href=" <?php  echo _WEB_ROOT . '/profile/view_order?id=' . $value['id'] ?>" class="view">Xem</a></td>
+                                                <td> <?php echo number_format($value['total_price'], 0) . ' VND'; ?></td>
+                                                <td><a href=" <?php echo _WEB_ROOT . '/profile/view_order?id=' . $value['id'] ?>" class="view">Xem</a></td>
                                             </tr>
-                                         <?php  }
+                                        <?php  }
                                     else : ?>
                                         <tr>
                                             <td colspan="5">Trống</td>
                                         </tr>
-                                     <?php  endif; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -128,27 +130,27 @@
                         <div class="login">
                             <div class="login_form_container">
                                 <div class="account_login_form">
-                                     <?php 
+                                    <?php
                                     if (!empty($user_infor)) { ?>
                                         <form>
                                             <div class="default-form-box mb-20">
                                                 <label>Địa chỉ:</label>
-                                                <input type="text" id="addressValue" value=" <?php  echo $user_infor['address'] ?>" placeholder="Địa chỉ...">
+                                                <input type="text" id="addressValue" value=" <?php echo $user_infor['address'] ?>" placeholder="Địa chỉ...">
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>Số điện thoại:</label>
-                                                <input type="text" id="phone" value=" <?php  echo $user_infor['phone'] ?>" placeholder="Số điện thoại..,">
+                                                <input type="text" id="phone" value=" <?php echo $user_infor['phone'] ?>" placeholder="Số điện thoại..,">
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>Create At:</label>
-                                                <input type="text" name="create_at" id="create_at" disabled value=" <?php  echo $user_infor['create_at'] ?>">
+                                                <input type="text" name="create_at" id="create_at" disabled value=" <?php echo $user_infor['create_at'] ?>">
                                             </div>
-                                            <input type="hidden" name="id" id="user_id" value=" <?php  echo $user_infor['id'] ?>">
+                                            <input type="hidden" name="id" id="user_id" value=" <?php echo $user_infor['id'] ?>">
                                             <div class="save_button mt-3">
                                                 <button class="btn btn-md btn-black-default-hover" id="editAddressBtn" type="submit">Lưu</button>
                                             </div>
                                         </form>
-                                     <?php  } ?>
+                                    <?php  } ?>
                                 </div>
                             </div>
                         </div>
@@ -158,42 +160,42 @@
                         <div class="login">
                             <div class="login_form_container">
                                 <div class="account_login_form">
-                                     <?php 
+                                    <?php
                                     if (!empty($user_infor)) { ?>
                                         <form>
                                             <div class="default-form-box mb-20">
                                                 <label>Tên đăng nhập:</label>
-                                                <input type="text" id="username" disabled value=" <?php  echo $user_infor['username'] ?>">
+                                                <input type="text" id="username" disabled value=" <?php echo $user_infor['username'] ?>">
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>Họ và tên:</label>
-                                                <input type="text" id="fullname" name="fullname" value=" <?php  echo $user_infor['fullname'] ?>" placeholder="Họ và tên..,">
+                                                <input type="text" id="fullname" name="fullname" value=" <?php echo $user_infor['fullname'] ?>" placeholder="Họ và tên..,">
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>Email</label>
-                                                <input type="text" name="email" disabled value=" <?php  echo $user_infor['email'] ?>">
+                                                <input type="text" name="email" disabled value=" <?php echo $user_infor['email'] ?>">
                                             </div>
                                             <div class="input-radio" id="sex">
-                                                <span class="custom-radio"><input type="radio" value="Nam"  <?php  if ($user_infor['sex'] == "Nam") echo "checked"; ?> name="sex"> Mr.</span>
-                                                <span class="custom-radio"><input type="radio" value="Nữ"  <?php  if ($user_infor['sex'] == "Nữ") echo "checked"; ?> name="sex"> Mrs.</span>
-                                                <span class="custom-radio"><input type="radio" value="Khác"  <?php  if ($user_infor['sex'] == "Khác") echo "checked"; ?> name="sex"> Khác</span>
+                                                <span class="custom-radio"><input type="radio" value="Nam" <?php if ($user_infor['sex'] == "Nam") echo "checked"; ?> name="sex"> Mr.</span>
+                                                <span class="custom-radio"><input type="radio" value="Nữ" <?php if ($user_infor['sex'] == "Nữ") echo "checked"; ?> name="sex"> Mrs.</span>
+                                                <span class="custom-radio"><input type="radio" value="Khác" <?php if ($user_infor['sex'] == "Khác") echo "checked"; ?> name="sex"> Khác</span>
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>Ngày sinh</label>
-                                                <input type="date" name="birthday" id="birthday" value=" <?php  echo $user_infor['birthday'] ?>">
+                                                <input type="date" name="birthday" id="birthday" value=" <?php echo $user_infor['birthday'] ?>">
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>Ngày tạo:</label>
-                                                <input type="text" name="create_at" id="create_at" disabled value=" <?php  echo $user_infor['create_at'] ?>">
+                                                <input type="text" name="create_at" id="create_at" disabled value=" <?php echo $user_infor['create_at'] ?>">
                                             </div>
-                                            <input type="hidden" name="id" id="user_id" value=" <?php  echo $user_infor['id'] ?>">
+                                            <input type="hidden" name="id" id="user_id" value=" <?php echo $user_infor['id'] ?>">
                                             <div class="save_button mt-3">
                                                 <button class="btn btn-md btn-black-default-hover" id="editBtn" type="submit">Lưu</button>
-                                                <a href="profile/change_email?id= <?php  echo $user_infor['id'] ?>&email= <?php  echo $user_infor['email'] ?>" class="btn btn-md btn-black-default-hover">Thay đổi email</a>
-                                                <a href="profile/change_password?id= <?php  echo $user_infor['id'] ?>" class="btn btn-md btn-black-default-hover">Thay đổi mật khẩu</a>
+                                                <a href="profile/change_email?id= <?php echo $user_infor['id'] ?>&email= <?php echo $user_infor['email'] ?>" class="btn btn-md btn-black-default-hover">Thay đổi email</a>
+                                                <a href="profile/change_password?id= <?php echo $user_infor['id'] ?>" class="btn btn-md btn-black-default-hover">Thay đổi mật khẩu</a>
                                             </div>
                                         </form>
-                                     <?php  } ?>
+                                    <?php  } ?>
                                 </div>
                             </div>
                         </div>

@@ -178,7 +178,6 @@
                 var username = $("#username").val();
                 var password = $("#password").val();
                 var email = $("#email").val();
-
                 $.ajax({
                     type: "POST",
                     url: "<?php echo _WEB_ROOT ?>/auth/register",
@@ -216,6 +215,7 @@
                 event.preventDefault();
                 var username = $("#username-login").val();
                 var password = $("#password-login").val();
+                let route = $("#root-route").data('route');
 
                 $.ajax({
                     type: "POST",
@@ -237,7 +237,9 @@
                         } else if (response.success) {
                             // Hiển thị thông báo thành công
                             displayToastNotification(response.success, 'success');
-                            window.location.href = "<?php echo _WEB_ROOT ?>/home";
+                            setTimeout(function() {
+                                window.location.href = route + "/home";
+                            }, 2000); // 5 seconds
                         } else if (response.log) {
                             // Hiển thị thông báo thành công
                             console.log(response.log);

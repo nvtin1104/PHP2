@@ -30,10 +30,25 @@
                                 }
                                 ?>
                     <br>
+                    Phương thức thanh toán: <?php
+                                if ($infor_order['payment'] == '1') {
+                                    echo '<span class="badge bg-info">Thanh toán trực tiếp</span>';
+                                } else {
+                                    echo '<span class="badge bg-info">Thanh toán VNPay</span>';
+                                    if($infor_order['status'] == '5'){
+                                    echo '<span class="badge bg-success">Đã thanh toán</span>';
+                                    }
+                                    else{
+                                        echo '<span class="badge bg-danger">Chưa thanh toán</span>';
+                                    }
+                                }
+                                ?>
+                    <br>
+
                     Ghi chú: <span>{{$infor_order['note']}}</span>
                     <br>
                     <?php
-                    if ($infor_order['status'] == '1' || $infor_order['status'] == '5') {
+                    if (($infor_order['status'] == '1' && $infor_order['payment'] == '1') || $infor_order['status'] == '5' ) {
                         echo '<a type="submit" href=' . _WEB_ROOT . '/admin/order/handleChangeStatus?status=2&id=' . $infor_order['id'] . ' class="btn app-btn-infor mt-5">Xác nhận đơn hàng</a>';
                     } elseif ($infor_order['status'] == '3') {
                         echo '<a type="submit" href=' . _WEB_ROOT . '/admin/order/handleChangeStatus?status=4&id=' . $infor_order['id'] . ' class="btn app-btn-primary mt-5">Xác nhận đơn hàng</a>';

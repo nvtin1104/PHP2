@@ -105,10 +105,12 @@ class Profile extends Controller
             $data = $this->request->getFields();
             $id = $data['id'];
             $order = $this->model_profile->getOne('orders', 'id', $id);
+            $order_payment = $this->model_profile->getOne('handle_payment', 'order_id', $id);
             $list_order = $this->model_profile->getFullOrder($id);
             $mess = $this->session->flash('cf_order');
         }
         $this->data['sub_content']['list_order'] = $list_order;
+        $this->data['sub_content']['order_payment'] = $order_payment;
         $this->data['sub_content']['mess'] = $mess;
         $this->data['sub_content']['data_order'] = $order;
         $this->data['content'] = 'profile/order';
@@ -355,4 +357,3 @@ class Profile extends Controller
         ';
     }
 }
-?>

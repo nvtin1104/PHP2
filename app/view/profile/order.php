@@ -80,7 +80,8 @@
                                                     ?>
                                                         <a class="btn btn-md btn-golden addToCart" data-path="<?php echo _WEB_ROOT ?>" data-id="<?php echo $item['product_id'] ?>">Đánh giá!</a>
                                                     <?php
-                                                }  ?>
+                                                };
+                                                    ?>
                                         </td>
                                         <td class="product_thumb">{{$data_order['order_code']}}</td>
                                         <td class="product_name">{{$data_order['create_at']}}</td>
@@ -99,7 +100,13 @@
                                                                     if (!empty($mess)) {
                                                                         echo '<span class="float-left" style="color:green;">' . $mess . '</span>';
                                                                     }
-                                                                    ?></td>
+                                                                    if ($data_order['status'] ==  1 && $data_order['payment'] == 2) {
+                                                                    ?>
+                                                <a href="<?php echo $order_payment['payment_url'] ?>">Thanh toán</button>
+                                                <?php
+                                                                    }
+                                                ?>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -143,7 +143,7 @@
                             </div>
                             <h4 class="title">Giỏ của bạn trống trơn</h4>
                             <h6 class="sub-title">Xin lỗi bạn đời... Không tìm thấy mặt hàng nào trong giỏ hàng của bạn!</h6>
-                            <a href="shop-grid-sidebar-left.html" class="btn btn-lg btn-golden">Tiếp tục mua sắm</a>
+                            <a href="<?php echo _WEB_ROOT ?>" class="btn btn-lg btn-golden">Tiếp tục mua sắm</a>
                         </div>
                     </div>
                 </div>

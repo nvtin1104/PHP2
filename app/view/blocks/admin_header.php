@@ -129,7 +129,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="login.html">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="<?php echo _WEB_ROOT . '/auth/logout'?>">Đăng xuất</a></li>
                             </ul>
                         </div><!--//app-user-dropdown-->
                     </div><!--//app-utilities-->
